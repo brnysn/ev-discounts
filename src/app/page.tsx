@@ -103,6 +103,26 @@ export default function Home() {
       }))
     );
 
+    // Filter by status
+    if (filterState.status !== "all") {
+      const now = new Date();
+      filteredDiscounts = filteredDiscounts.filter((discount) => {
+        const startDate = new Date(discount.starts_at);
+        const endDate = new Date(discount.ends_at);
+        
+        switch (filterState.status) {
+          case "current":
+            return now >= startDate && now <= endDate;
+          case "soon":
+            return now < startDate;
+          case "passed":
+            return now > endDate;
+          default:
+            return true;
+        }
+      });
+    }
+
     if (filterState.chargingPort !== "all") {
       filteredDiscounts = filteredDiscounts.filter((discount) => {
         const prices = discount.discounted_prices || discount.company.prices[0];

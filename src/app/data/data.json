@@ -564,5 +564,59 @@
       }
     ],
     "discounts": []
+  },
+  {
+    "name": "Trugo",
+    "logo": "https://www.trugo.com.tr/images/trugo-logo-yeni.svg",
+    "phone": "",
+    "website": "https://www.trugo.com.tr/price",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": 22,
+            "price": 8.79
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 150",
+            "price": 10.6
+          },
+          {
+            "kwh": "150 >",
+            "price": 11.82
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Zes",
+    "logo": "https://zes.net/Uploads/Page/zes_yeni_logo_3.svg",
+    "phone": "",
+    "website": "https://zes.net/fiyatlar-tr",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": 22,
+            "price": 8.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 180",
+            "price": 10.99
+          },
+          {
+            "kwh": "180 >",
+            "price": 12.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
   }
 ]

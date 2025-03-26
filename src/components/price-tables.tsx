@@ -208,7 +208,7 @@ function PriceTable({
             )}
             value={globalFilter}
             onChange={(e) => onGlobalFilterChange(e.target.value)}
-            placeholder="İsim veya kWh değeri ile filtrele..."
+            placeholder="Filtrele..."
             type="text"
           />
           <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80">
@@ -382,13 +382,13 @@ export function PriceTables({ data }: PriceTablesProps) {
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <PriceTable
-          title="DC Şarj Fiyatları"
+          title="DC"
           data={filteredDCData}
           globalFilter={globalFilter}
           onGlobalFilterChange={setGlobalFilter}
         />
         <PriceTable
-          title="AC Şarj Fiyatları"
+          title="AC"
           data={filteredACData}
           globalFilter={globalFilter}
           onGlobalFilterChange={setGlobalFilter}
