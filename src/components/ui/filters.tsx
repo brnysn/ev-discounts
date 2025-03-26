@@ -21,12 +21,10 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import {
-  Check,
   Circle,
   CircleCheck,
   CircleDashed,
   CircleDotDashed,
-  CircleEllipsis,
   CircleX,
   Tag,
   X,

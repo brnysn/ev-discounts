@@ -1,8 +1,7 @@
-import React, { useId, useMemo, useRef, useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -13,14 +12,7 @@ import { calculateDiscountedPrice } from '@/lib/discount-utils';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ListFilter, CircleX, ChevronUp, ChevronDown, ArrowUpDown } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ListFilter, CircleX, ChevronUp, ChevronDown } from "lucide-react";
 import {
   ColumnDef,
   FilterFn,
@@ -366,7 +358,7 @@ export function PriceTables({ data }: PriceTablesProps) {
     }
 
     return prices;
-  }, [data, globalFilter]);
+  }, [data, globalFilter, getDCPrices]);
 
   const filteredACData = useMemo(() => {
     let prices = getACPrices();
@@ -381,7 +373,7 @@ export function PriceTables({ data }: PriceTablesProps) {
     }
 
     return prices;
-  }, [data, globalFilter]);
+  }, [data, globalFilter, getACPrices]);
 
   return (
     <div>

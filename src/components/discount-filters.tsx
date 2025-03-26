@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useRef, Dispatch, SetStateAction } from "react"
+import { useState, useRef, type SetStateAction } from "react"
 import * as React from "react"
-import { FilterState, SortOption } from "@/types"
+import { FilterState } from "@/types"
 import Filters, { 
   Filter, 
   FilterType, 
@@ -25,7 +25,7 @@ import {
   CommandItem,
   CommandSeparator 
 } from "@/components/ui/command"
-import { ListFilter, CircleDashed, Zap, ArrowUpDown } from "lucide-react"
+import { ListFilter, CircleDashed, Zap } from "lucide-react"
 import { v4 as uuidv4 } from "uuid"
 
 interface FilterViewOption {
@@ -68,11 +68,10 @@ const customFilterViewToFilterOptions: Partial<Record<FilterType, FilterValueOpt
 }
 
 interface DiscountFiltersProps {
-  carManufacturers: string[]
   onChange: (filters: FilterState) => void
 }
 
-export function DiscountFilters({ carManufacturers, onChange }: DiscountFiltersProps) {
+export function DiscountFilters({ onChange }: DiscountFiltersProps) {
   // State for the filter component
   const [filters, setFilters] = useState<Filter[]>([])
   const [open, setOpen] = useState(false)
@@ -98,7 +97,7 @@ export function DiscountFilters({ carManufacturers, onChange }: DiscountFiltersP
       powerRange: "all"
     }
     
-    newFilters.forEach(filter => {
+    newFilters.forEach((filter: Filter) => {
       // Map the filters to our application's filter state
       switch (filter.type) {
         case FilterType.STATUS:
