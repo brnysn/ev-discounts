@@ -1,4 +1,4 @@
-import { ChargingPort, Discount, DiscountStatus, Prices } from "@/types"
+import { ChargingPort, Discount, DiscountStatus, PriceGroup } from "@/types"
 
 // Calculate the discount percentage based on original price and discounted price
 export const calculateDiscountRate = (originalPrice: number, discountedPrice: number): number => {
@@ -39,7 +39,7 @@ export const extractCarManufacturers = (discounts: Discount[]): string[] => {
 }
 
 // Get the price based on charging port and possibly DC charging speed
-export const getPrice = (prices: Prices, chargingPort: ChargingPort, powerRange?: string): number => {
+export const getPrice = (prices: PriceGroup, chargingPort: ChargingPort, powerRange?: string): number => {
   if (chargingPort === "AC") {
     // For AC, return the price of the first power range if no specific range is requested
     if (!powerRange || !prices.ac.length) return prices.ac[0]?.price || 0
@@ -53,7 +53,7 @@ export const getPrice = (prices: Prices, chargingPort: ChargingPort, powerRange?
   }
 }
 
-export function getPowerRanges(prices: Prices, chargingPort: ChargingPort) {
+export function getPowerRanges(prices: PriceGroup, chargingPort: ChargingPort) {
   if (chargingPort === "AC") {
     return prices.ac.map(p => p.kwh.toString())
   } else {
