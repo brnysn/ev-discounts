@@ -261,7 +261,7 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
             ) : (
               <Button asChild>
                 <Link href={company.website} target="_blank" rel="noopener noreferrer">
-                  <span className="text-xs">Web Sitesi</span>
+                  <span className="text-xs">Detaylı Bilgi</span>
                 </Link>
               </Button>
             )}

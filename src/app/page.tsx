@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { DiscountFilters } from "@/components/discount-filters"
 import { DiscountCard } from "@/components/discount-card"
+import { Timeline } from "@/components/timeline"
 import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState } from "@/types"
 import type { Company } from "@/types"
 import data from "./data/data.json"
@@ -259,6 +260,8 @@ export default function Home() {
       </header>
       
       <main className="container mx-auto py-8 px-4">
+        <Timeline discounts={filteredDiscounts} />
+        
         <div className="mb-8 pt-4" ref={campaignsRef}>
           <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
           <div className="flex items-center justify-between">

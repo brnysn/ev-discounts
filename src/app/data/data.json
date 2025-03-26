@@ -82,7 +82,7 @@
       {
         "starts_at": "2025-03-28 00:00:00",
         "ends_at": "2025-04-01 00:00:00",
-        "text": "Ramazan bayramı boyunca  Beefull istasyonlarında DC şarj 1₺",
+        "text": "",
         "discounted_prices": {
           "ac": [
             {
@@ -187,7 +187,7 @@
       {
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-04-01 00:00:00",
-        "text": "Ramazan Bayramı boyunca bütün istasyonlarda %100 indirim",
+        "text": "",
         "discounted_prices": {
           "ac": [
             {
@@ -498,14 +498,7 @@
         ]
       }
     ],
-    "discounts": [
-      {
-        "starts_at": "2025-03-28 00:00:00",
-        "ends_at": "2025-04-04 00:00:00",
-        "text": "",
-        "discount_rate": 20
-      }
-    ]
+    "discounts": []
   },
   {
     "name": "Shell Recharge",
