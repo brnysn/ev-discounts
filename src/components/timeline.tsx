@@ -1,6 +1,6 @@
 "use client"
 
-import { format, addDays, isSameDay, parseISO } from "date-fns"
+import { format, addDays, parseISO, isSameDay } from "date-fns"
 import { tr } from "date-fns/locale"
 import { DiscountWithCompany, Company } from "@/types"
 import Image from "next/image"
@@ -43,13 +43,10 @@ export function Timeline({ discounts }: TimelineProps) {
                 {/* Day number with marker line */}
                 <div className={cn(
                   "relative text-lg font-bold mb-2",
-                  isToday && "text-primary"
+                  isToday && "text-green-600"
                 )}>
                   {format(day, "d")}
-                  <div className={cn(
-                    "absolute h-3 w-0.5 bg-gray-400 bottom-[-8px] left-1/2 transform -translate-x-1/2",
-                    isToday && "bg-primary h-4"
-                  )} />
+                  <div className="absolute h-4 w-0.5 bg-gray-400 bottom-[-8px] left-1/2 transform -translate-x-1/2" />
                 </div>
                 
                 {/* Day name and month */}
