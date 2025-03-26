@@ -24,6 +24,7 @@ export interface Discount {
   discounted_prices?: PriceGroup
   cars?: string[]
   url?: string
+  text?: string
 }
 
 export interface DiscountWithCompany extends Discount {

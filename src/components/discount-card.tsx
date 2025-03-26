@@ -215,6 +215,11 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
       </CardHeader>
       
       <CardContent className="flex-grow">
+        {discount.text && (
+          <div className="mb-3 text-sm">
+            {discount.text}
+          </div>
+        )}
         {renderPrices()}
       </CardContent>
       
