@@ -29,7 +29,7 @@ export function Timeline({ discounts }: TimelineProps) {
     <div className="mb-12">
       <h2 className="text-2xl font-bold mb-6">Kampanya Takvimi</h2>
       
-      <div className="mb-16 relative">
+      <div className="mb-8 relative">
         {/* Timeline bar */}
         <div className="h-0.5 bg-gray-300 w-full absolute top-8" />
         
@@ -139,34 +139,33 @@ export function Timeline({ discounts }: TimelineProps) {
                   }}
                 >
                   <CardContent className="p-1 flex items-center h-full">
-                    <div className="shrink-0 mr-2">
+                    <div className="shrink-0 mr-3">
                       <Image 
                         src={discount.company.logo} 
                         alt={discount.company.name}
-                        width={24}
-                        height={24}
-                        className="h-6 w-auto object-contain"
+                        width={32}
+                        height={32}
+                        className="h-8 w-auto object-contain"
                       />
                     </div>
                     
                     <div className="flex-grow overflow-hidden">
-                      <h3 className="font-bold text-xs truncate">{discount.company.name}</h3>
-                      <div className="flex gap-2 flex-wrap">
+                      <div className="flex flex-col gap-1">
                         <div className="text-[10px] flex gap-1 items-center">
-                          <span className="font-medium">AC:</span>
+                          <span className="font-medium">DC:</span>
                           <PriceDisplay 
-                            prices={discount.company.prices[0].ac} 
-                            type="AC" 
+                            prices={discount.company.prices[0].dc} 
+                            type="DC" 
                             company={discount.company}
                             discount={discount}
                           />
                         </div>
                         
                         <div className="text-[10px] flex gap-1 items-center">
-                          <span className="font-medium">DC:</span>
+                          <span className="font-medium">AC:</span>
                           <PriceDisplay 
-                            prices={discount.company.prices[0].dc} 
-                            type="DC" 
+                            prices={discount.company.prices[0].ac} 
+                            type="AC" 
                             company={discount.company}
                             discount={discount}
                           />
@@ -214,7 +213,7 @@ function PriceDisplay({ prices, type, company, discount }: PriceDisplayProps) {
       {discountRate > 0 ? (
         <>
           <span className="text-red-500 line-through hidden sm:inline">₺{originalPrice.toFixed(2)}</span>
-          <span className="text-green-600 font-bold text-[11px]">₺{discountedPrice.toFixed(2)}</span>
+          <span className="text-green-600 font-bold text-xs sm:text-sm">₺{discountedPrice.toFixed(2)}</span>
           <Badge className={cn("h-4 px-1 text-[8px] hidden sm:inline-flex", getBadgeColorByDiscountRate(discountRate))}>
             %{discountRate}
           </Badge>
