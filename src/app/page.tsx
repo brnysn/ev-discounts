@@ -18,7 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     // Collect all discounts with their company information
-    let initialDiscounts = (data as Company[]).flatMap((company) =>
+    const initialDiscounts = (data as Company[]).flatMap((company) =>
       company.discounts.map((discount) => ({
         ...discount,
         company,
