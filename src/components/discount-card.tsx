@@ -1,0 +1,251 @@
+"use client"
+
+import { Company, Discount } from "@/types"
+import { calculateDiscountRate, calculateDiscountedPrice, getDiscountStatus, getPrice, getPowerRanges } from "@/lib/discount-utils"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+
+interface DiscountCardProps {
+  company: Company
+  discount: Discount
+  selectedPowerRange?: string
+}
+
+export function DiscountCard({ company, discount, selectedPowerRange }: DiscountCardProps) {
+  const status = getDiscountStatus(discount.starts_at, discount.ends_at)
+  
+  // Format dates
+  const startDate = new Date(discount.starts_at).toLocaleDateString('tr-TR')
+  const endDate = new Date(discount.ends_at).toLocaleDateString('tr-TR')
+  
+  // Get badge styles based on status
+  const getBadgeVariant = () => {
+    switch (status) {
+      case "current":
+        return "default" as const
+      case "passed":
+        return "destructive" as const
+      case "soon":
+        return "secondary" as const
+      default:
+        return "outline" as const
+    }
+  }
+  
+  // Calculate and format prices
+  const renderPrices = () => {
+    const acPowerRanges = getPowerRanges(company.prices[0], "AC")
+    const dcPowerRanges = getPowerRanges(company.prices[0], "DC")
+    
+    // Check if there are any AC discounts
+    const hasAcDiscounts = acPowerRanges.some((range: string | number) => {
+      const originalPrice = getPrice(company.prices[0], "AC", range.toString())
+      let discountedPrice = originalPrice
+
+      if (discount.discount_rate) {
+        discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
+      } else if (discount.discounted_prices) {
+        discountedPrice = getPrice(discount.discounted_prices, "AC", range.toString())
+      }
+
+      const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+      return discountRate > 0
+    })
+
+    // Check if there are any DC discounts
+    const hasDcDiscounts = dcPowerRanges.some((range: string | number) => {
+      const originalPrice = getPrice(company.prices[0], "DC", range.toString())
+      let discountedPrice = originalPrice
+
+      if (discount.discount_rate) {
+        discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
+      } else if (discount.discounted_prices) {
+        discountedPrice = getPrice(discount.discounted_prices, "DC", range.toString())
+      }
+
+      const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+      return discountRate > 0
+    })
+
+    // If no discounts at all, show a message
+    if (!hasAcDiscounts && !hasDcDiscounts) {
+      return (
+        <div className="mt-4 text-center text-muted-foreground">
+          Aktif kampanya bulunmamaktadır
+        </div>
+      )
+    }
+    
+    return (
+      <div className={cn(
+        "grid gap-2 mt-4",
+        hasAcDiscounts && hasDcDiscounts ? "grid-cols-2" : "grid-cols-1"
+      )}>
+        {hasAcDiscounts && (
+          <div className="flex flex-col space-y-1">
+            <div className="text-xs text-muted-foreground">AC</div>
+            {acPowerRanges.map((range: string | number) => {
+              const originalPrice = getPrice(company.prices[0], "AC", range.toString())
+              let discountedPrice = originalPrice
+
+              if (discount.discount_rate) {
+                discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
+              } else if (discount.discounted_prices) {
+                discountedPrice = getPrice(discount.discounted_prices, "AC", range.toString())
+              }
+
+              const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+
+              // Skip if no discount
+              if (discountRate <= 0) return null
+
+              // Determine badge color based on discount rate
+              let badgeColor = "bg-orange-100 text-orange-800";
+              if (discountRate >= 60) {
+                badgeColor = "bg-green-100 text-green-800";
+              } else if (discountRate >= 30) {
+                badgeColor = "bg-yellow-100 text-yellow-800";
+              }
+
+              return (
+                <div key={range} className="flex flex-col">
+                  <div className="text-xs text-muted-foreground">{range} kWh</div>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-red-500 line-through text-sm">₺{originalPrice.toFixed(2)}</span>
+                      <span className="text-lg font-bold text-green-600">₺{discountedPrice.toFixed(2)}</span>
+                    </div>
+                    <Badge className={cn("h-5 px-1 text-xs", badgeColor)}>
+                      %{discountRate}
+                    </Badge>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+        
+        {hasDcDiscounts && (
+          <div className="flex flex-col space-y-1">
+            <div className="text-xs text-muted-foreground">DC</div>
+            {dcPowerRanges.map((range: string | number) => {
+              const originalPrice = getPrice(company.prices[0], "DC", range.toString())
+              let discountedPrice = originalPrice
+
+              if (discount.discount_rate) {
+                discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
+              } else if (discount.discounted_prices) {
+                discountedPrice = getPrice(discount.discounted_prices, "DC", range.toString())
+              }
+
+              const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+
+              // Skip if no discount
+              if (discountRate <= 0) return null
+
+              // Determine badge color based on discount rate
+              let badgeColor = "bg-orange-100 text-orange-800";
+              if (discountRate >= 60) {
+                badgeColor = "bg-green-100 text-green-800";
+              } else if (discountRate >= 30) {
+                badgeColor = "bg-yellow-100 text-yellow-800";
+              }
+
+              return (
+                <div key={range} className="flex flex-col">
+                  <div className="text-xs text-muted-foreground">{range} kWh</div>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-red-500 line-through text-sm">₺{originalPrice.toFixed(2)}</span>
+                      <span className="text-lg font-bold text-green-600">₺{discountedPrice.toFixed(2)}</span>
+                    </div>
+                    <Badge className={cn("h-5 px-1 text-xs", badgeColor)}>
+                      %{discountRate}
+                    </Badge>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    )
+  }
+  
+  return (
+    <Card className="h-full flex flex-col">
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between mb-2">
+          <img 
+            src={company.logo} 
+            alt={company.name}
+            className="h-12 w-auto object-contain"
+          />
+          <Badge 
+            variant={getBadgeVariant()}
+            className={cn(
+              status === "current" && "bg-green-400 hover:bg-green-400/90",
+              status === "soon" && "bg-yellow-400 hover:bg-yellow-400/90",
+              status === "passed" && "bg-gray-400 hover:bg-gray-400/90",
+            )}
+          >
+            {status === "current" ? "Aktif" : status === "soon" ? "Yakında" : "Süresi Doldu"}
+          </Badge>
+        </div>
+        <h3 className="font-bold text-lg">{company.name}</h3>
+        <div className="text-xs text-muted-foreground">
+          {startDate} - {endDate}
+        </div>
+        
+        {discount.cars && discount.cars.length > 0 && (
+          <div className="flex gap-1 mt-1 flex-wrap">
+            {discount.cars.map((car) => (
+              <Badge key={car} variant="outline" className="text-xs">
+                {car}
+              </Badge>
+            ))}
+          </div>
+        )}
+      </CardHeader>
+      
+      <CardContent className="flex-grow">
+        {renderPrices()}
+      </CardContent>
+      
+      <CardFooter className="pt-0">
+        <TooltipProvider>
+          <div className="w-full flex justify-between items-center">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href={`tel:${company.phone}`}>
+                    <span className="text-xs">Ara</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{company.phone}</TooltipContent>
+            </Tooltip>
+            
+            {discount.url ? (
+              <Button asChild>
+                <Link href={discount.url} target="_blank" rel="noopener noreferrer">
+                  <span className="text-xs">Teklifi Gör</span>
+                </Link>
+              </Button>
+            ) : (
+              <Button asChild>
+                <Link href={company.website} target="_blank" rel="noopener noreferrer">
+                  <span className="text-xs">Web Sitesi</span>
+                </Link>
+              </Button>
+            )}
+          </div>
+        </TooltipProvider>
+      </CardFooter>
+    </Card>
+  )
+} 
