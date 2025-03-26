@@ -98,54 +98,49 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
     }
     
     return (
-      <div className={cn(
-        "grid gap-2 mt-4",
-        hasAcDiscounts && hasDcDiscounts ? "grid-cols-2" : "grid-cols-1"
-      )}>
-        {hasAcDiscounts && (
-          <div className="flex flex-col space-y-1">
-            <div className="text-xs text-muted-foreground">AC</div>
-            {acPowerRanges.map((range: string | number) => {
-              const originalPrice = getPrice(company.prices[0], "AC", range.toString())
-              let discountedPrice = originalPrice
+      <div className="grid grid-cols-2 gap-2 mt-4">
+        {/* Always show AC prices */}
+        <div className="flex flex-col space-y-1">
+          <div className="text-xs text-muted-foreground">AC</div>
+          {acPowerRanges.map((range: string | number) => {
+            const originalPrice = getPrice(company.prices[0], "AC", range.toString())
+            let discountedPrice = originalPrice
 
-              if (discount.discount_rate) {
-                discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
-              } else if (discount.discounted_prices) {
-                discountedPrice = getPrice(discount.discounted_prices, "AC", range.toString())
-              }
+            if (discount.discount_rate) {
+              discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
+            } else if (discount.discounted_prices) {
+              discountedPrice = getPrice(discount.discounted_prices, "AC", range.toString())
+            }
 
-              const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+            const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
 
-              // Skip if no discount
-              if (discountRate <= 0) return null
-
-              // Determine badge color based on discount rate
-              let badgeColor = "bg-orange-100 text-orange-800";
-              if (discountRate >= 60) {
-                badgeColor = "bg-green-100 text-green-800";
-              } else if (discountRate >= 30) {
-                badgeColor = "bg-yellow-100 text-yellow-800";
-              }
-
-              return (
-                <div key={range} className="flex flex-col">
-                  <div className="text-xs text-muted-foreground">{range} kWh</div>
-                  <div className="flex items-center space-x-2">
+            return (
+              <div key={range} className="flex flex-col">
+                <div className="text-xs text-muted-foreground">{range} kWh</div>
+                <div className="flex items-center space-x-2">
+                  {discountRate > 0 ? (
+                    // Show discounted price with original price strikethrough when there's a discount
                     <div className="flex items-center space-x-2">
                       <span className="text-red-500 line-through text-sm">₺{originalPrice.toFixed(2)}</span>
                       <span className="text-lg font-bold text-green-600">₺{discountedPrice.toFixed(2)}</span>
                     </div>
-                    <Badge className={cn("h-5 px-1 text-xs", badgeColor)}>
+                  ) : (
+                    // Show only original price when there's no discount
+                    <span className="text-lg font-bold">₺{originalPrice.toFixed(2)}</span>
+                  )}
+                  
+                  {discountRate > 0 && (
+                    <Badge className={cn("h-5 px-1 text-xs", getBadgeColorByDiscountRate(discountRate))}>
                       %{discountRate}
                     </Badge>
-                  </div>
+                  )}
                 </div>
-              )
-            })}
-          </div>
-        )}
-        
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Show DC prices when there are discounts */}
         {hasDcDiscounts && (
           <div className="flex flex-col space-y-1">
             <div className="text-xs text-muted-foreground">DC</div>
@@ -161,16 +156,8 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
 
               const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
 
-              // Skip if no discount
+              // Skip if no discount for DC
               if (discountRate <= 0) return null
-
-              // Determine badge color based on discount rate
-              let badgeColor = "bg-orange-100 text-orange-800";
-              if (discountRate >= 60) {
-                badgeColor = "bg-green-100 text-green-800";
-              } else if (discountRate >= 30) {
-                badgeColor = "bg-yellow-100 text-yellow-800";
-              }
 
               return (
                 <div key={range} className="flex flex-col">
@@ -180,7 +167,7 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
                       <span className="text-red-500 line-through text-sm">₺{originalPrice.toFixed(2)}</span>
                       <span className="text-lg font-bold text-green-600">₺{discountedPrice.toFixed(2)}</span>
                     </div>
-                    <Badge className={cn("h-5 px-1 text-xs", badgeColor)}>
+                    <Badge className={cn("h-5 px-1 text-xs", getBadgeColorByDiscountRate(discountRate))}>
                       %{discountRate}
                     </Badge>
                   </div>
@@ -192,6 +179,17 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
       </div>
     )
   }
+  
+  // Helper function to determine badge color based on discount rate
+  const getBadgeColorByDiscountRate = (discountRate: number): string => {
+    if (discountRate >= 60) {
+      return "bg-green-100 text-green-800";
+    } else if (discountRate >= 30) {
+      return "bg-yellow-100 text-yellow-800";
+    } else {
+      return "bg-orange-100 text-orange-800";
+    }
+  };
   
   return (
     <Card className="h-full flex flex-col">
