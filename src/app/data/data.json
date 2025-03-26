@@ -1,5 +1,55 @@
 [
   {
+    "name": "Aksa Şarj",
+    "logo": "https://www.sarjfiyat.com/images/aksa.svg",
+    "phone": "",
+    "website": "https://www.aksasarj.com.tr/tr/ucretler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": 11,
+            "price": 8.49
+          },
+          {
+            "kwh": 22,
+            "price": 8.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "90",
+            "price": 12.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Astor",
+    "logo": "https://www.sarjfiyat.com/images/astor_logo.png",
+    "phone": "",
+    "website": "https://astorsarj.com.tr/#priceweb",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": 11,
+            "price": 6.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "60",
+            "price": 9.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Beeful",
     "logo": "https://i.ibb.co/F4KPsh51/beefull.webp",
     "phone": "08508110018",
@@ -58,89 +108,6 @@
     ]
   },
   {
-    "name": "Otojet",
-    "logo": "https://www.oto-jet.com.tr/images/logo-primary.svg",
-    "phone": "4445496",
-    "website": "https://www.oto-jet.com.tr/fiyatlarimiz.html",
-    "prices": [
-      {
-        "ac": [
-          {
-            "kwh": "< 11",
-            "price": 6.99
-          },
-          {
-            "kwh": "11 >",
-            "price": 7.99
-          }
-        ],
-        "dc": [
-          {
-            "kwh": "40 >",
-            "price": 10.49
-          }
-        ]
-      }
-    ],
-    "discounts": [
-      {
-        "starts_at": "2025-03-25 00:00:00",
-        "ends_at": "2025-04-01 00:00:00",
-        "discount_rate": 15
-      }
-    ]
-  },
-  {
-    "name": "Aksa Şarj",
-    "logo": "https://www.sarjfiyat.com/images/aksa.svg",
-    "phone": "",
-    "website": "https://www.aksasarj.com.tr/tr/ucretler",
-    "prices": [
-      {
-        "ac": [
-          {
-            "kwh": 11,
-            "price": 8.49
-          },
-          {
-            "kwh": 22,
-            "price": 8.49
-          }
-        ],
-        "dc": [
-          {
-            "kwh": "90",
-            "price": 12.99
-          }
-        ]
-      }
-    ],
-    "discounts": []
-  },
-  {
-    "name": "Astor",
-    "logo": "https://www.sarjfiyat.com/images/astor_logo.png",
-    "phone": "",
-    "website": "https://astorsarj.com.tr/#priceweb",
-    "prices": [
-      {
-        "ac": [
-          {
-            "kwh": 11,
-            "price": 6.49
-          }
-        ],
-        "dc": [
-          {
-            "kwh": "60",
-            "price": 9.99
-          }
-        ]
-      }
-    ],
-    "discounts": []
-  },
-  {
     "name": "ecobox",
     "logo": "https://www.sarjfiyat.com/images/ecobox.jfif",
     "phone": "",
@@ -185,6 +152,64 @@
       }
     ],
     "discounts": []
+  },
+  {
+    "name": "Epsis",
+    "logo": "https://www.epsis.net/wp-content/uploads/2022/08/epsis_logo-scaled.webp",
+    "phone": "",
+    "website": "https://www.epsis.net/elektrikli-arac-sarj-tarifeleri/",
+    "prices": [
+      {
+        "ac": [
+          {
+              "kwh": "< 21",
+              "price": 7
+          },
+          {
+            "kwh": "21 >",
+            "price": 8.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 30",
+            "price": 9.5
+          },
+          {
+            "kwh": "30 >",
+            "price": 11.5
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "starts_at": "2025-03-29 00:00:00",
+        "ends_at": "2025-04-01 00:00:00",
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": "< 21",
+              "price": 0
+            },
+            {
+              "kwh": "21 >",
+              "price": 0
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 30",
+              "price": 0
+            },
+            {
+              "kwh": "30 >",
+              "price": 0
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "name": "eŞarj",
@@ -377,6 +402,39 @@
       }
     ],
     "discounts": []
+  },
+  {
+    "name": "Otojet",
+    "logo": "https://www.oto-jet.com.tr/images/logo-primary.svg",
+    "phone": "4445496",
+    "website": "https://www.oto-jet.com.tr/fiyatlarimiz.html",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "< 11",
+            "price": 6.99
+          },
+          {
+            "kwh": "11 >",
+            "price": 7.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "40 >",
+            "price": 10.49
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "starts_at": "2025-03-25 00:00:00",
+        "ends_at": "2025-04-01 00:00:00",
+        "discount_rate": 15
+      }
+    ]
   },
   {
     "name": "Shell Recharge",

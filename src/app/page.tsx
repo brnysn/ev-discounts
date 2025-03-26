@@ -17,13 +17,50 @@ export default function Home() {
   const [activeChargingPort, setActiveChargingPort] = useState<ChargingPort>("DC")
 
   useEffect(() => {
-    const initialDiscounts = (data as Company[]).flatMap((company) =>
+    // Collect all discounts with their company information
+    let initialDiscounts = (data as Company[]).flatMap((company) =>
       company.discounts.map((discount) => ({
         ...discount,
         company,
       }))
-    )
-    setFilteredDiscounts(initialDiscounts)
+    );
+    
+    // Sort discounts: active first, then upcoming, then expired
+    initialDiscounts.sort((a, b) => {
+      const nowDate = new Date();
+      const aStartDate = new Date(a.starts_at);
+      const aEndDate = new Date(a.ends_at);
+      const bStartDate = new Date(b.starts_at);
+      const bEndDate = new Date(b.ends_at);
+      
+      // Check discount status
+      const aIsActive = nowDate >= aStartDate && nowDate <= aEndDate;
+      const bIsActive = nowDate >= bStartDate && nowDate <= bEndDate;
+      const aIsUpcoming = nowDate < aStartDate;
+      const bIsUpcoming = nowDate < bStartDate;
+      
+      // Active discounts first
+      if (aIsActive && !bIsActive) return -1;
+      if (!aIsActive && bIsActive) return 1;
+      
+      // Both are in the same status category
+      if (aIsActive === bIsActive) {
+        // If both are upcoming, upcoming with earliest start date first
+        if (aIsUpcoming && bIsUpcoming) {
+          // Sort by start date (ascending)
+          return aStartDate.getTime() - bStartDate.getTime();
+        }
+        
+        // Upcoming before expired
+        if (aIsUpcoming && !bIsUpcoming) return -1;
+        if (!aIsUpcoming && bIsUpcoming) return 1;
+      }
+      
+      // Default sorting: by company name
+      return a.company.name.localeCompare(b.company.name);
+    });
+    
+    setFilteredDiscounts(initialDiscounts);
   }, [])
 
   const calculateDiscountedPrice = (price: number, discountRate?: number) => {
@@ -59,25 +96,85 @@ export default function Home() {
       });
     }
 
-    // Sort the discounts
+    // Sort the discounts - active first, then upcoming sorted by DC price (lowest to highest)
     filteredDiscounts.sort((a, b) => {
+      const nowDate = new Date();
+      const aStartDate = new Date(a.starts_at);
+      const aEndDate = new Date(a.ends_at);
+      const bStartDate = new Date(b.starts_at);
+      const bEndDate = new Date(b.ends_at);
+      
+      // Check if discount is active (current date is between start and end date)
+      const aIsActive = nowDate >= aStartDate && nowDate <= aEndDate;
+      const bIsActive = nowDate >= bStartDate && nowDate <= bEndDate;
+      
+      // Check if discount is upcoming (current date is before start date)
+      const aIsUpcoming = nowDate < aStartDate;
+      const bIsUpcoming = nowDate < bStartDate;
+      
+      // First sort by status: active first, then upcoming, then expired
+      if (aIsActive && !bIsActive) return -1; // a is active, b is not -> a comes first
+      if (!aIsActive && bIsActive) return 1;  // b is active, a is not -> b comes first
+
+      // If both are active or both are not active...
+      if (aIsActive === bIsActive) {
+        // If both are upcoming, sort by DC price
+        if (aIsUpcoming && bIsUpcoming) {
+          const pricesA = a.discounted_prices || a.company.prices[0];
+          const pricesB = b.discounted_prices || b.company.prices[0];
+          const chargeType = "dc" as keyof PriceGroup;
+          
+          // Get the lowest DC price for each discount
+          const getPriceForDiscount = (prices: PriceGroup, discount?: { discount_rate?: number }): number => {
+            if (!prices[chargeType].length) return Infinity;
+            
+            // Find the lowest price among all DC options
+            let lowestPrice = Infinity;
+            for (const priceOption of prices[chargeType]) {
+              const effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
+              if (effectivePrice < lowestPrice) {
+                lowestPrice = effectivePrice;
+              }
+            }
+            return lowestPrice;
+          };
+          
+          const lowestPriceA = getPriceForDiscount(pricesA, a);
+          const lowestPriceB = getPriceForDiscount(pricesB, b);
+          
+          return lowestPriceA - lowestPriceB; // Low to high
+        }
+        
+        // If one is upcoming and one is expired, upcoming comes first
+        if (aIsUpcoming && !bIsUpcoming) return -1;
+        if (!aIsUpcoming && bIsUpcoming) return 1;
+      }
+      
+      // For other cases (both active or both expired), use sort by DC price
       const pricesA = a.discounted_prices || a.company.prices[0];
       const pricesB = b.discounted_prices || b.company.prices[0];
-      const chargeType = filterState.chargingPort.toLowerCase() as keyof PriceGroup;
-      const powerRange = filterState.powerRange || (chargeType === "ac" ? "11" : "< 50");
-
-      const getPriceForRange = (prices: PriceGroup, discount?: { discount_rate?: number }) => {
-        const price = prices[chargeType].find((p) => p.kwh.toString() === powerRange);
-        if (!price) return Infinity;
-        return calculateDiscountedPrice(price.price, discount?.discount_rate);
-      };
-
-      const priceA = getPriceForRange(pricesA, a);
-      const priceB = getPriceForRange(pricesB, b);
-
-      const isAscending = filterState.sortBy.endsWith("lowest");
-      return isAscending ? priceA - priceB : priceB - priceA;
+      const chargeType = "dc" as keyof PriceGroup;
+      
+      // Get the lowest price for each
+      const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
+      const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
+      
+      return lowestPriceA - lowestPriceB; // Low to high
     });
+    
+    // Helper function to get lowest price
+    function getLowestPrice(prices: PriceGroup, discount: DiscountWithCompany, chargeType: keyof PriceGroup): number {
+      if (!prices[chargeType].length) return Infinity;
+      
+      let lowestPrice = Infinity;
+      for (const priceOption of prices[chargeType]) {
+        const effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
+        if (effectivePrice < lowestPrice) {
+          lowestPrice = effectivePrice;
+        }
+      }
+      return lowestPrice;
+    }
 
     setFilteredDiscounts(filteredDiscounts);
   };
@@ -95,7 +192,7 @@ export default function Home() {
       
       <main className="container mx-auto py-8 px-4">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-2">Mevcut Kampanyalar</h2>
+          <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
           <div className="flex items-center justify-between">
             <p className="text-muted-foreground">
               Çeşitli sağlayıcılardan en iyi elektrikli araç şarj kampanyalarını bulun ve karşılaştırın

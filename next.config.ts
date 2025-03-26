@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
         hostname: 'www.mig-go.com',
         pathname: '/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.epsis.net',
+        pathname: '/wp-content/uploads/**',
+      },
     ],
   },
 };
