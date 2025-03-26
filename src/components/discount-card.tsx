@@ -7,15 +7,15 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 interface DiscountCardProps {
   company: Company
   discount: Discount
-  selectedPowerRange?: string
 }
 
-export function DiscountCard({ company, discount, selectedPowerRange }: DiscountCardProps) {
+export function DiscountCard({ company, discount }: DiscountCardProps) {
   const status = getDiscountStatus(discount.starts_at, discount.ends_at)
   
   // Format dates
@@ -180,9 +180,11 @@ export function DiscountCard({ company, discount, selectedPowerRange }: Discount
     <Card className="h-full flex flex-col">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between mb-2">
-          <img 
+          <Image 
             src={company.logo} 
             alt={company.name}
+            width={48}
+            height={48}
             className="h-12 w-auto object-contain"
           />
           <Badge 

@@ -12,6 +12,7 @@ import { calculateDiscountedPrice } from '@/lib/discount-utils';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { ListFilter, CircleX, ChevronUp, ChevronDown } from "lucide-react";
 import {
   ColumnDef,
@@ -88,7 +89,7 @@ function PriceTable({
         accessorFn: (row) => row.company,
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
-            <img src={row.original.logo} alt={row.getValue("company")} className="w-8 h-8 object-contain" />
+            <Image src={row.original.logo} alt={row.getValue("company")} width={32} height={32} className="w-8 h-8 object-contain" />
             <span className="font-semibold">{row.getValue("company")}</span>
           </div>
         ),
@@ -269,84 +270,47 @@ function PriceTable({
 export function PriceTables({ data }: PriceTablesProps) {
   const [globalFilter, setGlobalFilter] = useState("");
 
-  const getDCPrices = () => {
-    return data.map(company => {
-      const prices = company.prices[0];
-      const currentDiscount = company.discounts.find(d => {
-        const now = new Date();
-        const startDate = new Date(d.starts_at);
-        const endDate = new Date(d.ends_at);
-        return now >= startDate && now <= endDate;
-      });
-
-      const getStatus = (discount: typeof currentDiscount): PriceData['status'] => {
-        if (!discount) return 'expired';
-        const now = new Date();
-        const startDate = new Date(discount.starts_at);
-        const endDate = new Date(discount.ends_at);
-        if (now < startDate) return 'coming_soon';
-        if (now > endDate) return 'expired';
-        return 'active';
-      };
-
-      const dcPrices = prices.dc.map((price, index) => {
-        const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
-        return {
-          id: `${company.name}-dc-${index}`,
-          company: company.name,
-          logo: company.logo,
-          power: powerValue,
-          originalPrice: price.price,
-          discountedPrice: currentDiscount?.discount_rate ? calculateDiscountedPrice(price.price, currentDiscount.discount_rate) : null,
-          discountRate: currentDiscount?.discount_rate ?? null,
-          status: getStatus(currentDiscount)
-        };
-      });
-
-      return dcPrices;
-    }).flat();
-  };
-
-  const getACPrices = () => {
-    return data.map(company => {
-      const prices = company.prices[0];
-      const currentDiscount = company.discounts.find(d => {
-        const now = new Date();
-        const startDate = new Date(d.starts_at);
-        const endDate = new Date(d.ends_at);
-        return now >= startDate && now <= endDate;
-      });
-
-      const getStatus = (discount: typeof currentDiscount): PriceData['status'] => {
-        if (!discount) return 'expired';
-        const now = new Date();
-        const startDate = new Date(discount.starts_at);
-        const endDate = new Date(discount.ends_at);
-        if (now < startDate) return 'coming_soon';
-        if (now > endDate) return 'expired';
-        return 'active';
-      };
-
-      const acPrices = prices.ac.map((price, index) => {
-        const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
-        return {
-          id: `${company.name}-ac-${index}`,
-          company: company.name,
-          logo: company.logo,
-          power: powerValue,
-          originalPrice: price.price,
-          discountedPrice: currentDiscount?.discount_rate ? calculateDiscountedPrice(price.price, currentDiscount.discount_rate) : null,
-          discountRate: currentDiscount?.discount_rate ?? null,
-          status: getStatus(currentDiscount)
-        };
-      });
-
-      return acPrices;
-    }).flat();
-  };
-
   const filteredDCData = useMemo(() => {
-    let prices = getDCPrices();
+    // Move getDCPrices inside the useMemo callback
+    const getDCPricesInner = () => {
+      return data.map(company => {
+        const prices = company.prices[0];
+        const currentDiscount = company.discounts.find(d => {
+          const now = new Date();
+          const startDate = new Date(d.starts_at);
+          const endDate = new Date(d.ends_at);
+          return now >= startDate && now <= endDate;
+        });
+
+        const getStatus = (discount: typeof currentDiscount): PriceData['status'] => {
+          if (!discount) return 'expired';
+          const now = new Date();
+          const startDate = new Date(discount.starts_at);
+          const endDate = new Date(discount.ends_at);
+          if (now < startDate) return 'coming_soon';
+          if (now > endDate) return 'expired';
+          return 'active';
+        };
+
+        const dcPrices = prices.dc.map((price, index) => {
+          const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
+          return {
+            id: `${company.name}-dc-${index}`,
+            company: company.name,
+            logo: company.logo,
+            power: powerValue,
+            originalPrice: price.price,
+            discountedPrice: currentDiscount?.discount_rate ? calculateDiscountedPrice(price.price, currentDiscount.discount_rate) : null,
+            discountRate: currentDiscount?.discount_rate ?? null,
+            status: getStatus(currentDiscount)
+          };
+        });
+
+        return dcPrices;
+      }).flat();
+    };
+    
+    let prices = getDCPricesInner();
     
     // Apply search filter
     if (globalFilter) {
@@ -358,10 +322,49 @@ export function PriceTables({ data }: PriceTablesProps) {
     }
 
     return prices;
-  }, [data, globalFilter, getDCPrices]);
+  }, [globalFilter, data]);
 
   const filteredACData = useMemo(() => {
-    let prices = getACPrices();
+    // Move getACPrices inside the useMemo callback
+    const getACPricesInner = () => {
+      return data.map(company => {
+        const prices = company.prices[0];
+        const currentDiscount = company.discounts.find(d => {
+          const now = new Date();
+          const startDate = new Date(d.starts_at);
+          const endDate = new Date(d.ends_at);
+          return now >= startDate && now <= endDate;
+        });
+
+        const getStatus = (discount: typeof currentDiscount): PriceData['status'] => {
+          if (!discount) return 'expired';
+          const now = new Date();
+          const startDate = new Date(discount.starts_at);
+          const endDate = new Date(discount.ends_at);
+          if (now < startDate) return 'coming_soon';
+          if (now > endDate) return 'expired';
+          return 'active';
+        };
+
+        const acPrices = prices.ac.map((price, index) => {
+          const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
+          return {
+            id: `${company.name}-ac-${index}`,
+            company: company.name,
+            logo: company.logo,
+            power: powerValue,
+            originalPrice: price.price,
+            discountedPrice: currentDiscount?.discount_rate ? calculateDiscountedPrice(price.price, currentDiscount.discount_rate) : null,
+            discountRate: currentDiscount?.discount_rate ?? null,
+            status: getStatus(currentDiscount)
+          };
+        });
+
+        return acPrices;
+      }).flat();
+    };
+    
+    let prices = getACPricesInner();
     
     // Apply search filter
     if (globalFilter) {
@@ -373,7 +376,7 @@ export function PriceTables({ data }: PriceTablesProps) {
     }
 
     return prices;
-  }, [data, globalFilter, getACPrices]);
+  }, [globalFilter, data]);
 
   return (
     <div>

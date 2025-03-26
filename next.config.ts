@@ -1,7 +1,30 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.sarjfiyat.com',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.oto-jet.com.tr',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.mig-go.com',
+        pathname: '/images/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

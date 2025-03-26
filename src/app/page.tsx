@@ -1,29 +1,20 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Filter, FilterType } from "@/components/ui/filters"
 import { DiscountFilters } from "@/components/discount-filters"
 import { DiscountCard } from "@/components/discount-card"
-import { getDiscountStatus, extractCarManufacturers } from "@/lib/discount-utils"
-import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState, SortOption } from "@/types"
+import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState } from "@/types"
 import type { Company } from "@/types"
 import data from "./data/data.json"
 import { InfiniteSlider } from "@/components/ui/infinite-slider"
 import { AnnouncementPill } from "@/components/announcement-pill"
 import { PriceTables } from "@/components/price-tables"
+import Image from "next/image"
 
 export default function Home() {
-  const [selectedStatus, setSelectedStatus] = useState<string>("all")
-  const [selectedChargePort, setSelectedChargePort] = useState<ChargingPort | "all">("DC")
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
-  const [selectedSort, setSelectedSort] = useState<SortOption>("ac-lowest")
   const [filteredDiscounts, setFilteredDiscounts] = useState<DiscountWithCompany[]>([])
   const [activeChargingPort, setActiveChargingPort] = useState<ChargingPort>("DC")
-
-  // Extract unique car manufacturers
-  const allCarManufacturers = extractCarManufacturers(
-    (data as Company[]).flatMap(company => company.discounts)
-  )
 
   useEffect(() => {
     const initialDiscounts = (data as Company[]).flatMap((company) =>
@@ -41,10 +32,7 @@ export default function Home() {
   }
 
   const applyFilters = (filterState: FilterState) => {
-    setSelectedStatus(filterState.status);
-    setSelectedChargePort(filterState.chargingPort);
     setSelectedPowerRange(filterState.powerRange);
-    setSelectedSort(filterState.sortBy);
     if (filterState.chargingPort !== "all") {
       setActiveChargingPort(filterState.chargingPort);
     }
@@ -55,25 +43,6 @@ export default function Home() {
         company,
       }))
     );
-
-    if (filterState.status !== "all") {
-      filteredDiscounts = filteredDiscounts.filter((discount) => {
-        const now = new Date();
-        const startDate = new Date(discount.starts_at);
-        const endDate = new Date(discount.ends_at);
-
-        switch (filterState.status) {
-          case "current":
-            return now >= startDate && now <= endDate;
-          case "soon":
-            return now < startDate;
-          case "passed":
-            return now > endDate;
-          default:
-            return true;
-        }
-      });
-    }
 
     if (filterState.chargingPort !== "all") {
       filteredDiscounts = filteredDiscounts.filter((discount) => {
@@ -135,7 +104,6 @@ export default function Home() {
         </div>
 
         <DiscountFilters
-          carManufacturers={allCarManufacturers}
           onChange={applyFilters}
         />
          
@@ -153,7 +121,6 @@ export default function Home() {
                 key={`${discount.company.name}-${index}`}
                 company={discount.company}
                 discount={discount}
-                selectedPowerRange={selectedPowerRange}
               />
             ))}
           </div>
@@ -177,10 +144,12 @@ export default function Home() {
             className="w-full h-full bg-white"
           >
             {data.map((company) => (
-              <img
+              <Image
                 key={company.name}
                 src={company.logo}
                 alt={company.name}
+                width={48}
+                height={48}
                 className="h-12 w-auto object-contain"
               />
             ))}
