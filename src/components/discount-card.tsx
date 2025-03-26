@@ -18,9 +18,26 @@ interface DiscountCardProps {
 export function DiscountCard({ company, discount }: DiscountCardProps) {
   const status = getDiscountStatus(discount.starts_at, discount.ends_at)
   
-  // Format dates
-  const startDate = new Date(discount.starts_at).toLocaleDateString('tr-TR')
-  const endDate = new Date(discount.ends_at).toLocaleDateString('tr-TR')
+  // Format dates in human-readable Turkish format
+  const formatDateInTurkish = (dateString: string): string => {
+    const date = new Date(dateString);
+    
+    // Get day, month name and year
+    const day = date.getDate();
+    
+    // Turkish month names
+    const monthNames = [
+      'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+      'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month} ${year}`;
+  };
+  
+  const startDate = formatDateInTurkish(discount.starts_at);
+  const endDate = formatDateInTurkish(discount.ends_at);
   
   // Get badge styles based on status
   const getBadgeVariant = () => {
@@ -223,7 +240,7 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
         {renderPrices()}
       </CardContent>
       
-      <CardFooter className="pt-0">
+      <CardFooter className="pt-0 hidden sm:block">
         <TooltipProvider>
           <div className="w-full flex justify-between items-center">
             <Tooltip>

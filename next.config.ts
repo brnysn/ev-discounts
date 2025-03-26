@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
         hostname: 'www.epsis.net',
         pathname: '/wp-content/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.sharz.net',
+        pathname: '/build/img/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.enerturk.com',
+        pathname: '/application/themes/mediaclick/assets/img/**',
+      },
     ],
   },
 };

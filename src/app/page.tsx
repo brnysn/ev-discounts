@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { DiscountFilters } from "@/components/discount-filters"
 import { DiscountCard } from "@/components/discount-card"
 import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState } from "@/types"
@@ -10,11 +10,33 @@ import { InfiniteSlider } from "@/components/ui/infinite-slider"
 import { AnnouncementPill } from "@/components/announcement-pill"
 import { PriceTables } from "@/components/price-tables"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
   const [filteredDiscounts, setFilteredDiscounts] = useState<DiscountWithCompany[]>([])
   const [activeChargingPort, setActiveChargingPort] = useState<ChargingPort>("DC")
+
+  // Add refs for scrolling
+  const campaignsRef = useRef<HTMLDivElement>(null);
+  const pricesRef = useRef<HTMLDivElement>(null);
+  
+  // Functions to scroll to sections with offset to account for sticky header
+  const scrollToCampaigns = () => {
+    if (campaignsRef.current) {
+      const yOffset = -80; // header height plus some padding
+      const y = campaignsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+  
+  const scrollToPrices = () => {
+    if (pricesRef.current) {
+      const yOffset = -80; // header height plus some padding
+      const y = pricesRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     // Collect all discounts with their company information
@@ -179,19 +201,45 @@ export default function Home() {
     setFilteredDiscounts(filteredDiscounts);
   };
 
+  // Add scroll padding to HTML when component mounts
+  useEffect(() => {
+    // Add scroll-padding to ensure sections aren't hidden under sticky header
+    document.documentElement.style.scrollPaddingTop = '80px';
+    
+    // Clean up when component unmounts
+    return () => {
+      document.documentElement.style.scrollPaddingTop = '0';
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto py-6">
-          <h1 className="text-3xl font-bold text-center">Elektrikli Araç Şarj Kampanyaları</h1>
-          <p className="text-center text-muted-foreground mt-2">
-            Elektrikli aracınızı şarj etmek için en iyi fırsatları bulun
-          </p>
+      <header className="bg-white shadow-sm sticky top-0 z-10">
+        <div className="container mx-auto py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Şarj Kampanya</h1>
+            <div className="flex space-x-4">
+              <Button 
+                variant="ghost" 
+                onClick={scrollToCampaigns}
+                className="font-medium"
+              >
+                Kampanyalar
+              </Button>
+              <Button 
+                variant="ghost" 
+                onClick={scrollToPrices}
+                className="font-medium"
+              >
+                Fiyatlar
+              </Button>
+            </div>
+          </div>
         </div>
       </header>
       
       <main className="container mx-auto py-8 px-4">
-        <div className="mb-8">
+        <div className="mb-8 pt-4" ref={campaignsRef}>
           <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
           <div className="flex items-center justify-between">
             <p className="text-muted-foreground">
@@ -223,7 +271,7 @@ export default function Home() {
           </div>
         )}
 
-        <div className="mt-12">
+        <div className="mt-12 pt-4" ref={pricesRef}>
           <h2 className="text-2xl font-bold mb-8">Fiyat Karşılaştırması</h2>
           <PriceTables data={data as Company[]} />
         </div>
@@ -232,7 +280,7 @@ export default function Home() {
       <footer className="bg-white py-8 border-t mt-12">
         <div className="container mx-auto px-4">
           <h2 className="text-xl font-semibold text-center mb-6">
-            Elektrikli Araç Şarj Ağı Ortakları
+            Elektrikli araç şarj firmaları
           </h2>
           <InfiniteSlider 
             gap={24} 
