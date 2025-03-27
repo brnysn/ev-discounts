@@ -17,7 +17,7 @@ export function Timeline({ discounts }: TimelineProps) {
   // Generate the next 7 days for the timeline and set first day to start of current day
   const today = new Date()
   today.setHours(0, 0, 0, 0) // Set to beginning of day for consistent calculations
-  const days = Array.from({ length: 8 }, (_, i) => addDays(today, i))
+  const days = Array.from({ length: 7 }, (_, i) => addDays(today, i))
   
   // Filter only active and upcoming discounts
   const activeAndUpcomingDiscounts = discounts.filter(discount => {
@@ -92,7 +92,7 @@ export function Timeline({ discounts }: TimelineProps) {
             
             // If dates are not in our visible range, skip this discount
             if (
-              (startDayIndex === -1 && startDate > days[7]) || // Start date after visible range
+              (startDayIndex === -1 && startDate > days[6]) || // Start date after visible range
               (endDayIndex === -1 && endDate < today) || // End date before visible range
               (startDayIndex === -1 && endDayIndex === -1) // Neither start nor end date in range
             ) {
@@ -102,21 +102,21 @@ export function Timeline({ discounts }: TimelineProps) {
             // Calculate position based on day indexes
             const leftPosition = startDayIndex === -1 
               ? 0 // If start date is before visible range, start at 0
-              : (startDayIndex / 7) * 100
+              : (startDayIndex / 6) * 100
               
             // Calculate width based on day indexes
             let widthDays = 0
             
             if (endDayIndex === -1) {
               // If end date is beyond visible range, extend to the end
-              widthDays = 7 - (startDayIndex === -1 ? 0 : startDayIndex)
+              widthDays = 6 - (startDayIndex === -1 ? 0 : startDayIndex)
             } else {
               // Width is the number of days between start and end (subtract 1 to end exactly on the end date)
               widthDays = endDayIndex - (startDayIndex === -1 ? 0 : startDayIndex)
             }
             
             // Ensure minimum width and convert to percentage
-            const width = (Math.max(0.25, widthDays) / 7) * 100
+            const width = (Math.max(0.25, widthDays) / 6) * 100
             
             return (
               <div 
