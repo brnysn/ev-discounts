@@ -12,6 +12,7 @@ import { AnnouncementPill } from "@/components/announcement-pill"
 import { PriceTables } from "@/components/price-tables"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 
 export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
@@ -25,6 +26,12 @@ export default function Home() {
   // Add refs for scrolling
   const campaignsRef = useRef<HTMLDivElement>(null);
   const pricesRef = useRef<HTMLDivElement>(null);
+  
+  const { sortDiscounts } = useDiscountCalculator({
+    discounts: filteredDiscounts,
+    chargingPort: activeChargingPort,
+    powerRange: selectedPowerRange
+  });
   
   // Functions to scroll to sections with offset to account for sticky header
   const scrollToCampaigns = () => {
@@ -52,48 +59,8 @@ export default function Home() {
       }))
     );
     
-    // Sort discounts: active first, then upcoming, then expired
-    initialDiscounts.sort((a, b) => {
-      const nowDate = new Date();
-      const aStartDate = new Date(a.starts_at);
-      const aEndDate = new Date(a.ends_at);
-      const bStartDate = new Date(b.starts_at);
-      const bEndDate = new Date(b.ends_at);
-      
-      // Check discount status
-      const aIsActive = nowDate >= aStartDate && nowDate <= aEndDate;
-      const bIsActive = nowDate >= bStartDate && nowDate <= bEndDate;
-      const aIsUpcoming = nowDate < aStartDate;
-      const bIsUpcoming = nowDate < bStartDate;
-      
-      // Active discounts first
-      if (aIsActive && !bIsActive) return -1;
-      if (!aIsActive && bIsActive) return 1;
-      
-      // Both are in the same status category
-      if (aIsActive === bIsActive) {
-        // If both are upcoming, upcoming with earliest start date first
-        if (aIsUpcoming && bIsUpcoming) {
-          // Sort by start date (ascending)
-          return aStartDate.getTime() - bStartDate.getTime();
-        }
-        
-        // Upcoming before expired
-        if (aIsUpcoming && !bIsUpcoming) return -1;
-        if (!aIsUpcoming && bIsUpcoming) return 1;
-      }
-      
-      // Default sorting: by company name
-      return a.company.name.localeCompare(b.company.name);
-    });
-    
-    setFilteredDiscounts(initialDiscounts);
-  }, [])
-
-  const calculateDiscountedPrice = (price: number, discountRate?: number) => {
-    if (!discountRate) return price;
-    return price * (1 - discountRate / 100);
-  }
+    setFilteredDiscounts(sortDiscounts(initialDiscounts));
+  }, [sortDiscounts])
 
   // Calculate savings for selected battery
   const calculateSavings = (originalPrice: number, discountedPrice: number) => {
@@ -158,115 +125,7 @@ export default function Home() {
       });
     }
 
-    // Sort the discounts - active first, then upcoming sorted by DC price (lowest to highest)
-    filteredDiscounts.sort((a, b) => {
-      const nowDate = new Date();
-      const aStartDate = new Date(a.starts_at);
-      const aEndDate = new Date(a.ends_at);
-      const bStartDate = new Date(b.starts_at);
-      const bEndDate = new Date(b.ends_at);
-      
-      // Check if discount is active (current date is between start and end date)
-      const aIsActive = nowDate >= aStartDate && nowDate <= aEndDate;
-      const bIsActive = nowDate >= bStartDate && nowDate <= bEndDate;
-      
-      // Check if discount is upcoming (current date is before start date)
-      const aIsUpcoming = nowDate < aStartDate;
-      const bIsUpcoming = nowDate < bStartDate;
-      
-      // First sort by status: active first, then upcoming, then expired
-      if (aIsActive && !bIsActive) return -1; // a is active, b is not -> a comes first
-      if (!aIsActive && bIsActive) return 1;  // b is active, a is not -> b comes first
-
-      // If both are active or both are not active...
-      if (aIsActive === bIsActive) {
-        // If both are active, sort by price (zero prices first)
-        if (aIsActive) {
-          const pricesA = a.discounted_prices || a.company.prices[0];
-          const pricesB = b.discounted_prices || b.company.prices[0];
-          const chargeType = "dc" as keyof PriceGroup;
-          
-          const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
-          const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
-          
-          // If one has zero price, it comes first
-          if (lowestPriceA === 0) return -1;
-          if (lowestPriceB === 0) return 1;
-          
-          return lowestPriceA - lowestPriceB;
-        }
-        
-        // If both are upcoming, sort by DC price
-        if (aIsUpcoming && bIsUpcoming) {
-          const pricesA = a.discounted_prices || a.company.prices[0];
-          const pricesB = b.discounted_prices || b.company.prices[0];
-          const chargeType = "dc" as keyof PriceGroup;
-          
-          const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
-          const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
-          
-          // If one has zero price, it comes first
-          if (lowestPriceA === 0) return -1;
-          if (lowestPriceB === 0) return 1;
-          
-          return lowestPriceA - lowestPriceB;
-        }
-        
-        // If one is upcoming and one is expired, upcoming comes first
-        if (aIsUpcoming && !bIsUpcoming) return -1;
-        if (!aIsUpcoming && bIsUpcoming) return 1;
-      }
-      
-      // For other cases, sort by DC price
-      const pricesA = a.discounted_prices || a.company.prices[0];
-      const pricesB = b.discounted_prices || b.company.prices[0];
-      const chargeType = "dc" as keyof PriceGroup;
-      
-      const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
-      const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
-      
-      // If one has zero price, it comes first
-      if (lowestPriceA === 0) return -1;
-      if (lowestPriceB === 0) return 1;
-      
-      return lowestPriceA - lowestPriceB;
-    });
-    
-    // Helper function to get lowest price
-    function getLowestPrice(prices: PriceGroup, discount: DiscountWithCompany, chargeType: keyof PriceGroup): number {
-      if (!prices[chargeType].length) return Infinity;
-      
-      // First pass: check for zero prices
-      for (const priceOption of prices[chargeType]) {
-        let effectivePrice: number;
-        if (discount.discounted_prices) {
-          const discountedPrice = discount.discounted_prices[chargeType].find(p => p.kwh === priceOption.kwh)?.price;
-          effectivePrice = discountedPrice !== undefined ? discountedPrice : priceOption.price;
-        } else {
-          effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
-        }
-        // If we find any zero price, return immediately
-        if (effectivePrice === 0) return -Infinity; // Changed from 0 to -Infinity to ensure it sorts first
-      }
-      
-      // If no zero price found, find the lowest price
-      let lowestPrice = Infinity;
-      for (const priceOption of prices[chargeType]) {
-        let effectivePrice: number;
-        if (discount.discounted_prices) {
-          const discountedPrice = discount.discounted_prices[chargeType].find(p => p.kwh === priceOption.kwh)?.price;
-          effectivePrice = discountedPrice !== undefined ? discountedPrice : priceOption.price;
-        } else {
-          effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
-        }
-        if (effectivePrice < lowestPrice) {
-          lowestPrice = effectivePrice;
-        }
-      }
-      return lowestPrice;
-    }
-
-    setFilteredDiscounts(filteredDiscounts);
+    setFilteredDiscounts(sortDiscounts(filteredDiscounts));
   };
 
   // Add scroll padding to HTML when component mounts

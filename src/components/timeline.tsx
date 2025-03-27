@@ -2,12 +2,56 @@
 
 import { format, addDays, parseISO, isSameDay } from "date-fns"
 import { tr } from "date-fns/locale"
-import { DiscountWithCompany, Company } from "@/types"
+import { DiscountWithCompany, Company, ChargingPort } from "@/types"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-import { getPrice, calculateDiscountedPrice, calculateDiscountRate } from "@/lib/discount-utils"
+import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
+
+// Helper components
+interface PriceDisplayProps {
+  prices: Array<{kwh: string | number, price: number}>
+  type: ChargingPort
+  company: Company
+  discount: DiscountWithCompany
+}
+
+function PriceDisplay({ prices, type, company, discount }: PriceDisplayProps) {
+  const { getPrice, calculateDiscountedPrice, calculateDiscountRate } = useDiscountCalculator({});
+
+  if (!prices.length) return <span className="text-[10px] text-muted-foreground">-</span>
+  
+  // Just show the first price to save space
+  const firstPrice = prices[0]
+  const originalPrice = getPrice(company.prices[0], type, firstPrice.kwh.toString())
+  let discountedPrice = originalPrice
+
+  // Calculate discounted price based on discount type
+  if (discount.discount_rate) {
+    discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
+  } else if (discount.discounted_prices) {
+    discountedPrice = getPrice(discount.discounted_prices, type, firstPrice.kwh.toString())
+  }
+
+  const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+  
+  return (
+    <div className="text-[10px] flex items-center gap-1">
+      {discountRate > 0 ? (
+        <>
+          <span className="text-red-500 line-through hidden sm:inline">₺{originalPrice.toFixed(2)}</span>
+          <span className="text-green-600 font-bold text-xs sm:text-sm">₺{discountedPrice.toFixed(2)}</span>
+          <Badge className={cn("h-4 px-1 text-[8px] hidden sm:inline-flex", getBadgeColorByDiscountRate(discountRate))}>
+            %{discountRate}
+          </Badge>
+        </>
+      ) : (
+        <span>₺{originalPrice.toFixed(2)}</span>
+      )}
+    </div>
+  )
+}
 
 interface TimelineProps {
   discounts: DiscountWithCompany[]
@@ -176,48 +220,6 @@ export function Timeline({ discounts }: TimelineProps) {
           })}
         </div>
       </div>
-    </div>
-  )
-}
-
-// Helper components
-interface PriceDisplayProps {
-  prices: Array<{kwh: string | number, price: number}>
-  type: "AC" | "DC"
-  company: Company
-  discount: DiscountWithCompany
-}
-
-function PriceDisplay({ prices, type, company, discount }: PriceDisplayProps) {
-  if (!prices.length) return <span className="text-[10px] text-muted-foreground">-</span>
-  
-  // Just show the first price to save space
-  const firstPrice = prices[0]
-  const originalPrice = getPrice(company.prices[0], type, firstPrice.kwh.toString())
-  let discountedPrice = originalPrice
-
-  // Calculate discounted price based on discount type
-  if (discount.discount_rate) {
-    discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
-  } else if (discount.discounted_prices) {
-    discountedPrice = getPrice(discount.discounted_prices, type, firstPrice.kwh.toString())
-  }
-
-  const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
-  
-  return (
-    <div className="text-[10px] flex items-center gap-1">
-      {discountRate > 0 ? (
-        <>
-          <span className="text-red-500 line-through hidden sm:inline">₺{originalPrice.toFixed(2)}</span>
-          <span className="text-green-600 font-bold text-xs sm:text-sm">₺{discountedPrice.toFixed(2)}</span>
-          <Badge className={cn("h-4 px-1 text-[8px] hidden sm:inline-flex", getBadgeColorByDiscountRate(discountRate))}>
-            %{discountRate}
-          </Badge>
-        </>
-      ) : (
-        <span>₺{originalPrice.toFixed(2)}</span>
-      )}
     </div>
   )
 }

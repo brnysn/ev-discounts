@@ -24,6 +24,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useDiscountCalculator } from "@/hooks/useDiscountCalculator";
 
 interface PriceTablesProps {
   data: Company[];
@@ -274,9 +275,9 @@ function PriceTable({
 
 export function PriceTables({ data }: PriceTablesProps) {
   const [globalFilter, setGlobalFilter] = useState("");
+  const { getPrice, calculateDiscountedPrice, calculateDiscountRate } = useDiscountCalculator({});
 
   const filteredDCData = useMemo(() => {
-    // Move getDCPrices inside the useMemo callback
     const getDCPricesInner = () => {
       return data.map(company => {
         const prices = company.prices[0];
@@ -299,35 +300,30 @@ export function PriceTables({ data }: PriceTablesProps) {
           return 'active';
         };
 
-        const getDiscountedPrice = (price: number, power: string) => {
-          if (!currentDiscount) return null;
-          
-          if (currentDiscount.discount_rate) {
-            return calculateDiscountedPrice(price, currentDiscount.discount_rate);
-          }
-          
-          if (currentDiscount.discounted_prices?.dc) {
-            const matchingPrice = currentDiscount.discounted_prices.dc.find(p => p.kwh === power);
-            return matchingPrice ? matchingPrice.price : null;
-          }
-          
-          return null;
-        };
-
         return prices.dc.map((price, index) => {
           const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
-          const discountedPrice = getDiscountedPrice(price.price, powerValue);
-          // Calculate discount rate based on original and discounted price
-          const discountRate = discountedPrice !== null ? Number((((price.price - discountedPrice) / price.price) * 100).toFixed(2)) : null;
+          const originalPrice = getPrice(company.prices[0], "DC", powerValue);
+          let discountedPrice = originalPrice;
+          
+          if (currentDiscount) {
+            if (currentDiscount.discount_rate) {
+              discountedPrice = calculateDiscountedPrice(originalPrice, currentDiscount.discount_rate);
+            } else if (currentDiscount.discounted_prices?.dc) {
+              const matchingPrice = currentDiscount.discounted_prices.dc.find(p => p.kwh === powerValue)?.price;
+              discountedPrice = matchingPrice !== undefined ? matchingPrice : originalPrice;
+            }
+          }
+          
+          const discountRate = calculateDiscountRate(originalPrice, discountedPrice);
           
           return {
             id: `${company.name}-dc-${index}`,
             company: company.name,
             logo: company.logo,
             power: powerValue,
-            originalPrice: price.price,
-            discountedPrice,
-            discountRate,
+            originalPrice,
+            discountedPrice: discountedPrice !== originalPrice ? discountedPrice : null,
+            discountRate: discountRate > 0 ? discountRate : null,
             status: getStatus(currentDiscount)
           };
         });
@@ -346,10 +342,9 @@ export function PriceTables({ data }: PriceTablesProps) {
     }
 
     return prices;
-  }, [globalFilter, data]);
+  }, [globalFilter, data, getPrice, calculateDiscountedPrice, calculateDiscountRate]);
 
   const filteredACData = useMemo(() => {
-    // Move getACPrices inside the useMemo callback
     const getACPricesInner = () => {
       return data.map(company => {
         const prices = company.prices[0];
@@ -372,35 +367,30 @@ export function PriceTables({ data }: PriceTablesProps) {
           return 'active';
         };
 
-        const getDiscountedPrice = (price: number, power: string) => {
-          if (!currentDiscount) return null;
-          
-          if (currentDiscount.discount_rate) {
-            return calculateDiscountedPrice(price, currentDiscount.discount_rate);
-          }
-          
-          if (currentDiscount.discounted_prices?.ac) {
-            const matchingPrice = currentDiscount.discounted_prices.ac.find(p => p.kwh === power);
-            return matchingPrice ? matchingPrice.price : null;
-          }
-          
-          return null;
-        };
-
         return prices.ac.map((price, index) => {
           const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
-          const discountedPrice = getDiscountedPrice(price.price, powerValue);
-          // Calculate discount rate based on original and discounted price
-          const discountRate = discountedPrice !== null ? Number((((price.price - discountedPrice) / price.price) * 100).toFixed(2)) : null;
+          const originalPrice = getPrice(company.prices[0], "AC", powerValue);
+          let discountedPrice = originalPrice;
+          
+          if (currentDiscount) {
+            if (currentDiscount.discount_rate) {
+              discountedPrice = calculateDiscountedPrice(originalPrice, currentDiscount.discount_rate);
+            } else if (currentDiscount.discounted_prices?.ac) {
+              const matchingPrice = currentDiscount.discounted_prices.ac.find(p => p.kwh === powerValue)?.price;
+              discountedPrice = matchingPrice !== undefined ? matchingPrice : originalPrice;
+            }
+          }
+          
+          const discountRate = calculateDiscountRate(originalPrice, discountedPrice);
           
           return {
             id: `${company.name}-ac-${index}`,
             company: company.name,
             logo: company.logo,
             power: powerValue,
-            originalPrice: price.price,
-            discountedPrice,
-            discountRate,
+            originalPrice,
+            discountedPrice: discountedPrice !== originalPrice ? discountedPrice : null,
+            discountRate: discountRate > 0 ? discountRate : null,
             status: getStatus(currentDiscount)
           };
         });
@@ -419,7 +409,7 @@ export function PriceTables({ data }: PriceTablesProps) {
     }
 
     return prices;
-  }, [globalFilter, data]);
+  }, [globalFilter, data, getPrice, calculateDiscountedPrice, calculateDiscountRate]);
 
   return (
     <div>
