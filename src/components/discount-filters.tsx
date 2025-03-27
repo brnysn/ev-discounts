@@ -39,11 +39,11 @@ export const batteryOptions: BatteryOption[] = [
     battery: 52.4
   },
   {
-    label: 'Tesla SR',
+    label: 'Model Y SR',
     battery: 57.5
   },
   {
-    label: 'Tesla LR',
+    label: 'Model Y LR',
     battery: 81
   },
   {
