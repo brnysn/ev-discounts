@@ -303,13 +303,15 @@ export default function Home() {
       <footer className="bg-white py-8 border-t mt-12">
         <div className="container mx-auto px-4">
           <div className="flex justify-center mb-8">
-            <Image
-              src="/images/easahipleri.jpg"
-              alt="Elektrikli Araç Sahipleri"
-              width={80}
-              height={80}
-              className="rounded-full"
-            />
+            <a href="https://t.me/ToggSahipleri" target="_blank" rel="noopener noreferrer">
+              <Image
+                src="/images/easahipleri.jpg"
+                alt="Elektrikli Araç Sahipleri"
+                width={80}
+                height={80}
+                className="rounded-full"
+              />
+            </a>
           </div>
           <h2 className="text-xl font-semibold text-center mb-6">
             Elektrikli araç şarj firmaları
