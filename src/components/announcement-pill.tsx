@@ -87,7 +87,7 @@ export function AnnouncementPill({
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-bounce">
       <Badge variant="outline" className="bg-white shadow-lg px-4 py-2 text-base rounded-full">
-        🔥 Bugünün en iyi {chargingPort} fiyatı ({bestDeal.powerRange}): {bestDeal.price.toFixed(2)} - {bestDeal.company}
+        🔥 Bugünün en iyi {chargingPort} fiyatı: <span className="text-green-600 font-bold">{bestDeal.price.toFixed(2)}</span> - {bestDeal.company}
       </Badge>
     </div>
   )

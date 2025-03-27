@@ -434,7 +434,13 @@
         ]
       }
     ],
-    "discounts": []
+    "discounts": [
+      {
+        "starts_at": "2025-03-22 00:00:00",
+        "ends_at": "2025-04-01 00:00:00",
+        "text": "Yeni üyelere özel şarj sonrası tutarın %15’i kadar Şarj Puan hediye.",
+        "discount_rate": 15
+      }]
   },
   {
     "name": "Rhg Enertürk",

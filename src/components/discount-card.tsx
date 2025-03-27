@@ -9,6 +9,8 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { Alert } from "@/components/ui/alert"
+import { TriangleAlert } from "lucide-react"
 
 interface DiscountCardProps {
   company: Company
@@ -231,9 +233,14 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
       
       <CardContent className="flex-grow">
         {discount.text && (
-          <div className="mb-3 text-sm">
-            {discount.text}
-          </div>
+          <Alert
+            className="mb-3"
+            layout="row"
+            variant="warning"
+            icon={<TriangleAlert className="opacity-60" size={16} strokeWidth={2} />}
+          >
+            <p className="text-sm">{discount.text}</p>
+          </Alert>
         )}
         {renderPrices()}
       </CardContent>
