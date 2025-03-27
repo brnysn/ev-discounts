@@ -127,7 +127,9 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
 
             return (
               <div key={range} className="flex flex-col">
-                <div className="text-xs text-muted-foreground">{range} kWh</div>
+                {range !== "" && (
+                  <div className="text-xs text-muted-foreground">{range} kWh</div>
+                )}
                 <div className="flex items-center space-x-2">
                   {discountRate > 0 ? (
                     // Show discounted price with original price strikethrough when there's a discount
@@ -179,7 +181,9 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
 
               return (
                 <div key={range} className="flex flex-col">
-                  <div className="text-xs text-muted-foreground">{range} kWh</div>
+                  {range !== "" && (
+                    <div className="text-xs text-muted-foreground">{range} kWh</div>
+                  )}
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center space-x-2">
                       <span className="text-red-500 line-through text-sm">₺{originalPrice.toFixed(2)}</span>
