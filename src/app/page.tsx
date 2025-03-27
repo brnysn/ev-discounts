@@ -180,31 +180,36 @@ export default function Home() {
 
       // If both are active or both are not active...
       if (aIsActive === bIsActive) {
+        // If both are active, sort by price (zero prices first)
+        if (aIsActive) {
+          const pricesA = a.discounted_prices || a.company.prices[0];
+          const pricesB = b.discounted_prices || b.company.prices[0];
+          const chargeType = "dc" as keyof PriceGroup;
+          
+          const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
+          const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
+          
+          // If one has zero price, it comes first
+          if (lowestPriceA === 0) return -1;
+          if (lowestPriceB === 0) return 1;
+          
+          return lowestPriceA - lowestPriceB;
+        }
+        
         // If both are upcoming, sort by DC price
         if (aIsUpcoming && bIsUpcoming) {
           const pricesA = a.discounted_prices || a.company.prices[0];
           const pricesB = b.discounted_prices || b.company.prices[0];
           const chargeType = "dc" as keyof PriceGroup;
           
-          // Get the lowest DC price for each discount
-          const getPriceForDiscount = (prices: PriceGroup, discount?: { discount_rate?: number }): number => {
-            if (!prices[chargeType].length) return Infinity;
-            
-            // Find the lowest price among all DC options
-            let lowestPrice = Infinity;
-            for (const priceOption of prices[chargeType]) {
-              const effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
-              if (effectivePrice < lowestPrice) {
-                lowestPrice = effectivePrice;
-              }
-            }
-            return lowestPrice;
-          };
+          const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
+          const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
           
-          const lowestPriceA = getPriceForDiscount(pricesA, a);
-          const lowestPriceB = getPriceForDiscount(pricesB, b);
+          // If one has zero price, it comes first
+          if (lowestPriceA === 0) return -1;
+          if (lowestPriceB === 0) return 1;
           
-          return lowestPriceA - lowestPriceB; // Low to high
+          return lowestPriceA - lowestPriceB;
         }
         
         // If one is upcoming and one is expired, upcoming comes first
@@ -212,25 +217,48 @@ export default function Home() {
         if (!aIsUpcoming && bIsUpcoming) return 1;
       }
       
-      // For other cases (both active or both expired), use sort by DC price
+      // For other cases, sort by DC price
       const pricesA = a.discounted_prices || a.company.prices[0];
       const pricesB = b.discounted_prices || b.company.prices[0];
       const chargeType = "dc" as keyof PriceGroup;
       
-      // Get the lowest price for each
       const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
       const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
       
-      return lowestPriceA - lowestPriceB; // Low to high
+      // If one has zero price, it comes first
+      if (lowestPriceA === 0) return -1;
+      if (lowestPriceB === 0) return 1;
+      
+      return lowestPriceA - lowestPriceB;
     });
     
     // Helper function to get lowest price
     function getLowestPrice(prices: PriceGroup, discount: DiscountWithCompany, chargeType: keyof PriceGroup): number {
       if (!prices[chargeType].length) return Infinity;
       
+      // First pass: check for zero prices
+      for (const priceOption of prices[chargeType]) {
+        let effectivePrice: number;
+        if (discount.discounted_prices) {
+          const discountedPrice = discount.discounted_prices[chargeType].find(p => p.kwh === priceOption.kwh)?.price;
+          effectivePrice = discountedPrice !== undefined ? discountedPrice : priceOption.price;
+        } else {
+          effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
+        }
+        // If we find any zero price, return immediately
+        if (effectivePrice === 0) return -Infinity; // Changed from 0 to -Infinity to ensure it sorts first
+      }
+      
+      // If no zero price found, find the lowest price
       let lowestPrice = Infinity;
       for (const priceOption of prices[chargeType]) {
-        const effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
+        let effectivePrice: number;
+        if (discount.discounted_prices) {
+          const discountedPrice = discount.discounted_prices[chargeType].find(p => p.kwh === priceOption.kwh)?.price;
+          effectivePrice = discountedPrice !== undefined ? discountedPrice : priceOption.price;
+        } else {
+          effectivePrice = calculateDiscountedPrice(priceOption.price, discount?.discount_rate);
+        }
         if (effectivePrice < lowestPrice) {
           lowestPrice = effectivePrice;
         }

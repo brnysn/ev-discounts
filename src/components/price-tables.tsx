@@ -143,7 +143,12 @@ function PriceTable({
             </Button>
           )
         },
-        accessorFn: (row) => row.discountedPrice || row.originalPrice,
+        accessorFn: (row) => {
+          // For sorting, prioritize zero prices, then other discounted prices, then original prices
+          if (row.discountedPrice === 0) return -Infinity;
+          if (row.discountedPrice !== null) return row.discountedPrice;
+          return row.originalPrice;
+        },
         cell: ({ row }) => {
           const originalPrice = row.original.originalPrice;
           const discountedPrice = row.original.discountedPrice;
@@ -158,7 +163,7 @@ function PriceTable({
 
           return (
             <div className="flex flex-col gap-1">
-              {discountedPrice ? (
+              {discountedPrice !== null ? (
                 <>
                   <div className="flex items-center gap-2">
                     <span className="line-through text-gray-500">₺{originalPrice.toFixed(2)}</span>
@@ -275,6 +280,8 @@ export function PriceTables({ data }: PriceTablesProps) {
     const getDCPricesInner = () => {
       return data.map(company => {
         const prices = company.prices[0];
+        
+        // Find the current active discount
         const currentDiscount = company.discounts.find(d => {
           const now = new Date();
           const startDate = new Date(d.starts_at);
@@ -282,31 +289,48 @@ export function PriceTables({ data }: PriceTablesProps) {
           return now >= startDate && now <= endDate;
         });
 
-        const getStatus = (discount: typeof currentDiscount): PriceData['status'] => {
-          if (!discount) return 'expired';
+        const getStatus = (d: typeof currentDiscount): PriceData['status'] => {
+          if (!d) return 'expired';
           const now = new Date();
-          const startDate = new Date(discount.starts_at);
-          const endDate = new Date(discount.ends_at);
+          const startDate = new Date(d.starts_at);
+          const endDate = new Date(d.ends_at);
           if (now < startDate) return 'coming_soon';
           if (now > endDate) return 'expired';
           return 'active';
         };
 
-        const dcPrices = prices.dc.map((price, index) => {
+        const getDiscountedPrice = (price: number, power: string) => {
+          if (!currentDiscount) return null;
+          
+          if (currentDiscount.discount_rate) {
+            return calculateDiscountedPrice(price, currentDiscount.discount_rate);
+          }
+          
+          if (currentDiscount.discounted_prices?.dc) {
+            const matchingPrice = currentDiscount.discounted_prices.dc.find(p => p.kwh === power);
+            return matchingPrice ? matchingPrice.price : null;
+          }
+          
+          return null;
+        };
+
+        return prices.dc.map((price, index) => {
           const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
+          const discountedPrice = getDiscountedPrice(price.price, powerValue);
+          // Calculate discount rate based on original and discounted price
+          const discountRate = discountedPrice !== null ? Number((((price.price - discountedPrice) / price.price) * 100).toFixed(2)) : null;
+          
           return {
             id: `${company.name}-dc-${index}`,
             company: company.name,
             logo: company.logo,
             power: powerValue,
             originalPrice: price.price,
-            discountedPrice: currentDiscount?.discount_rate ? calculateDiscountedPrice(price.price, currentDiscount.discount_rate) : null,
-            discountRate: currentDiscount?.discount_rate ?? null,
+            discountedPrice,
+            discountRate,
             status: getStatus(currentDiscount)
           };
         });
-
-        return dcPrices;
       }).flat();
     };
     
@@ -329,6 +353,8 @@ export function PriceTables({ data }: PriceTablesProps) {
     const getACPricesInner = () => {
       return data.map(company => {
         const prices = company.prices[0];
+        
+        // Find the current active discount
         const currentDiscount = company.discounts.find(d => {
           const now = new Date();
           const startDate = new Date(d.starts_at);
@@ -336,31 +362,48 @@ export function PriceTables({ data }: PriceTablesProps) {
           return now >= startDate && now <= endDate;
         });
 
-        const getStatus = (discount: typeof currentDiscount): PriceData['status'] => {
-          if (!discount) return 'expired';
+        const getStatus = (d: typeof currentDiscount): PriceData['status'] => {
+          if (!d) return 'expired';
           const now = new Date();
-          const startDate = new Date(discount.starts_at);
-          const endDate = new Date(discount.ends_at);
+          const startDate = new Date(d.starts_at);
+          const endDate = new Date(d.ends_at);
           if (now < startDate) return 'coming_soon';
           if (now > endDate) return 'expired';
           return 'active';
         };
 
-        const acPrices = prices.ac.map((price, index) => {
+        const getDiscountedPrice = (price: number, power: string) => {
+          if (!currentDiscount) return null;
+          
+          if (currentDiscount.discount_rate) {
+            return calculateDiscountedPrice(price, currentDiscount.discount_rate);
+          }
+          
+          if (currentDiscount.discounted_prices?.ac) {
+            const matchingPrice = currentDiscount.discounted_prices.ac.find(p => p.kwh === power);
+            return matchingPrice ? matchingPrice.price : null;
+          }
+          
+          return null;
+        };
+
+        return prices.ac.map((price, index) => {
           const powerValue = typeof price.kwh === 'string' ? price.kwh : String(price.kwh);
+          const discountedPrice = getDiscountedPrice(price.price, powerValue);
+          // Calculate discount rate based on original and discounted price
+          const discountRate = discountedPrice !== null ? Number((((price.price - discountedPrice) / price.price) * 100).toFixed(2)) : null;
+          
           return {
             id: `${company.name}-ac-${index}`,
             company: company.name,
             logo: company.logo,
             power: powerValue,
             originalPrice: price.price,
-            discountedPrice: currentDiscount?.discount_rate ? calculateDiscountedPrice(price.price, currentDiscount.discount_rate) : null,
-            discountRate: currentDiscount?.discount_rate ?? null,
+            discountedPrice,
+            discountRate,
             status: getStatus(currentDiscount)
           };
         });
-
-        return acPrices;
       }).flat();
     };
     
