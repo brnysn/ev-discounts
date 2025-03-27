@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'www.inbrandadworks.com',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.mig-go.com',
         pathname: '/images/**',
       },
