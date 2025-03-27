@@ -31,20 +31,20 @@ import { v4 as uuidv4 } from "uuid"
 // Define battery options
 export const batteryOptions: BatteryOption[] = [
   {
-    label: 'Togg T10X Uzun',
+    label: 'T10X Uzun',
     battery: 88.5
   },
   {
-    label: 'Togg T10X Kısa',
+    label: 'T10X Kısa',
     battery: 52.4
-  },
-  {
-    label: 'Model Y SR',
-    battery: 57.5
   },
   {
     label: 'Model Y LR',
     battery: 81
+  },
+  {
+    label: 'Model Y SR',
+    battery: 57.5
   },
   {
     label: 'Ioniq5 Uzun',

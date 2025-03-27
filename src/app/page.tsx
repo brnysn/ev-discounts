@@ -18,7 +18,7 @@ export default function Home() {
   const [filteredDiscounts, setFilteredDiscounts] = useState<DiscountWithCompany[]>([])
   const [activeChargingPort, setActiveChargingPort] = useState<ChargingPort>("DC")
   const [selectedBattery, setSelectedBattery] = useState<BatteryOption | null>({
-    label: 'Togg T10X Uzun',
+    label: 'T10X Uzun',
     battery: 88.5
   })
 
