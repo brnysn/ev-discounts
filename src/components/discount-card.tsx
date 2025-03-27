@@ -1,6 +1,6 @@
 "use client"
 
-import { Company, Discount } from "@/types"
+import { Company, Discount, BatteryOption } from "@/types"
 import { calculateDiscountRate, calculateDiscountedPrice, getDiscountStatus, getPrice, getPowerRanges } from "@/lib/discount-utils"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -10,14 +10,16 @@ import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Alert } from "@/components/ui/alert"
-import { TriangleAlert } from "lucide-react"
+import { TriangleAlert, Battery } from "lucide-react"
 
 interface DiscountCardProps {
   company: Company
   discount: Discount
+  selectedBattery: BatteryOption | null
+  calculateSavings: (originalPrice: number, discountedPrice: number) => number | null
 }
 
-export function DiscountCard({ company, discount }: DiscountCardProps) {
+export function DiscountCard({ company, discount, selectedBattery, calculateSavings }: DiscountCardProps) {
   const status = getDiscountStatus(discount.starts_at, discount.ends_at)
   
   // Format dates in human-readable Turkish format
@@ -54,6 +56,12 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
         return "outline" as const
     }
   }
+  
+  // Format a savings value as Turkish Lira
+  const formatSavings = (savings: number | null) => {
+    if (savings === null) return null;
+    return `₺${savings.toFixed(2)}`;
+  };
   
   // Calculate and format prices
   const renderPrices = () => {
@@ -115,6 +123,7 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
             }
 
             const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+            const savings = calculateSavings(originalPrice, discountedPrice);
 
             return (
               <div key={range} className="flex flex-col">
@@ -137,6 +146,12 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
                     </Badge>
                   )}
                 </div>
+                {selectedBattery && discountRate > 0 && (
+                  <div className="flex items-center mt-1 text-xs text-green-600">
+                    <Battery className="size-3 mr-1" />
+                    <span>Tasarruf: {formatSavings(savings)}</span>
+                  </div>
+                )}
               </div>
             )
           })}
@@ -157,6 +172,7 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
               }
 
               const discountRate = calculateDiscountRate(originalPrice, discountedPrice)
+              const savings = calculateSavings(originalPrice, discountedPrice);
 
               // Skip if no discount for DC
               if (discountRate <= 0) return null
@@ -173,6 +189,12 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
                       %{discountRate}
                     </Badge>
                   </div>
+                  {selectedBattery && (
+                    <div className="flex items-center mt-1 text-xs text-green-600">
+                      <Battery className="size-3 mr-1" />
+                      <span>Tasarruf: {formatSavings(savings)}</span>
+                    </div>
+                  )}
                 </div>
               )
             })}

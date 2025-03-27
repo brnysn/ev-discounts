@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { DiscountFilters } from "@/components/discount-filters"
 import { DiscountCard } from "@/components/discount-card"
 import { Timeline } from "@/components/timeline"
-import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState } from "@/types"
+import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState, BatteryOption } from "@/types"
 import type { Company } from "@/types"
 import data from "./data/data.json"
 import { InfiniteSlider } from "@/components/ui/infinite-slider"
@@ -17,6 +17,10 @@ export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
   const [filteredDiscounts, setFilteredDiscounts] = useState<DiscountWithCompany[]>([])
   const [activeChargingPort, setActiveChargingPort] = useState<ChargingPort>("DC")
+  const [selectedBattery, setSelectedBattery] = useState<BatteryOption | null>({
+    label: 'Togg T10X Uzun',
+    battery: 88.5
+  })
 
   // Add refs for scrolling
   const campaignsRef = useRef<HTMLDivElement>(null);
@@ -89,6 +93,21 @@ export default function Home() {
   const calculateDiscountedPrice = (price: number, discountRate?: number) => {
     if (!discountRate) return price;
     return price * (1 - discountRate / 100);
+  }
+
+  // Calculate savings for selected battery
+  const calculateSavings = (originalPrice: number, discountedPrice: number) => {
+    if (!selectedBattery) return null;
+    const priceDifference = originalPrice - discountedPrice;
+    return priceDifference * selectedBattery.battery;
+  }
+
+  const handleBatteryChange = (battery: BatteryOption) => {
+    if (selectedBattery?.label === battery.label) {
+      setSelectedBattery(null);
+    } else {
+      setSelectedBattery(battery);
+    }
   }
 
   const applyFilters = (filterState: FilterState) => {
@@ -273,6 +292,8 @@ export default function Home() {
 
         <DiscountFilters
           onChange={applyFilters}
+          selectedBattery={selectedBattery}
+          onBatteryChange={handleBatteryChange}
         />
          
         {filteredDiscounts.length === 0 ? (
@@ -289,6 +310,8 @@ export default function Home() {
                 key={`${discount.company.name}-${index}`}
                 company={discount.company}
                 discount={discount}
+                selectedBattery={selectedBattery}
+                calculateSavings={calculateSavings}
               />
             ))}
           </div>

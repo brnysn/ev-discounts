@@ -43,4 +43,9 @@ export interface FilterState {
   carManufacturer: string | "all"
   sortBy: SortOption
   powerRange: string | "all"
+}
+
+export interface BatteryOption {
+  label: string
+  battery: number
 } 
