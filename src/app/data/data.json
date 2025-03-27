@@ -117,7 +117,11 @@
       {
         "ac": [
           {
-            "kwh": 22,
+            "kwh": "< 20",
+            "price": 6
+          },
+          {
+            "kwh": "20 >",
             "price": 6.50
           }
         ],
@@ -387,7 +391,11 @@
       {
         "ac": [
           {
-            "kwh": 22,
+            "kwh": "< 20",
+            "price": 5.79
+          },
+          {
+            "kwh": "20 >",
             "price": 6.49
           }
         ],
@@ -415,17 +423,17 @@
         "ac": [
           {
             "kwh": "< 11",
-            "price": 6.99
+            "price": 7.99
           },
           {
             "kwh": "11 >",
-            "price": 7.99
+            "price": 8.99
           }
         ],
         "dc": [
           {
             "kwh": "40 >",
-            "price": 10.49
+            "price": 11.49
           }
         ]
       }
@@ -477,7 +485,7 @@
       {
         "ac": [
           {
-            "kwh": "22",
+            "kwh": 22,
             "price": 7.99
           }
         ],
@@ -516,37 +524,6 @@
           {
             "kwh": "60 >",
             "price": 13.99
-          }
-        ]
-      }
-    ],
-    "discounts": []
-  },
-  {
-    "name": "Solarşarj",
-    "logo": "https://www.sarjfiyat.com/images/solarsarj_logo.svg",
-    "phone": "",
-    "website": "https://solarsarj.org/fiyatlar",
-    "prices": [
-      {
-        "ac": [
-          {
-            "kwh": "< 7",
-            "price": 8.99
-          },
-          {
-            "kwh": "7 >",
-            "price": 11.99
-          }
-        ],
-        "dc": [
-          {
-            "kwh": "< 60",
-            "price": 12.49
-          },
-          {
-            "kwh": "60 >",
-            "price": 12.49
           }
         ]
       }
