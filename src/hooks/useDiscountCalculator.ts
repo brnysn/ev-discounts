@@ -1,11 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { Company, DiscountWithCompany, ChargingPort, PriceGroup } from '@/types';
 
 interface DiscountCalculatorOptions {
   companies?: Company[];
   discounts?: DiscountWithCompany[];
   chargingPort?: ChargingPort;
-  powerRange?: string;
 }
 
 interface CalculatedPrice {
@@ -19,25 +18,24 @@ export function useDiscountCalculator({
   companies,
   discounts,
   chargingPort = 'DC',
-  powerRange = 'all',
 }: DiscountCalculatorOptions) {
-  const calculateDiscountedPrice = (price: number, discountRate?: number): number => {
+  const calculateDiscountedPrice = useCallback((price: number, discountRate?: number): number => {
     if (!discountRate) return price;
     return price * (1 - discountRate / 100);
-  };
+  }, []);
 
-  const getPrice = (prices: PriceGroup, type: ChargingPort, powerValue: string): number => {
+  const getPrice = useCallback((prices: PriceGroup, type: ChargingPort, powerValue: string): number => {
     const priceList = type.toLowerCase() === 'ac' ? prices.ac : prices.dc;
     const priceObj = priceList.find(p => p.kwh.toString() === powerValue);
     return priceObj ? priceObj.price : 0;
-  };
+  }, []);
 
-  const calculateDiscountRate = (originalPrice: number, discountedPrice: number): number => {
+  const calculateDiscountRate = useCallback((originalPrice: number, discountedPrice: number): number => {
     if (originalPrice === 0 || discountedPrice === originalPrice) return 0;
     return Number((((originalPrice - discountedPrice) / originalPrice) * 100).toFixed(2));
-  };
+  }, []);
 
-  const getLowestPrice = (
+  const getLowestPrice = useCallback((
     prices: PriceGroup,
     discount: DiscountWithCompany,
     chargeType: keyof PriceGroup
@@ -88,32 +86,30 @@ export function useDiscountCalculator({
       discountRate: resultDiscountRate,
       isZeroPrice: hasZeroPrice
     };
-  };
+  }, [calculateDiscountedPrice, calculateDiscountRate]);
 
-  const sortDiscounts = (discountsToSort: DiscountWithCompany[]): DiscountWithCompany[] => {
+  const sortDiscounts = useCallback((discountsToSort: DiscountWithCompany[]): DiscountWithCompany[] => {
     return [...discountsToSort].sort((a, b) => {
       const nowDate = new Date();
       const aStartDate = new Date(a.starts_at);
-      const aEndDate = new Date(a.ends_at);
       const bStartDate = new Date(b.starts_at);
+      const aEndDate = new Date(a.ends_at);
       const bEndDate = new Date(b.ends_at);
       
       const aIsActive = nowDate >= aStartDate && nowDate <= aEndDate;
       const bIsActive = nowDate >= bStartDate && nowDate <= bEndDate;
-      const aIsUpcoming = nowDate < aStartDate;
-      const bIsUpcoming = nowDate < bStartDate;
       
       // Active discounts first
       if (aIsActive && !bIsActive) return -1;
       if (!aIsActive && bIsActive) return 1;
       
-      if (aIsActive === bIsActive) {
+      // For active discounts, sort by DC discounted price
+      if (aIsActive && bIsActive) {
         const pricesA = a.discounted_prices || a.company.prices[0];
         const pricesB = b.discounted_prices || b.company.prices[0];
-        const chargeType = chargingPort.toLowerCase() as keyof PriceGroup;
         
-        const lowestPriceA = getLowestPrice(pricesA, a, chargeType);
-        const lowestPriceB = getLowestPrice(pricesB, b, chargeType);
+        const lowestPriceA = getLowestPrice(pricesA, a, 'dc');
+        const lowestPriceB = getLowestPrice(pricesB, b, 'dc');
         
         // Zero prices first
         if (lowestPriceA.isZeroPrice && !lowestPriceB.isZeroPrice) return -1;
@@ -123,13 +119,26 @@ export function useDiscountCalculator({
         return lowestPriceA.discountedPrice - lowestPriceB.discountedPrice;
       }
       
-      // Upcoming before expired
-      if (aIsUpcoming && !bIsUpcoming) return -1;
-      if (!aIsUpcoming && bIsUpcoming) return 1;
+      // For non-active discounts, sort by starts_at
+      if (aStartDate.getTime() !== bStartDate.getTime()) {
+        return aStartDate.getTime() - bStartDate.getTime();
+      }
       
-      return a.company.name.localeCompare(b.company.name);
+      // If starts_at are equal, sort by DC discounted price
+      const pricesA = a.discounted_prices || a.company.prices[0];
+      const pricesB = b.discounted_prices || b.company.prices[0];
+      
+      const lowestPriceA = getLowestPrice(pricesA, a, 'dc');
+      const lowestPriceB = getLowestPrice(pricesB, b, 'dc');
+      
+      // Zero prices first
+      if (lowestPriceA.isZeroPrice && !lowestPriceB.isZeroPrice) return -1;
+      if (!lowestPriceA.isZeroPrice && lowestPriceB.isZeroPrice) return 1;
+      
+      // Then sort by discounted price
+      return lowestPriceA.discountedPrice - lowestPriceB.discountedPrice;
     });
-  };
+  }, [getLowestPrice]);
 
   const getBestDeal = useMemo(() => {
     if (!companies?.length) return null;
@@ -189,12 +198,12 @@ export function useDiscountCalculator({
     });
 
     return bestDeal.company ? bestDeal : null;
-  }, [companies, chargingPort, powerRange]);
+  }, [companies, chargingPort, getPrice, calculateDiscountedPrice, calculateDiscountRate]);
 
   const sortedDiscounts = useMemo(() => {
     if (!discounts?.length) return [];
     return sortDiscounts(discounts);
-  }, [discounts, chargingPort]);
+  }, [discounts, sortDiscounts]);
 
   return {
     calculateDiscountedPrice,

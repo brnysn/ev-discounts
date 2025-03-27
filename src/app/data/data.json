@@ -191,7 +191,7 @@
       {
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-04-01 00:00:00",
-        "text": "Yalnızca QR kodu ile başlatılan işlemlerde geçerlidir.",
+        "text": "Yalnızca QR kod ile başlatılan işlemlerde geçerlidir.",
         "discounted_prices": {
           "ac": [
             {
