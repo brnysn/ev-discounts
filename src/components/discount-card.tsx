@@ -5,7 +5,7 @@ import { calculateDiscountRate, calculateDiscountedPrice, getDiscountStatus, get
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -240,18 +240,7 @@ export function DiscountCard({ company, discount }: DiscountCardProps) {
       
       <CardFooter className="pt-0 hidden sm:block">
         <TooltipProvider>
-          <div className="w-full flex justify-between items-center">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href={`tel:${company.phone}`}>
-                    <span className="text-xs">Ara</span>
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{company.phone}</TooltipContent>
-            </Tooltip>
-            
+          <div className="w-full flex justify-center items-center">
             {discount.url ? (
               <Button asChild>
                 <Link href={discount.url} target="_blank" rel="noopener noreferrer">

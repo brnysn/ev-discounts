@@ -579,6 +579,49 @@
     "discounts": []
   },
   {
+    "name": "Wat Mobilite",
+    "logo": "https://www.watmobilite.com/images/logo.svg",
+    "phone": "",
+    "website": "https://www.watmobilite.com/cozumler/kamusal-alanlar#guncel-fiyat-ve-tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": 22,
+            "price": 8.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "22 >",
+            "price": 10.89
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "starts_at": "2025-03-28 00:00:00",
+        "ends_at": "2025-04-01 00:00:00",
+        "text": "",
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": 22,
+              "price": 8.99
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "22 >",
+              "price": 9.99
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "name": "Zes",
     "logo": "https://zes.net/Uploads/Page/zes_yeni_logo_3.svg",
     "phone": "",
