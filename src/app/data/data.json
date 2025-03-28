@@ -555,7 +555,32 @@
         ]
       }
     ],
-    "discounts": []
+    "discounts": [
+      {
+        "starts_at": "2025-03-29 00:00:00",
+        "ends_at": "2025-04-02 00:00:00",
+        "text": "",
+        "cars": ["Togg"],
+        "discounted_prices":       {
+          "ac": [
+            {
+              "kwh": "",
+              "price": 0
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 150",
+              "price": 0
+            },
+            {
+              "kwh": "150 >",
+              "price": 0
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "name": "Voltrun",
