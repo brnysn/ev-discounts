@@ -15,7 +15,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Elektrikli Araç Şarj Kampanyaları",
-  description: "Tüm elektrikli araç şarj istasyonlarının kampanyalarını bulabileceğiniz platform",
+  description: "Ramazan bayramına özel elektrikli araç şarj kampanyaları. Beeful 1₺ şarj kampanyası. Epsis bedava şarj.",
+  icons: {
+    icon: '/images/logo.svg',
+    apple: '/images/logo.svg',
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +31,7 @@ export default function RootLayout({
     <html lang="tr">
       <head>
         <meta name="google-adsense-account" content="ca-pub-2397496183137321" />
+        <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-494PE0HRE7" />
         <Script id="google-analytics">
           {`
