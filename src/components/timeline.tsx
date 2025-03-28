@@ -8,6 +8,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
+import { TriangleAlert } from "lucide-react"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Alert } from "@/components/ui/alert"
 
 // Helper components
 interface PriceDisplayProps {
@@ -213,6 +220,34 @@ export function Timeline({ discounts }: TimelineProps) {
                         </div>
                       </div>
                     </div>
+
+                    {discount.text && (
+                      <>
+                        {/* Warning icon with popover - visible on all screens */}
+                        <div className="block">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <button className="p-1 hover:bg-gray-100 rounded-full">
+                                <TriangleAlert className="h-4 w-4 text-yellow-500" />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-80 p-4">
+                              <p className="text-sm">{discount.text}</p>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                        
+                        {/* Desktop: Additional text display */}
+                        <div className="hidden lg:block ml-2">
+                          <Alert
+                            className="py-1 px-2 text-xs"
+                            variant="warning"
+                          >
+                            <p className="text-xs">{discount.text}</p>
+                          </Alert>
+                        </div>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
               </div>

@@ -249,7 +249,11 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
         {discount.cars && discount.cars.length > 0 && (
           <div className="flex gap-1 mt-1 flex-wrap">
             {discount.cars.map((car) => (
-              <Badge key={car} variant="outline" className="text-xs">
+              <Badge 
+                key={car} 
+                variant="outline" 
+                className="text-xs bg-red-50 text-red-700 border-red-200 hover:bg-red-100"
+              >
                 {car}
               </Badge>
             ))}
