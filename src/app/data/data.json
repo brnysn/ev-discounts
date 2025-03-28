@@ -470,7 +470,7 @@
     "discounts": [
       {
         "starts_at": "2025-03-28 00:00:00",
-        "ends_at": "2025-04-04 00:00:00",
+        "ends_at": "2025-04-06 00:00:00",
         "text": "Site içi AC istasyonlar dahil değildir.",
         "discount_rate": 20
       }
