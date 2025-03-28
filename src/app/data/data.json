@@ -558,6 +558,38 @@
     "discounts": []
   },
   {
+    "name": "Voltrun",
+    "logo": "https://www.voltrun.com/wp-content/uploads/2020/08/logo-footer.png",
+    "phone": "",
+    "website": "https://www.voltrun.com/voltrun-uyelik-tarife/#tarife",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.29
+          },
+          {
+            "kwh": "",
+            "price": 9.29
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 100",
+            "price": 10.49
+          },
+          {
+            "kwh": "100 >",
+            "price": 12.49
+          }
+        ]
+      }
+    ],
+    "discounts": [
+    ]
+  },
+  {
     "name": "Wat Mobilite",
     "logo": "https://www.watmobilite.com/images/logo.svg",
     "phone": "",

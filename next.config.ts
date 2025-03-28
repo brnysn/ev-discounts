@@ -43,6 +43,11 @@ const nextConfig: NextConfig = {
         hostname: 'www.enerturk.com',
         pathname: '/application/themes/mediaclick/assets/img/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.voltrun.com',
+        pathname: '/wp-content/uploads/**',
+      },
     ],
   },
 };

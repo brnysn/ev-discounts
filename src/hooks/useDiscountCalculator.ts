@@ -5,6 +5,7 @@ interface DiscountCalculatorOptions {
   companies?: Company[];
   discounts?: DiscountWithCompany[];
   chargingPort?: ChargingPort;
+  powerRange?: string;
 }
 
 interface CalculatedPrice {
@@ -18,6 +19,7 @@ export function useDiscountCalculator({
   companies,
   discounts,
   chargingPort = 'DC',
+  powerRange = 'all',
 }: DiscountCalculatorOptions) {
   const calculateDiscountedPrice = useCallback((price: number, discountRate?: number): number => {
     if (!discountRate) return price;
@@ -152,9 +154,15 @@ export function useDiscountCalculator({
 
     companies.forEach((company) => {
       const prices = company.prices[0];
-      const powerRanges = chargingPort === "AC" 
+      let powerRanges = chargingPort === "AC" 
         ? prices.ac.map(p => p.kwh.toString())
         : prices.dc.map(p => p.kwh.toString());
+      
+      // Filter by powerRange if it's not 'all'
+      if (powerRange !== 'all') {
+        powerRanges = powerRanges.filter(range => range === powerRange);
+        if (powerRanges.length === 0) return; // Skip this company if no matching power range
+      }
       
       powerRanges.forEach((range) => {
         const basePrice = getPrice(company.prices[0], chargingPort, range);
@@ -198,12 +206,23 @@ export function useDiscountCalculator({
     });
 
     return bestDeal.company ? bestDeal : null;
-  }, [companies, chargingPort, getPrice, calculateDiscountedPrice, calculateDiscountRate]);
+  }, [companies, chargingPort, powerRange, getPrice, calculateDiscountedPrice, calculateDiscountRate]);
 
   const sortedDiscounts = useMemo(() => {
     if (!discounts?.length) return [];
-    return sortDiscounts(discounts);
-  }, [discounts, sortDiscounts]);
+    
+    // Filter discounts by powerRange if it's not 'all'
+    let filteredDiscounts = discounts;
+    if (powerRange !== 'all') {
+      filteredDiscounts = discounts.filter(discount => {
+        const prices = discount.discounted_prices || discount.company.prices[0];
+        const chargeType = chargingPort.toLowerCase() as keyof PriceGroup;
+        return prices[chargeType].some(price => price.kwh.toString() === powerRange);
+      });
+    }
+    
+    return sortDiscounts(filteredDiscounts);
+  }, [discounts, sortDiscounts, powerRange, chargingPort]);
 
   return {
     calculateDiscountedPrice,
