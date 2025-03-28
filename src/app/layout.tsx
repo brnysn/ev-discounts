@@ -26,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
+        <meta name="google-adsense-account" content="ca-pub-2397496183137321" />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-494PE0HRE7" />
         <Script id="google-analytics">
           {`
