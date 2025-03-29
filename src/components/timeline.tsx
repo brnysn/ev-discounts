@@ -38,7 +38,13 @@ function PriceDisplay({ prices, type, company, discount }: PriceDisplayProps) {
   if (discount.discount_rate) {
     discountedPrice = calculateDiscountedPrice(originalPrice, discount.discount_rate)
   } else if (discount.discounted_prices) {
-    discountedPrice = getPrice(discount.discounted_prices, type, firstPrice.kwh.toString())
+    // Get the first price from discounted_prices for this type
+    const discountedTypePrices = discount.discounted_prices[type.toLowerCase() as keyof typeof discount.discounted_prices]
+    if (discountedTypePrices && discountedTypePrices.length > 0) {
+      // Find matching kwh range or use first price if no match
+      const matchingPrice = discountedTypePrices.find((p: { kwh: string | number, price: number }) => p.kwh === firstPrice.kwh) || discountedTypePrices[0]
+      discountedPrice = matchingPrice.price
+    }
   }
 
   const discountRate = calculateDiscountRate(originalPrice, discountedPrice)

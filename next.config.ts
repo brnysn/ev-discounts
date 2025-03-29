@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'mercurysarj.com.tr',
+        pathname: '/wp-content/uploads/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.mig-go.com',
         pathname: '/images/**',
       },

@@ -112,7 +112,10 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
         {/* Always show AC prices */}
         <div className="flex flex-col space-y-1">
           <div className="text-xs text-muted-foreground">AC</div>
-          {acPowerRanges.map((range: string | number) => {
+          {acPowerRanges.map((range: string | number, index: number) => {
+            // Skip if range is empty and not the first item
+            if (range === "" && index > 0) return null;
+            
             const originalPrice = getPrice(company.prices[0], "AC", range.toString())
             let discountedPrice = originalPrice
 
@@ -126,7 +129,7 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
             const savings = calculateSavings(originalPrice, discountedPrice);
 
             return (
-              <div key={range} className="flex flex-col">
+              <div key={`ac-${range || 'default'}-${index}`} className="flex flex-col">
                 {range !== "" && (
                   <div className="text-xs text-muted-foreground">{range} kWh</div>
                 )}
@@ -163,7 +166,10 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
         {hasDcDiscounts && (
           <div className="flex flex-col space-y-1">
             <div className="text-xs text-muted-foreground">DC</div>
-            {dcPowerRanges.map((range: string | number) => {
+            {dcPowerRanges.map((range: string | number, index: number) => {
+              // Skip if range is empty and not the first item
+              if (range === "" && index > 0) return null;
+              
               const originalPrice = getPrice(company.prices[0], "DC", range.toString())
               let discountedPrice = originalPrice
 
@@ -180,7 +186,7 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
               if (discountRate <= 0) return null
 
               return (
-                <div key={range} className="flex flex-col">
+                <div key={`dc-${range || 'default'}-${index}`} className="flex flex-col">
                   {range !== "" && (
                     <div className="text-xs text-muted-foreground">{range} kWh</div>
                   )}
