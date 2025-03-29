@@ -186,10 +186,16 @@ export function Timeline({ discounts }: TimelineProps) {
                   maxWidth: '100%'
                 }}
               >
-                <Card className="overflow-hidden h-12 sm:h-14 border-l-4 shadow-sm hover:shadow my-2" 
+                <Card className="overflow-hidden h-12 sm:h-14 border-l-4 shadow-sm hover:shadow my-2 cursor-pointer" 
                   style={{ 
                     borderLeftColor: getColorForDiscount(discount.company.name),
                     width: '100%'
+                  }}
+                  onClick={() => {
+                    const element = document.getElementById(`discount-${discount.company.name.toLowerCase().replace(/\s+/g, '-')}`)
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                    }
                   }}
                 >
                   <CardContent className="p-1 flex items-center h-full">
@@ -233,7 +239,10 @@ export function Timeline({ discounts }: TimelineProps) {
                         <div className="block">
                           <Popover>
                             <PopoverTrigger asChild>
-                              <button className="p-1 hover:bg-gray-100 rounded-full">
+                              <button 
+                                className="p-1 hover:bg-gray-100 rounded-full"
+                                onClick={(e) => e.stopPropagation()}
+                              >
                                 <TriangleAlert className="h-4 w-4 text-yellow-500" />
                               </button>
                             </PopoverTrigger>

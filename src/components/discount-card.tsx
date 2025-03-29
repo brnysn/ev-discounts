@@ -226,7 +226,7 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
   };
   
   return (
-    <Card className="h-full flex flex-col">
+    <Card id={`discount-${company.name.toLowerCase().replace(/\s+/g, '-')}`} className="h-full flex flex-col">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between mb-2">
           <Image 

@@ -145,14 +145,19 @@ export default function Home() {
         <div className="container mx-auto py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center ml-4">
-              <Image 
-                src="/images/logo.svg" 
-                alt="EV Şarj Kampanyaları Logo" 
-                width={40} 
-                height={40} 
-                className="mr-3"
-              />
-              <h1 className="text-2xl font-bold">Şarj Kampanya</h1>
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="flex items-center hover:opacity-80 transition-opacity"
+              >
+                <Image 
+                  src="/images/logo.svg" 
+                  alt="EV Şarj Kampanyaları Logo" 
+                  width={40} 
+                  height={40} 
+                  className="mr-3"
+                />
+                <h1 className="text-2xl font-bold">Şarj Kampanya</h1>
+              </button>
             </div>
             <div className="flex space-x-4">
               <Button 
