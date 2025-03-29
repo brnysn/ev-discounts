@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "EV Şarj Kampanyaları",
-  description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
+  description: "Ramazan bayramı şarj kampanyaları. Trugo Togg Bedava Beeful 1₺ şarj kampanyası. Epsis bedava şarj.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
