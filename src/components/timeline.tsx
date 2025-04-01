@@ -135,7 +135,6 @@ export function Timeline({ discounts }: TimelineProps) {
             
             const endDate = parseISO(discount.ends_at)
             const isEndDateToday = isSameDay(endDate, today)
-            const isEndDateTomorrow = isSameDay(endDate, addDays(today, 1))
             const isLastDay = endDate.getTime() === days[6].getTime()
             
             // If ends_at is 23:59 and it's today (not last day), add one day
