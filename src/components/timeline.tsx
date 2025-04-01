@@ -79,6 +79,15 @@ export function Timeline({ discounts }: TimelineProps) {
   // Filter only active and upcoming discounts
   const activeAndUpcomingDiscounts = discounts.filter(discount => {
     const endDate = parseISO(discount.ends_at)
+    const isEndDateToday = isSameDay(endDate, today)
+    
+    // If ends_at is 23:59 and it's today, add one day to show until end of day
+    if (endDate.getHours() === 23 && endDate.getMinutes() === 59 && isEndDateToday) {
+      endDate.setDate(endDate.getDate() + 1)
+      endDate.setHours(0, 0, 0, 0)
+    } else {
+      endDate.setHours(0, 0, 0, 0)
+    }
     return endDate >= today
   })
 
@@ -125,6 +134,13 @@ export function Timeline({ discounts }: TimelineProps) {
             startDate.setHours(0, 0, 0, 0) // Normalize to start of day for calculation
             
             const endDate = parseISO(discount.ends_at)
+            const isEndDateToday = isSameDay(endDate, today)
+            const isLastDay = endDate.getTime() === days[6].getTime()
+            
+            // If ends_at is 23:59 and it's today (not last day), add one day
+            if (endDate.getHours() === 23 && endDate.getMinutes() === 59 && isEndDateToday && !isLastDay) {
+              endDate.setDate(endDate.getDate() + 1)
+            }
             // Normalize to start of day for consistent calculation
             endDate.setHours(0, 0, 0, 0)
             
