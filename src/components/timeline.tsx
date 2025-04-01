@@ -135,6 +135,7 @@ export function Timeline({ discounts }: TimelineProps) {
             
             const endDate = parseISO(discount.ends_at)
             const isEndDateToday = isSameDay(endDate, today)
+            const isEndDateTomorrow = isSameDay(endDate, addDays(today, 1))
             const isLastDay = endDate.getTime() === days[6].getTime()
             
             // If ends_at is 23:59 and it's today (not last day), add one day
@@ -251,32 +252,46 @@ export function Timeline({ discounts }: TimelineProps) {
 
                     {discount.text && (
                       <>
-                        {/* Warning icon with popover - visible on all screens */}
-                        <div className="block">
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <button 
-                                className="p-1 hover:bg-gray-100 rounded-full"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <TriangleAlert className="h-4 w-4 text-yellow-500" />
-                              </button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-80 p-4">
-                              <p className="text-sm">{discount.text}</p>
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                        
-                        {/* Desktop: Additional text display */}
-                        <div className="hidden lg:block ml-2">
-                          <Alert
-                            className="py-1 px-2 text-xs"
-                            variant="warning"
-                          >
-                            <p className="text-xs">{discount.text}</p>
-                          </Alert>
-                        </div>
+                        {/* Check if discount ends today or tomorrow */}
+                        {(() => {
+                          const endDate = parseISO(discount.ends_at)
+                          const isEndDateToday = isSameDay(endDate, today)
+                          const isEndDateTomorrow = isSameDay(endDate, addDays(today, 1))
+                          
+                          // Don't show text if ends today or tomorrow
+                          if (isEndDateToday || isEndDateTomorrow) return null
+                          
+                          return (
+                            <>
+                              {/* Warning icon with popover - visible on all screens */}
+                              <div className="block">
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <button 
+                                      className="p-1 hover:bg-gray-100 rounded-full"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      <TriangleAlert className="h-4 w-4 text-yellow-500" />
+                                    </button>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-80 p-4">
+                                    <p className="text-sm">{discount.text}</p>
+                                  </PopoverContent>
+                                </Popover>
+                              </div>
+                              
+                              {/* Desktop: Additional text display */}
+                              <div className="hidden lg:block ml-2">
+                                <Alert
+                                  className="py-1 px-2 text-xs"
+                                  variant="warning"
+                                >
+                                  <p className="text-xs">{discount.text}</p>
+                                </Alert>
+                              </div>
+                            </>
+                          )
+                        })()}
                       </>
                     )}
                   </CardContent>
