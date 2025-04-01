@@ -167,6 +167,7 @@ export function useDiscountCalculator({
       powerRanges.forEach((range) => {
         const basePrice = getPrice(company.prices[0], chargingPort, range);
         let cheapestPrice = basePrice;
+
         let bestDiscountRate = 0;
         
         if (company.discounts) {
@@ -194,7 +195,15 @@ export function useDiscountCalculator({
           });
         }
         
-        if (cheapestPrice < bestDeal.price) {
+        // If we have a zero price, it should be considered the best deal
+        if (cheapestPrice === 0 && (!bestDeal.company || bestDeal.price > 0)) {
+          bestDeal = {
+            company: company.name,
+            price: cheapestPrice,
+            powerRange: range,
+            discountRate: bestDiscountRate
+          };
+        } else if (cheapestPrice < bestDeal.price && bestDeal.price > 0) {
           bestDeal = {
             company: company.name,
             price: cheapestPrice,
