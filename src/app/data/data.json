@@ -314,57 +314,6 @@
     "discounts": []
   },
   {
-    "name": "Mercury Şarj",
-    "logo": "https://mercurysarj.com.tr/wp-content/uploads/2021/08/Mercury_Logo.png",
-    "phone": "",
-    "website": "https://mercurysarj.com.tr/fiyatlandirma",
-    "prices": [
-      {
-        "ac": [
-          {
-            "kwh": "",
-            "price": 7.39
-          }
-        ],
-        "dc": [
-          {
-            "kwh": "< 100",
-            "price": 7.99
-          },
-          {
-            "kwh": "100 >",
-            "price": 8.99
-          }
-        ]
-      }
-    ],
-    "discounts": [
-      {
-        "starts_at": "2025-03-29 00:00:00",
-        "ends_at": "2025-04-01 23:59:00",
-        "text": "",
-        "discounted_prices":       {
-          "ac": [
-            {
-              "kwh": "",
-              "price": 5.49
-            }
-          ],
-          "dc": [
-            {
-              "kwh": "< 100",
-              "price": 5.49
-            },
-            {
-              "kwh": "100 >",
-              "price": 5.49
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
     "name": "Miggo",
     "logo": "https://www.mig-go.com/images/custom-img/Logo_white.svg",
     "phone": "",
