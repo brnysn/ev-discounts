@@ -91,6 +91,11 @@ export function Timeline({ discounts }: TimelineProps) {
     return endDate >= today
   })
 
+  // Don't render the timeline if there are no active or upcoming discounts
+  if (activeAndUpcomingDiscounts.length === 0) {
+    return null
+  }
+
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-bold mb-6">Kampanya Takvimi</h2>

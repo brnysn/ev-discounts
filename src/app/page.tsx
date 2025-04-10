@@ -182,7 +182,9 @@ export default function Home() {
       </header>
       
       <main className="container mx-auto py-8 px-4">
-        <Timeline discounts={filteredDiscounts} />
+        {filteredDiscounts.length > 0 && (
+          <Timeline discounts={filteredDiscounts} />
+        )}
         
         <div className="mb-8 pt-4" ref={campaignsRef}>
           <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
