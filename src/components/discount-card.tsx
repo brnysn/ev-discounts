@@ -235,6 +235,7 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
             width={48}
             height={48}
             className="h-12 w-auto object-contain"
+            unoptimized
           />
           <Badge 
             variant={getBadgeVariant()}

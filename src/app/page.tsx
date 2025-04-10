@@ -155,6 +155,8 @@ export default function Home() {
                   width={40} 
                   height={40} 
                   className="mr-3"
+                  priority
+                  unoptimized
                 />
                 <h1 className="text-2xl font-bold">Şarj Kampanya</h1>
               </button>
@@ -234,6 +236,7 @@ export default function Home() {
                 width={80}
                 height={80}
                 className="rounded-full"
+                quality={75}
               />
             </a>
           </div>
@@ -254,6 +257,7 @@ export default function Home() {
                 width={48}
                 height={48}
                 className="h-12 w-auto object-contain"
+                unoptimized
               />
             ))}
           </InfiniteSlider>

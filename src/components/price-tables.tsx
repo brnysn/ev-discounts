@@ -89,7 +89,7 @@ function PriceTable({
         accessorFn: (row) => row.company,
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
-            <Image src={row.original.logo} alt={row.getValue("company")} width={32} height={32} className="w-8 h-8 object-contain" />
+            <Image src={row.original.logo} alt={row.getValue("company")} width={32} height={32} className="w-8 h-8 object-contain" unoptimized />
             <span className="font-semibold">{row.getValue("company")}</span>
           </div>
         ),
