@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "EV Şarj Kampanyaları",
+  title: "Elektrikli Araç Şarj Kampanyaları",
   description: "Ramazan bayramı şarj kampanyaları. Trugo Togg Bedava Beeful 1₺ şarj kampanyası. Epsis bedava şarj.",
   icons: {
     icon: [
@@ -39,32 +39,32 @@ export const metadata: Metadata = {
   },
   themeColor: "#ffffff",
   applicationName: "Şarj Kampanya",
-  keywords: ["elektrikli araç", "şarj", "kampanya", "indirim", "fiyat karşılaştırma"],
-  authors: [{ name: "EV Kampanyaları" }],
-  creator: "EV Kampanyaları",
-  publisher: "EV Kampanyaları",
+  keywords: ["elektrikli araç", "şarj", "kampanya", "indirim", "fiyat karşılaştırma", "togg", "bedava şarj", "epsis", "beeful", "trugo", "bedava şarj", "epsis", "beeful", "astor"],
+  authors: [{ name: "Yasin Baran", url: "https://yasinbaran.com", }],
+  creator: "Yasin Baran",
+  publisher: "Yasin Baran",
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "https://evkampanyalari.com",
-    siteName: "EV Şarj Kampanyaları",
-    title: "EV Şarj Kampanyaları",
+    url: "https://sarjkampanya.com",
+    siteName: "Elektrikli Araç Şarj Kampanyaları",
+    title: "Elektrikli Araç Şarj Kampanyaları",
     description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
     images: [
       {
         url: "/images/logo.svg",
         width: 512,
         height: 512,
-        alt: "EV Şarj Kampanyaları Logo",
+        alt: "Elektrikli Araç Şarj Kampanyaları Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EV Şarj Kampanyaları",
+    title: "Elektrikli Araç Şarj Kampanyaları",
     description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
     images: ["/images/logo.svg"],
   },
@@ -79,11 +79,8 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-site-verification",
-  },
   alternates: {
-    canonical: "https://evkampanyalari.com",
+    canonical: "https://sarjkampanya.com",
   },
 };
 
@@ -101,6 +98,12 @@ export default function RootLayout({
         <link rel="icon" href="/icon1.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <meta name="description" content="Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun." />
+        <meta name="keywords" content="elektrikli araç, şarj, kampanya, indirim, fiyat karşılaştırma, togg, bedava şarj, epsis, beeful, trugo, bedava şarj, epsis, beeful, astor" />
+        <meta name="author" content="Yasin Baran" />
+        <meta name="publisher" content="Yasin Baran" />
+        <meta name="creator" content="Yasin Baran" />
+        <meta name="robots" content="index, follow" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Şarj Kampanya" />
