@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, type SetStateAction } from "react"
+import { useState, useRef, type SetStateAction, useEffect } from "react"
 import * as React from "react"
 import { FilterState, BatteryOption } from "@/types"
 import Filters, { 
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/command"
 import { ListFilter, CircleDashed, Zap, Battery } from "lucide-react"
 import { v4 as uuidv4 } from "uuid"
+import { Switch } from "@/components/ui/switch"
 
 // Define battery options
 export const batteryOptions: BatteryOption[] = [
@@ -107,7 +108,24 @@ export function DiscountFilters({ onChange, selectedBattery, onBatteryChange }: 
   const [open, setOpen] = useState(false)
   const [selectedView, setSelectedView] = useState<FilterType | null>(null)
   const [commandInput, setCommandInput] = useState("")
+  const [showPastDiscounts, setShowPastDiscounts] = useState(false)
   const commandInputRef = useRef<HTMLInputElement>(null)
+  
+  // Apply initial filter state when component mounts
+  useEffect(() => {
+    // Only run this effect once on mount
+    const initialFilterState: FilterState = {
+      status: "all",
+      chargingPort: "all",
+      carManufacturer: "all",
+      sortBy: "ac-lowest",
+      powerRange: "all",
+      showPastDiscounts: showPastDiscounts
+    };
+    
+    onChange(initialFilterState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array to run only once
   
   // Map the filters to FilterState and trigger onChange callback
   const handleFiltersChange = (newFiltersOrFunction: SetStateAction<Filter[]>) => {
@@ -124,7 +142,8 @@ export function DiscountFilters({ onChange, selectedBattery, onBatteryChange }: 
       chargingPort: "all",
       carManufacturer: "all",
       sortBy: "ac-lowest",
-      powerRange: "all"
+      powerRange: "all",
+      showPastDiscounts: showPastDiscounts
     }
     
     newFilters.forEach((filter: Filter) => {
@@ -152,11 +171,61 @@ export function DiscountFilters({ onChange, selectedBattery, onBatteryChange }: 
     
     onChange(newFilterState)
   }
+
+  const handleShowPastDiscountsChange = (checked: boolean) => {
+    setShowPastDiscounts(checked);
+    
+    // Update filter state with the new showPastDiscounts value
+    const newFilterState: FilterState = {
+      status: "all",
+      chargingPort: "all",
+      carManufacturer: "all",
+      sortBy: "ac-lowest",
+      powerRange: "all",
+      showPastDiscounts: checked
+    }
+    
+    // Apply any existing filters
+    filters.forEach((filter: Filter) => {
+      switch (filter.type) {
+        case FilterType.STATUS:
+          if (filter.value.includes("Aktif")) {
+            newFilterState.status = "current"
+          } else if (filter.value.includes("Yakında")) {
+            newFilterState.status = "soon"
+          } else if (filter.value.includes("Geçmiş")) {
+            newFilterState.status = "passed"
+          }
+          break
+          
+        case FilterType.CHARGE_PORT:
+          if (filter.value.includes("AC")) {
+            newFilterState.chargingPort = "AC"
+          } else if (filter.value.includes("DC")) {
+            newFilterState.chargingPort = "DC"
+          }
+          break
+      }
+    })
+    
+    onChange(newFilterState)
+  }
   
   return (
     <div className="mb-4">
       <div className="flex gap-2 flex-wrap justify-between">
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap items-center">
+          <div className="flex items-center gap-2 mr-2">
+            <label htmlFor="show-past-discounts" className="text-sm font-medium">
+              Geçmişleri Göster
+            </label>
+            <Switch 
+              id="show-past-discounts" 
+              checked={showPastDiscounts}
+              onCheckedChange={handleShowPastDiscountsChange}
+            />
+          </div>
+          
           <Filters 
             filters={filters} 
             setFilters={handleFiltersChange} 

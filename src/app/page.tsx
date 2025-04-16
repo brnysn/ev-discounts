@@ -51,7 +51,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // Collect all discounts with their company information
+    // Load all discounts initially - we'll filter in applyFilters later
     const initialDiscounts = (data as Company[]).flatMap((company) =>
       company.discounts.map((discount) => ({
         ...discount,
@@ -59,7 +59,14 @@ export default function Home() {
       }))
     );
     
-    setFilteredDiscounts(sortDiscounts(initialDiscounts));
+    // Filter out past discounts by default
+    const now = new Date();
+    const currentAndUpcomingDiscounts = initialDiscounts.filter(discount => {
+      const endDate = new Date(discount.ends_at);
+      return now <= endDate; // Keep only current and upcoming discounts
+    });
+    
+    setFilteredDiscounts(sortDiscounts(currentAndUpcomingDiscounts));
   }, [sortDiscounts])
 
   // Calculate savings for selected battery
@@ -79,6 +86,7 @@ export default function Home() {
 
   const applyFilters = (filterState: FilterState) => {
     setSelectedPowerRange(filterState.powerRange);
+    
     if (filterState.chargingPort !== "all") {
       setActiveChargingPort(filterState.chargingPort);
     }
@@ -107,6 +115,13 @@ export default function Home() {
           default:
             return true;
         }
+      });
+    } else if (!filterState.showPastDiscounts) {
+      // If not showing past discounts and no specific status filter is applied
+      const now = new Date();
+      filteredDiscounts = filteredDiscounts.filter((discount) => {
+        const endDate = new Date(discount.ends_at);
+        return now <= endDate; // Filter out past discounts
       });
     }
 
@@ -150,7 +165,7 @@ export default function Home() {
                 className="flex items-center hover:opacity-80 transition-opacity"
               >
                 <Image 
-                  src="/images/logo.svg" 
+                  src="/images/logo.svg"
                   alt="EV Şarj Kampanyaları Logo" 
                   width={40} 
                   height={40} 

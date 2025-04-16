@@ -43,6 +43,7 @@ export interface FilterState {
   carManufacturer: string | "all"
   sortBy: SortOption
   powerRange: string | "all"
+  showPastDiscounts: boolean
 }
 
 export interface BatteryOption {
