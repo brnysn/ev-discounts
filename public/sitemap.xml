@@ -28,6 +28,10 @@
       <image:title>Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri</image:title>
     </image:image>
     <news:news>
+      <news:publication>
+        <news:name>Şarj Kampanya</news:name>
+        <news:language>tr</news:language>
+      </news:publication>
       <news:publication_date>2025-04-16</news:publication_date>
       <news:title>Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri</news:title>
     </news:news>
@@ -43,6 +47,10 @@
       <image:title>Şarj İstasyonları Karşılaştırma | Fiyat ve Hizmet Analizi</image:title>
     </image:image>
     <news:news>
+      <news:publication>
+        <news:name>Şarj Kampanya</news:name>
+        <news:language>tr</news:language>
+      </news:publication>
       <news:publication_date>2025-04-13</news:publication_date>
       <news:title>Şarj İstasyonları Karşılaştırma | Fiyat ve Hizmet Analizi</news:title>
     </news:news>
@@ -58,6 +66,10 @@
       <image:title>Elektrikli Araç Batarya Ömrünü Uzatma Rehberi</image:title>
     </image:image>
     <news:news>
+      <news:publication>
+        <news:name>Şarj Kampanya</news:name>
+        <news:language>tr</news:language>
+      </news:publication>
       <news:publication_date>2025-04-10</news:publication_date>
       <news:title>Elektrikli Araç Batarya Ömrünü Uzatma Rehberi</news:title>
     </news:news>
