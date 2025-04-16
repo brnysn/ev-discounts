@@ -15,6 +15,7 @@ import { Blog } from "@/components/ui/blog"
 import Image from "next/image"
 import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 import { CustomNavbar } from "@/components/custom-navbar"
+import { FaqSection } from "@/components/faq-section"
 
 export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
@@ -28,6 +29,7 @@ export default function Home() {
   // Add refs for scrolling
   const campaignsRef = useRef<HTMLDivElement>(null);
   const pricesRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
   
   const { sortDiscounts } = useDiscountCalculator({
     discounts: filteredDiscounts,
@@ -48,6 +50,14 @@ export default function Home() {
     if (pricesRef.current) {
       const yOffset = -80; // header height plus some padding
       const y = pricesRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+  
+  const scrollToFaq = () => {
+    if (faqRef.current) {
+      const yOffset = -80; // header height plus some padding
+      const y = faqRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
@@ -161,12 +171,14 @@ export default function Home() {
       <CustomNavbar 
         scrollFunctions={{
           campaigns: scrollToCampaigns,
-          prices: scrollToPrices
+          prices: scrollToPrices,
+          faq: scrollToFaq
         }}
         menu={[
           { title: "Kampanyalar", url: "#kampanyalar" },
           { title: "Fiyatlar", url: "#fiyatlar" },
-          { title: "Blog", url: "/blog" }
+          { title: "Blog", url: "/blog" },
+          { title: "SSS", url: "#sss" }
         ]}
       />
       
@@ -226,6 +238,10 @@ export default function Home() {
         <div className="mt-12 pt-4" ref={pricesRef} id="fiyatlar">
           <h2 className="text-2xl font-bold mb-8">Fiyat Karşılaştırması</h2>
           <PriceTables data={data as Company[]} />
+        </div>
+        
+        <div className="mt-16" ref={faqRef}>
+          <FaqSection />
         </div>
       </main>
        

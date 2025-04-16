@@ -13,7 +13,8 @@ export default function BlogLayout({
         menu={[
           { title: "Kampanyalar", url: "/#kampanyalar" },
           { title: "Fiyatlar", url: "/#fiyatlar" },
-          { title: "Blog", url: "/blog" }
+          { title: "Blog", url: "/blog" },
+          { title: "SSS", url: "/#sss" }
         ]}
         activeSection="blog"
       />

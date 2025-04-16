@@ -48,6 +48,7 @@ interface CustomNavbarProps {
   scrollFunctions?: {
     campaigns?: () => void;
     prices?: () => void;
+    faq?: () => void;
   };
   activeSection?: string;
 }
@@ -63,6 +64,7 @@ export function CustomNavbar({
     { title: "Kampanyalar", url: "#kampanyalar" },
     { title: "Fiyatlar", url: "#fiyatlar" },
     { title: "Blog", url: "/blog" },
+    { title: "SSS", url: "#sss" }
   ],
   scrollFunctions,
   activeSection
@@ -87,6 +89,8 @@ export function CustomNavbar({
               setCurrentSection("kampanyalar");
             } else if (id === "fiyatlar") {
               setCurrentSection("fiyatlar");
+            } else if (id === "sss") {
+              setCurrentSection("sss");
             }
           }
         });
@@ -97,13 +101,16 @@ export function CustomNavbar({
     // Observe sections
     const campaignsSection = document.getElementById("kampanyalar");
     const pricesSection = document.getElementById("fiyatlar");
+    const faqSection = document.getElementById("sss");
 
     if (campaignsSection) observer.observe(campaignsSection);
     if (pricesSection) observer.observe(pricesSection);
+    if (faqSection) observer.observe(faqSection);
 
     return () => {
       if (campaignsSection) observer.unobserve(campaignsSection);
       if (pricesSection) observer.unobserve(pricesSection);
+      if (faqSection) observer.unobserve(faqSection);
     };
   }, [activeSection]);
   
@@ -114,6 +121,15 @@ export function CustomNavbar({
       scrollFunctions.campaigns();
     } else if (menuItem.url === "#fiyatlar" && scrollFunctions?.prices) {
       scrollFunctions.prices();
+    } else if (menuItem.url === "#sss" && scrollFunctions?.faq) {
+      scrollFunctions.faq();
+    } else if (menuItem.url.startsWith('#')) {
+      const element = document.getElementById(menuItem.url.substring(1));
+      if (element) {
+        const yOffset = -80; // header height plus padding
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     } else if (!menuItem.url.startsWith('#')) {
       window.location.href = menuItem.url;
     }
@@ -130,6 +146,10 @@ export function CustomNavbar({
     }
     
     if (item.url === "#fiyatlar" && currentSection === "fiyatlar") {
+      return true;
+    }
+    
+    if (item.url === "#sss" && currentSection === "sss") {
       return true;
     }
     
