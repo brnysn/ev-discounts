@@ -7,12 +7,14 @@ import { Timeline } from "@/components/timeline"
 import { ChargingPort, DiscountWithCompany, PriceGroup, FilterState, BatteryOption } from "@/types"
 import type { Company } from "@/types"
 import data from "./data/data.json"
+import { blogPosts } from "./data/blog-posts"
 import { InfiniteSlider } from "@/components/ui/infinite-slider"
 import { AnnouncementPill } from "@/components/announcement-pill"
 import { PriceTables } from "@/components/price-tables"
+import { Blog } from "@/components/ui/blog"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
+import { CustomNavbar } from "@/components/custom-navbar"
 
 export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
@@ -156,56 +158,28 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center ml-4">
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center hover:opacity-80 transition-opacity"
-              >
-                <Image 
-                  src="/images/logo.svg"
-                  alt="EV Şarj Kampanyaları Logo" 
-                  width={40} 
-                  height={40} 
-                  className="mr-1"
-                  priority
-                  unoptimized
-                />
-                <h1 className="text-2xl font-bold text-left">Şarj Kampanya</h1>
-              </button>
-            </div>
-            <div className="flex space-x-4">
-              <Button 
-                variant="ghost" 
-                onClick={scrollToCampaigns}
-                className="font-medium px-1 mr-0"
-              >
-                Kampanyalar
-              </Button>
-              <Button 
-                variant="ghost" 
-                onClick={scrollToPrices}
-                className="font-medium px-1"
-              >
-                Fiyatlar
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <CustomNavbar 
+        scrollFunctions={{
+          campaigns: scrollToCampaigns,
+          prices: scrollToPrices
+        }}
+        menu={[
+          { title: "Kampanyalar", url: "#kampanyalar" },
+          { title: "Fiyatlar", url: "#fiyatlar" },
+          { title: "Blog", url: "/blog" }
+        ]}
+      />
       
       <main className="container mx-auto py-8 px-4">
         {filteredDiscounts.length > 0 && (
           <Timeline discounts={filteredDiscounts} />
         )}
         
-        <div className="mb-8 pt-4" ref={campaignsRef}>
+        <div className="mb-8 pt-4" ref={campaignsRef} id="kampanyalar">
           <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
           <div className="flex items-center justify-between">
             <p className="text-muted-foreground">
-              Çeşitli sağlayıcılardan en iyi elektrikli araç şarj kampanyalarını bulun ve karşılaştırın
+              Türkiye genelinde elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
             </p>
           </div>
         </div>
@@ -218,9 +192,9 @@ export default function Home() {
          
         {filteredDiscounts.length === 0 ? (
           <div className="text-center py-12">
-            <h3 className="text-xl font-medium mb-2">Kampanya bulunamadı</h3>
+            <h3 className="text-xl font-medium mb-2">Seçtiğiniz kriterlere uygun kampanya bulunamadı</h3>
             <p className="text-muted-foreground">
-              Filtrelerinizi değiştirmeyi deneyin veya yeni teklifler için daha sonra tekrar kontrol edin.
+              Seçtiğiniz kriterlere uygun kampanya şu anda bulunamadı. Filtrelerinizi genişleterek yeni kampanyaları keşfedebilirsiniz. Elektrikli araç sahipleri için en uygun şarj tarifelerini bulmak için buradayız.
             </p>
           </div>
         ) : (
@@ -237,7 +211,19 @@ export default function Home() {
           </div>
         )}
 
-        <div className="mt-12 pt-4" ref={pricesRef}>
+        {/* Blog Section */}
+        <div className="mt-16 mb-8">
+          <Blog 
+            tagline="Elektrikli Araç Dünyası"
+            heading="Bilgi Merkezi"
+            description="Elektrikli araç kullanıcıları için faydalı bilgiler, tasarruf ipuçları ve sektördeki son gelişmeler. En verimli şarj stratejileri ve elektrikli araç bakımı konularında uzman görüşlerimizi okuyun."
+            buttonText="Tüm yazılara göz atın"
+            buttonUrl="/blog"
+            posts={blogPosts}
+          />
+        </div>
+
+        <div className="mt-12 pt-4" ref={pricesRef} id="fiyatlar">
           <h2 className="text-2xl font-bold mb-8">Fiyat Karşılaştırması</h2>
           <PriceTables data={data as Company[]} />
         </div>

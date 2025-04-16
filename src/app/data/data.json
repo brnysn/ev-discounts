@@ -735,7 +735,7 @@
         "name": "1000. Şarj Soketine Özel",
         "starts_at": "2025-04-14 00:00:00",
         "ends_at": "2025-04-20 23:59:00",
-        "text": "",
+        "text": "Sadece Dc istasyonlarında geçerlidir.",
         "discounted_prices": {
           "ac": [
             {
