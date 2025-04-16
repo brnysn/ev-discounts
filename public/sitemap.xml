@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
     <loc>https://sarjkampanya.com/</loc>
     <lastmod>2025-04-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://sarjkampanya.com/images/logo.svg</image:loc>
+      <image:caption>Elektrikli Araç Şarj Kampanyaları Logo</image:caption>
+      <image:title>Elektrikli Araç Şarj Kampanyaları</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://sarjkampanya.com/blog</loc>
@@ -17,17 +22,44 @@
     <lastmod>2025-04-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://sarjkampanya.com/images/sarj-strateji.jpg</image:loc>
+      <image:caption>Elektrikli Araç Şarj Stratejileri</image:caption>
+      <image:title>Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri</image:title>
+    </image:image>
+    <news:news>
+      <news:publication_date>2025-04-16</news:publication_date>
+      <news:title>Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri</news:title>
+    </news:news>
   </url>
   <url>
     <loc>https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma</loc>
     <lastmod>2025-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://sarjkampanya.com/images/istasyon-karsilastirma.webp</image:loc>
+      <image:caption>Şarj İstasyonları Karşılaştırma</image:caption>
+      <image:title>Şarj İstasyonları Karşılaştırma | Fiyat ve Hizmet Analizi</image:title>
+    </image:image>
+    <news:news>
+      <news:publication_date>2025-04-13</news:publication_date>
+      <news:title>Şarj İstasyonları Karşılaştırma | Fiyat ve Hizmet Analizi</news:title>
+    </news:news>
   </url>
   <url>
     <loc>https://sarjkampanya.com/blog/batarya-omru</loc>
     <lastmod>2025-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://sarjkampanya.com/images/batarya-omru.jpg</image:loc>
+      <image:caption>Elektrikli Araç Batarya Ömrü</image:caption>
+      <image:title>Elektrikli Araç Batarya Ömrünü Uzatma Rehberi</image:title>
+    </image:image>
+    <news:news>
+      <news:publication_date>2025-04-10</news:publication_date>
+      <news:title>Elektrikli Araç Batarya Ömrünü Uzatma Rehberi</news:title>
+    </news:news>
   </url>
 </urlset> 

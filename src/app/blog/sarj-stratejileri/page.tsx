@@ -1,6 +1,7 @@
 "use client"
 
 import { BlogPost } from "@/components/ui/blog-post"
+import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { 
   Moon, 
@@ -20,6 +21,14 @@ export default function SarjStratejileri() {
   
   return (
     <div className="min-h-screen bg-gray-50">
+      <BlogStructuredData 
+        title="Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri"
+        description="Elektrikli araç kullanıcıları için uygun şarj stratejileri, kampanya takibi ve tasarruf yöntemleri hakkında kapsamlı rehber."
+        datePublished="2025-04-16"
+        imageUrl="https://sarjkampanya.com/images/sarj-strateji.jpg"
+        authorName="Yasin Baran"
+        canonicalUrl="https://sarjkampanya.com/blog/sarj-stratejileri"
+      />
       <BlogPost
         title={post.title}
         label={post.label}

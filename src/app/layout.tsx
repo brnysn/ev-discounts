@@ -124,6 +124,38 @@ export default function RootLayout({
           crossOrigin="anonymous"
           id="google-adsense"
         />
+        <Script id="structured-data" type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Elektrikli Araç Şarj Kampanyaları",
+              "alternateName": "Şarj Kampanya",
+              "url": "https://sarjkampanya.com",
+              "description": "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://sarjkampanya.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              },
+              "author": {
+                "@type": "Person",
+                "name": "Yasin Baran",
+                "url": "https://yasinbaran.com"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Şarj Kampanya",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://sarjkampanya.com/images/logo.svg",
+                  "width": "512",
+                  "height": "512"
+                }
+              }
+            }
+          `}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
