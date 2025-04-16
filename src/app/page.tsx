@@ -154,25 +154,25 @@ export default function Home() {
                   alt="EV Şarj Kampanyaları Logo" 
                   width={40} 
                   height={40} 
-                  className="mr-3"
+                  className="mr-1"
                   priority
                   unoptimized
                 />
-                <h1 className="text-2xl font-bold">Şarj Kampanya</h1>
+                <h1 className="text-2xl font-bold text-left">Şarj Kampanya</h1>
               </button>
             </div>
             <div className="flex space-x-4">
               <Button 
                 variant="ghost" 
                 onClick={scrollToCampaigns}
-                className="font-medium"
+                className="font-medium px-1 mr-0"
               >
                 Kampanyalar
               </Button>
               <Button 
                 variant="ghost" 
                 onClick={scrollToPrices}
-                className="font-medium"
+                className="font-medium px-1"
               >
                 Fiyatlar
               </Button>
