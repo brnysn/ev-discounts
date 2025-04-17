@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,29 +38,37 @@ const Blog = ({
   posts = [],
 }: BlogProps) => {
   return (
-    <section className="py-16">
-      <div className="container mx-auto flex flex-col items-center gap-8 px-4 lg:px-16">
-        <div className="text-center">
-          <Badge variant="secondary" className="mb-4">
-            {tagline}
-          </Badge>
-          <h2 className="mb-3 text-pretty text-2xl font-semibold md:mb-4 md:text-3xl lg:mb-6 lg:max-w-3xl lg:text-4xl">
-            {heading}
-          </h2>
-          <p className="mb-6 text-muted-foreground md:text-base lg:max-w-2xl lg:text-lg">
-            {description}
-          </p>
-          <Button variant="link" className="w-full sm:w-auto" asChild>
-            <a href={buttonUrl}>
-              {buttonText}
-              <ArrowRight className="ml-2 size-4" />
-            </a>
-          </Button>
+    <section className="py-12 md:py-16 lg:py-20">
+      <div className="container mx-auto px-4">
+        <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+          <div className="col-span-full mb-8 lg:col-span-2">
+            {tagline && (
+              <p className="font-medium text-primary">{tagline}</p>
+            )}
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+              {heading}
+            </h2>
+            {description && (
+              <p className="mt-4 text-muted-foreground md:text-lg">
+                {description}
+              </p>
+            )}
+            {buttonText && buttonUrl && (
+              <div className="mt-6">
+                <Button asChild variant="outline">
+                  <a href={buttonUrl}>
+                    {buttonText} <ArrowRight className="ml-2 size-4" />
+                  </a>
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
+        
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {posts.map((post, index) => (
             <Card key={post.id} className="grid grid-rows-[auto_auto_1fr_auto]">
-              <div className="aspect-[16/9] w-full relative overflow-hidden" style={{ minHeight: '200px' }}>
+              <div className="aspect-[16/9] w-full relative overflow-hidden">
                 <a
                   href={post.url}
                   className="transition-opacity duration-200 hover:opacity-70 block h-full w-full"

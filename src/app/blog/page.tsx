@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function BlogPage() {
   return (
@@ -29,17 +30,21 @@ export default function BlogPage() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post) => (
+          {blogPosts.map((post, index) => (
             <Card key={post.id} className="grid grid-rows-[auto_auto_1fr_auto]">
-              <div className="aspect-[16/9] w-full">
+              <div className="aspect-[16/9] w-full relative overflow-hidden">
                 <Link
                   href={post.url}
-                  className="transition-opacity duration-200 hover:opacity-70 block"
+                  className="transition-opacity duration-200 hover:opacity-70 block h-full w-full"
                 >
-                  <img
+                  <Image
                     src={post.image}
                     alt={post.title}
-                    className="h-full w-full object-cover object-center"
+                    className="object-cover object-center"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={index < 3}
+                    loading={index < 3 ? "eager" : "lazy"}
                   />
                 </Link>
               </div>

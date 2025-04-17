@@ -7,6 +7,7 @@ import {
   Home 
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface BlogPostProps {
   title: string;
@@ -50,16 +51,19 @@ export function BlogPost({
       </div>
       
       {image && (
-        <div className="mb-10 overflow-hidden rounded-lg shadow-md">
-          <img 
+        <div className="mb-10 overflow-hidden rounded-lg shadow-md relative aspect-[21/9]">
+          <Image 
             src={image} 
             alt={title} 
-            className="w-full h-auto object-cover aspect-[21/9]" 
+            className="object-cover" 
+            fill
+            sizes="(max-width: 768px) 100vw, 800px"
+            priority
           />
         </div>
       )}
       
-      <div className="prose prose-lg max-w-none prose-headings:text-primary prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-strong:font-bold prose-strong:text-primary">
+      <div className="prose prose-lg max-w-none prose-headings:text-primary prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-strong:font-bold prose-strong:text-primary prose-img:rounded-md prose-img:mx-auto prose-img:max-w-full prose-img:max-h-[500px] prose-img:object-contain">
         {children}
       </div>
       

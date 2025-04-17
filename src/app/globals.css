@@ -120,3 +120,51 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add to the end of the file */
+
+/* Fix for Next.js Image inline styles */
+img[loading="lazy"] {
+  color: transparent;
+}
+
+.next-image-container {
+  position: relative;
+}
+
+.next-image-container img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: transparent;
+}
+
+/* Fix for Radix UI inline styles */
+[data-radix-accordion-content] {
+  --radix-accordion-content-height: var(--radix-collapsible-content-height);
+  --radix-accordion-content-width: var(--radix-collapsible-content-width);
+}
+
+/* Fix for inline flex styles */
+.slider-container {
+  gap: 30px;
+  flex-direction: row;
+}
+
+/* Fix for image wrappers with minimum height */
+.min-h-img-container {
+  min-height: 200px;
+}
+
+/* Fix for transforms */
+.transform-offscreen {
+  transform: translateX(-100%);
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  margin: 0;
+}

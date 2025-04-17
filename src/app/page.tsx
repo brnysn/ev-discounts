@@ -252,7 +252,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex justify-center mb-8">
             <a href="https://fullplus.team/" target="_blank" rel="noopener noreferrer">
-              <div className="w-20 h-20 relative">
+              <div className="w-20 h-20 relative next-image-container">
                 <Image
                   src="/images/full.jpg"
                   alt="Full+ Team"
