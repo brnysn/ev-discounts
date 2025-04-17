@@ -248,13 +248,12 @@ export default function Home() {
       <footer className="bg-white py-8 border-t mt-12">
         <div className="container mx-auto px-4">
           <div className="flex justify-center mb-8">
-            <a href="https://t.me/ToggSahipleri" target="_blank" rel="noopener noreferrer">
+            <a href="https://fullplus.team/" target="_blank" rel="noopener noreferrer">
               <Image
-                src="/images/easahipleri.jpg"
+                src="/images/full.webp"
                 alt="Elektrikli Araç Sahipleri"
                 width={80}
                 height={80}
-                className="rounded-full"
                 quality={75}
               />
             </a>
@@ -263,9 +262,9 @@ export default function Home() {
             Elektrikli araç şarj firmaları
           </h2>
           <InfiniteSlider 
-            gap={24} 
-            duration={25}
-            durationOnHover={40}
+            gap={30} 
+            duration={30}
+            durationOnHover={140}
             className="w-full h-full bg-white"
           >
             {data.map((company) => (
@@ -281,7 +280,7 @@ export default function Home() {
             ))}
           </InfiniteSlider>
           <div className="text-center text-muted-foreground text-sm mt-8">
-            © {new Date().getFullYear()} EV Kampanyaları. Tüm hakları saklıdır.
+            © {new Date().getFullYear()} Şarj Kampanya. Tüm hakları saklıdır.
           </div>
         </div>
       </footer>
