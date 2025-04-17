@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Elektrikli Araç Şarj Kampanyaları",
-  description: "Ramazan bayramı şarj kampanyaları. Trugo Togg Bedava Beeful 1₺ şarj kampanyası. Epsis bedava şarj.",
+  description: "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     url: "https://sarjkampanya.com",
     siteName: "Elektrikli Araç Şarj Kampanyaları",
     title: "Elektrikli Araç Şarj Kampanyaları",
-    description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
+    description: "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
     images: [
       {
         url: "https://sarjkampanya.com/images/logo.svg",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Elektrikli Araç Şarj Kampanyaları",
-    description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
+    description: "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
     images: ["https://sarjkampanya.com/images/logo.svg"],
   },
   robots: {
@@ -98,7 +98,6 @@ export default function RootLayout({
         <link rel="icon" href="/icon1.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="description" content="Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun." />
         <meta name="keywords" content="elektrikli araç, şarj, kampanya, indirim, fiyat karşılaştırma, togg, bedava şarj, epsis, beeful, trugo, bedava şarj, epsis, beeful, astor" />
         <meta name="author" content="Yasin Baran" />
         <meta name="publisher" content="Yasin Baran" />
@@ -132,7 +131,7 @@ export default function RootLayout({
               "name": "Elektrikli Araç Şarj Kampanyaları",
               "alternateName": "Şarj Kampanya",
               "url": "https://sarjkampanya.com",
-              "description": "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
+              "description": "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": "https://sarjkampanya.com/search?q={search_term_string}",
