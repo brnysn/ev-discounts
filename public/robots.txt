@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
 
+# Disallow Next.js static files and other resources
+Disallow: /_next/static/css/
+Disallow: /_next/static/media/
+Disallow: /manifest.json
+Disallow: /favicon.ico
+
+# Specific rules for Google
+User-agent: Googlebot
+Disallow: /_next/
+Disallow: /manifest.json
+Disallow: /favicon.ico
+
 Sitemap: https://sarjkampanya.com/sitemap.xml 
