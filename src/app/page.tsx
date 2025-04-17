@@ -183,19 +183,20 @@ export default function Home() {
       />
       
       <main className="container mx-auto py-8 px-4">
-        <div className="min-h-[200px]">
-          {filteredDiscounts.length > 0 && (
-            <Timeline discounts={filteredDiscounts} />
-          )}
+        <h1 className="text-3xl font-bold mb-4">Elektrikli Araç Şarj Kampanyaları</h1>
+        <div className="flex items-center justify-between">
+          <p className="text-muted-foreground">
+            Türkiye genelinde elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
+          </p>
         </div>
+        {filteredDiscounts.length > 0 && (
+          <div className="min-h-[200px] pt-4">
+            <Timeline discounts={filteredDiscounts} />
+          </div>
+        )}
         
         <div className="mb-8 pt-4" ref={campaignsRef} id="kampanyalar">
           <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
-          <div className="flex items-center justify-between">
-            <p className="text-muted-foreground">
-              Türkiye genelinde elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
-            </p>
-          </div>
         </div>
 
         <DiscountFilters

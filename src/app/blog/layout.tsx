@@ -1,6 +1,13 @@
-"use client"
+import type { Metadata } from "next"
+import { BlogNavbar } from "@/components/blog-navbar"
 
-import { CustomNavbar } from "@/components/custom-navbar"
+export const metadata: Metadata = {
+  title: "Blog | Elektrikli Araç Şarj Kampanyaları",
+  description: "Elektrikli araç şarj istasyonları hakkında bilgiler, şarj stratejileri ve daha fazlası.",
+  alternates: {
+    canonical: "https://sarjkampanya.com/blog",
+  },
+}
 
 export default function BlogLayout({
   children,
@@ -9,15 +16,7 @@ export default function BlogLayout({
 }) {
   return (
     <>
-      <CustomNavbar 
-        menu={[
-          { title: "Kampanyalar", url: "/#kampanyalar" },
-          { title: "Fiyatlar", url: "/#fiyatlar" },
-          { title: "Blog", url: "/blog" },
-          { title: "SSS", url: "/#sss" }
-        ]}
-        activeSection="blog"
-      />
+      <BlogNavbar />
       {children}
     </>
   )

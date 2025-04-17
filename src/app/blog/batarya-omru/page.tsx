@@ -9,6 +9,9 @@ import {
   Clock, 
   RefreshCw
 } from "lucide-react"
+import { metadata } from "./metadata"
+
+export { metadata }
 
 export default function BataryaOmru() {
   const post = blogPosts.find(post => post.id === "post-3")

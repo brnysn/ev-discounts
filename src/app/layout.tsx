@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
     images: [
       {
-        url: "/images/logo.svg",
+        url: "https://sarjkampanya.com/images/logo.svg",
         width: 512,
         height: 512,
         alt: "Elektrikli Araç Şarj Kampanyaları Logo",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Elektrikli Araç Şarj Kampanyaları",
     description: "Elektrikli araç şarj istasyonları kampanyalarını karşılaştırın ve en iyi fırsatları bulun.",
-    images: ["/images/logo.svg"],
+    images: ["https://sarjkampanya.com/images/logo.svg"],
   },
   robots: {
     index: true,
