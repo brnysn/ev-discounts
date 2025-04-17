@@ -237,6 +237,7 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
               height={48}
               className="h-12 w-auto object-contain"
               unoptimized
+              loading="eager"
             />
           </div>
           <Badge 

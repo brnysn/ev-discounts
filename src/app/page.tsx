@@ -259,6 +259,7 @@ export default function Home() {
                   sizes="80px"
                   className="object-contain"
                   priority
+                  unoptimized
                 />
               </div>
             </a>
@@ -284,6 +285,7 @@ export default function Home() {
                   height={48}
                   className="h-12 w-auto object-contain"
                   unoptimized
+                  loading="eager"
                 />
               </div>
             ))}

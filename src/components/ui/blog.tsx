@@ -61,7 +61,7 @@ const Blog = ({
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {posts.map((post, index) => (
             <Card key={post.id} className="grid grid-rows-[auto_auto_1fr_auto]">
-              <div className="aspect-[16/9] w-full relative overflow-hidden">
+              <div className="aspect-[16/9] w-full relative overflow-hidden" style={{ minHeight: '200px' }}>
                 <a
                   href={post.url}
                   className="transition-opacity duration-200 hover:opacity-70 block h-full w-full"
@@ -73,6 +73,8 @@ const Blog = ({
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index < 3}
+                    loading={index < 3 ? "eager" : "lazy"}
+                    unoptimized
                   />
                 </a>
               </div>
