@@ -51,7 +51,7 @@ export function BlogPost({
       </div>
       
       {image && (
-        <div className="mb-10 overflow-hidden rounded-lg shadow-md relative aspect-[21/9]">
+        <div className="mb-10 overflow-hidden rounded-lg shadow-md relative aspect-[21/9] min-h-[300px]">
           <Image 
             src={image} 
             alt={title} 
@@ -59,6 +59,7 @@ export function BlogPost({
             fill
             sizes="(max-width: 768px) 100vw, 800px"
             priority
+            unoptimized
           />
         </div>
       )}
