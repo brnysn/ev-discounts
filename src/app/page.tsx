@@ -255,6 +255,7 @@ export default function Home() {
                 width={80}
                 height={80}
                 quality={75}
+                priority
               />
             </a>
           </div>
@@ -263,7 +264,7 @@ export default function Home() {
           </h2>
           <InfiniteSlider 
             gap={30} 
-            duration={30}
+            duration={20}
             durationOnHover={140}
             className="w-full h-full bg-white"
           >
