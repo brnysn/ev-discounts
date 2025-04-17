@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     authors: ["Yasin Baran"],
     images: [
       {
-        url: "https://sarjkampanya.com/images/batarya-omru.jpg",
+        url: "/images/batarya-omru.jpg",
         width: 1200,
         height: 630,
         alt: "Elektrikli Araç Batarya Ömrü",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Elektrikli Araç Batarya Ömrünü Uzatma Rehberi",
     description: "Elektrikli aracınızın batarya ömrünü uzatmak için 5 etkili yöntem.",
-    images: ["https://sarjkampanya.com/images/batarya-omru.jpg"],
+    images: ["/images/batarya-omru.jpg"],
   },
   alternates: {
     canonical: "https://sarjkampanya.com/blog/batarya-omru",
