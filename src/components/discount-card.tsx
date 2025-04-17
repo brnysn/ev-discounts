@@ -229,14 +229,16 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
     <Card id={`discount-${company.name.toLowerCase().replace(/\s+/g, '-')}`} className="h-full flex flex-col">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between mb-2">
-          <Image 
-            src={company.logo} 
-            alt={company.name}
-            width={48}
-            height={48}
-            className="h-12 w-auto object-contain"
-            unoptimized
-          />
+          <div className="h-12 w-24 relative flex items-center">
+            <Image 
+              src={company.logo} 
+              alt={company.name}
+              width={48}
+              height={48}
+              className="h-12 w-auto object-contain"
+              unoptimized
+            />
+          </div>
           <Badge 
             variant={getBadgeVariant()}
             className={cn(

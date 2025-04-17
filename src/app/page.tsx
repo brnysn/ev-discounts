@@ -183,9 +183,11 @@ export default function Home() {
       />
       
       <main className="container mx-auto py-8 px-4">
-        {filteredDiscounts.length > 0 && (
-          <Timeline discounts={filteredDiscounts} />
-        )}
+        <div className="min-h-[200px]">
+          {filteredDiscounts.length > 0 && (
+            <Timeline discounts={filteredDiscounts} />
+          )}
+        </div>
         
         <div className="mb-8 pt-4" ref={campaignsRef} id="kampanyalar">
           <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
@@ -210,7 +212,7 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]">
             {filteredDiscounts.map((discount, index) => (
               <DiscountCard
                 key={`${discount.company.name}-${index}`}
@@ -249,14 +251,16 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex justify-center mb-8">
             <a href="https://fullplus.team/" target="_blank" rel="noopener noreferrer">
-              <Image
-                src="/images/full.webp"
-                alt="Elektrikli Araç Sahipleri"
-                width={80}
-                height={80}
-                quality={75}
-                priority
-              />
+              <div className="w-20 h-20 relative">
+                <Image
+                  src="/images/full.webp"
+                  alt="Full+ Team"
+                  fill
+                  sizes="80px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </a>
           </div>
           <h2 className="text-xl font-semibold text-center mb-6">
@@ -269,15 +273,19 @@ export default function Home() {
             className="w-full h-full bg-white"
           >
             {data.map((company) => (
-              <Image
+              <div 
                 key={company.name}
-                src={company.logo}
-                alt={company.name}
-                width={48}
-                height={48}
-                className="h-12 w-auto object-contain"
-                unoptimized
-              />
+                className="h-12 w-auto min-w-[100px] flex items-center justify-center"
+              >
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto object-contain"
+                  unoptimized
+                />
+              </div>
             ))}
           </InfiniteSlider>
           <div className="text-center text-muted-foreground text-sm mt-8">
