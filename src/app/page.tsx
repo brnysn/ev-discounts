@@ -253,7 +253,7 @@ export default function Home() {
             <a href="https://fullplus.team/" target="_blank" rel="noopener noreferrer">
               <div className="w-20 h-20 relative">
                 <Image
-                  src="/images/full.webp"
+                  src="/images/full.jpg"
                   alt="Full+ Team"
                   fill
                   sizes="80px"
