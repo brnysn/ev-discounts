@@ -284,16 +284,6 @@ export function Timeline({ discounts }: TimelineProps) {
                                   </PopoverContent>
                                 </Popover>
                               </div>
-                              
-                              {/* Desktop: Additional text display */}
-                              <div className="hidden lg:block ml-2">
-                                <Alert
-                                  className="py-1 px-2 text-xs"
-                                  variant="warning"
-                                >
-                                  <p className="text-xs">{discount.text}</p>
-                                </Alert>
-                              </div>
                             </>
                           )
                         })()}
