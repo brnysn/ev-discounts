@@ -14,7 +14,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Alert } from "@/components/ui/alert"
 
 // Helper components
 interface PriceDisplayProps {
