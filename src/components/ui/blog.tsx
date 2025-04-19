@@ -40,8 +40,8 @@ const Blog = ({
   return (
     <section className="py-12 md:py-16 lg:py-20">
       <div className="container mx-auto px-4">
-        <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-          <div className="col-span-full mb-8 lg:col-span-2">
+        <div className="grid gap-6 md:gap-8">
+          <div className="mx-auto max-w-2xl text-center">
             {tagline && (
               <p className="font-medium text-primary">{tagline}</p>
             )}
@@ -54,7 +54,7 @@ const Blog = ({
               </p>
             )}
             {buttonText && buttonUrl && (
-              <div className="mt-6">
+              <div className="mt-6 flex justify-center">
                 <Button asChild variant="outline">
                   <a href={buttonUrl}>
                     {buttonText} <ArrowRight className="ml-2 size-4" />
@@ -65,9 +65,9 @@ const Blog = ({
           </div>
         </div>
         
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {posts.map((post, index) => (
-            <Card key={post.id} className="grid grid-rows-[auto_auto_1fr_auto]">
+            <Card key={post.id} className="grid grid-rows-[auto_auto_1fr_auto] text-left">
               <div className="aspect-[16/9] w-full relative overflow-hidden">
                 <a
                   href={post.url}
