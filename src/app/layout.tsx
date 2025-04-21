@@ -132,11 +132,6 @@ export default function RootLayout({
               "alternateName": "Şarj Kampanya",
               "url": "https://sarjkampanya.com",
               "description": "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://sarjkampanya.com/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              },
               "author": {
                 "@type": "Person",
                 "name": "Yasin Baran",
