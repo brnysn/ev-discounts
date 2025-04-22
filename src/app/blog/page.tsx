@@ -63,7 +63,7 @@ export default function BlogPage() {
                 <p className="text-muted-foreground">{post.summary}</p>
               </CardContent>
               <CardFooter className="flex justify-between items-center">
-                <span className="text-sm font-medium">{post.author}</span>
+                {/* <span className="text-sm font-medium">{post.author}</span> */}
                 <Link
                   href={post.url}
                   className="flex items-center text-foreground hover:underline"

@@ -45,7 +45,7 @@ export function BlogPost({
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <UserIcon className="mr-2 h-4 w-4" />
-            <span>{author}</span>
+            {/* <span>{author}</span> */}
           </div>
         </div>
       </div>
