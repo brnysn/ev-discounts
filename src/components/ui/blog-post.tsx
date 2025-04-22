@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { 
   CalendarIcon,
   Tags, 
-  UserIcon, 
   ArrowLeft, 
   Home 
 } from "lucide-react";
@@ -12,7 +11,6 @@ import Image from "next/image";
 interface BlogPostProps {
   title: string;
   label: string;
-  author: string;
   published: string;
   image: string;
   children: React.ReactNode;
@@ -21,7 +19,6 @@ interface BlogPostProps {
 export function BlogPost({
   title,
   label,
-  author,
   published,
   image,
   children,
@@ -43,15 +40,15 @@ export function BlogPost({
             <CalendarIcon className="mr-2 h-4 w-4" />
             <span>{published}</span>
           </div>
-          <div className="flex items-center text-sm text-muted-foreground">
+          {/* <div className="flex items-center text-sm text-muted-foreground">
             <UserIcon className="mr-2 h-4 w-4" />
-            {/* <span>{author}</span> */}
-          </div>
+            <span>{author}</span>
+          </div> */}
         </div>
       </div>
       
       {image && (
-        <div className="mb-10 overflow-hidden rounded-lg shadow-md relative aspect-[21/9] min-h-[300px]">
+        <div className="mb-10 relative w-full rounded-lg shadow-md overflow-hidden" style={{ aspectRatio: '21/9' }}>
           <Image 
             src={image} 
             alt={title} 
@@ -64,7 +61,7 @@ export function BlogPost({
         </div>
       )}
       
-      <div className="prose prose-lg max-w-none prose-headings:text-primary prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-strong:font-bold prose-strong:text-primary prose-img:rounded-md prose-img:mx-auto prose-img:max-w-full prose-img:max-h-[500px] prose-img:object-contain">
+      <div className="prose prose-lg max-w-none prose-img:w-full prose-img:mx-auto prose-img:rounded-md prose-img:my-6 md:prose-img:max-w-full prose-headings:text-primary prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-strong:font-bold prose-strong:text-primary">
         {children}
       </div>
       

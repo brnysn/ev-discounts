@@ -237,7 +237,7 @@ export function CustomNavbar({
         
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            <Link href={logo.url} className="flex items-center gap-2">
+            <Link href={logo.url} className="flex items-center gap-2 ml-2">
               <Image 
                 src={logo.src}
                 alt={logo.alt}
@@ -250,7 +250,7 @@ export function CustomNavbar({
               <span className="text-lg font-semibold">{logo.title}</span>
             </Link>
             <Sheet>
-              <SheetTrigger asChild>
+              <SheetTrigger asChild className="mr-2">
                 <Button variant="outline" size="icon">
                   <Menu className="size-4" />
                 </Button>

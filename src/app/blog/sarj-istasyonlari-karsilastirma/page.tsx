@@ -21,7 +21,6 @@ export default function SarjIstasyonlariKarsilastirma() {
       <BlogPost
         title={post.title}
         label={post.label}
-        author={post.author}
         published={post.published}
         image={post.image}
       >

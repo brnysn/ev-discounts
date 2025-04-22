@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -12,6 +12,13 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#ffffff",
+};
 
 export const metadata: Metadata = {
   title: "Elektrikli Araç Şarj Kampanyaları",
@@ -32,12 +39,6 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Şarj Kampanya",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: "#ffffff",
   applicationName: "Şarj Kampanya",
   keywords: ["elektrikli araç", "şarj", "kampanya", "indirim", "fiyat karşılaştırma", "togg", "bedava şarj", "epsis", "beeful", "trugo", "bedava şarj", "epsis", "beeful", "astor"],
   authors: [{ name: "Yasin Baran", url: "https://yasinbaran.com", }],

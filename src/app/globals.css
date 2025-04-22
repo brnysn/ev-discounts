@@ -160,6 +160,15 @@ img[loading="lazy"] {
   min-height: 200px;
 }
 
+/* Fix for blog post images on mobile */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Fix for transforms */
 .transform-offscreen {
   transform: translateX(-100%);

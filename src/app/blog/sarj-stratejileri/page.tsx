@@ -32,7 +32,6 @@ export default function SarjStratejileri() {
       <BlogPost
         title={post.title}
         label={post.label}
-        author={post.author}
         published={post.published}
         image={post.image}
       >
