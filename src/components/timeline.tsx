@@ -73,7 +73,7 @@ export function Timeline({ discounts }: TimelineProps) {
   // Generate the next 7 days for the timeline and set first day to start of current day
   const today = new Date()
   today.setHours(0, 0, 0, 0) // Set to beginning of day for consistent calculations
-  const days = Array.from({ length: 7 }, (_, i) => addDays(today, i))
+  const days = Array.from({ length: 5 }, (_, i) => addDays(today, i))
   
   // Filter only active and upcoming discounts
   const activeAndUpcomingDiscounts = discounts.filter(discount => {
@@ -139,7 +139,7 @@ export function Timeline({ discounts }: TimelineProps) {
             
             const endDate = parseISO(discount.ends_at)
             const isEndDateToday = isSameDay(endDate, today)
-            const isLastDay = endDate.getTime() === days[6].getTime()
+            const isLastDay = endDate.getTime() === days[3].getTime()
             
             // If ends_at is 23:59 and it's today (not last day), add one day
             if (endDate.getHours() === 23 && endDate.getMinutes() === 59 && isEndDateToday && !isLastDay) {
@@ -193,7 +193,7 @@ export function Timeline({ discounts }: TimelineProps) {
             }
             
             // Ensure minimum width and convert to percentage
-            const width = (Math.max(0.25, widthDays) / 6) * 100
+            const width = (Math.max(0.25, widthDays) / 4) * 100
             
             return (
               <div 
