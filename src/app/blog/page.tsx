@@ -11,6 +11,8 @@ import {
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { ClientAnnouncementPill } from "@/components/client-announcement-pill"
+import data from "../data/data.json"
 
 export default function BlogPage() {
   return (
@@ -82,6 +84,8 @@ export default function BlogPage() {
           </Link>
         </div>
       </main>
+      
+      <ClientAnnouncementPill companies={data} />
     </div>
   )
 } 

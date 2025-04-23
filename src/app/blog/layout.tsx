@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   },
 }
 
+// Simple layout without client components to avoid hydration errors
 export default function BlogLayout({
   children,
 }: {
