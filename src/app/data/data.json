@@ -363,6 +363,53 @@
     "discounts": []
   },
   {
+    "name": "Multiforce",
+    "logo": "https://multiforce.com.tr/assets/img/icon/logo.png",
+    "phone": "",
+    "website": "https://multiforce.com.tr/price.html",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "AC",
+            "price": 6.50
+          },
+          {
+            "kwh": "AC-2",
+            "price": 5.76
+          },
+          {
+            "kwh": "AC-3",
+            "price": 5.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "DC",
+            "price": 8.9
+          },
+          {
+            "kwh": "DC-2",
+            "price": 10.9
+          },
+          {
+            "kwh": "DC-3",
+            "price": 8.39
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "name": "23 Nisan 2025",
+        "starts_at": "2025-04-23 00:00:00",
+        "ends_at": "2025-04-24 00:00:00",
+        "text": "",
+        "discount_rate": 23
+      }
+    ]
+  },
+  {
     "name": "oncharge",
     "logo": "https://www.sarjfiyat.com/images/oncharge_logo.png",
     "phone": "",

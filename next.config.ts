@@ -43,6 +43,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'multiforce.com.tr',
+        pathname: '/assets/img/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.epsis.net',
         pathname: '/wp-content/uploads/**',
       },
