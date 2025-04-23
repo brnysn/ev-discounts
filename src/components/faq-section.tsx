@@ -27,7 +27,7 @@ const defaultFaqItems: FaqItem[] = [
     question: "sarjkampanya.com nedir?",
     answer: (
       <p>
-        sarjkampanya.com, Türkiye&apos;deki elektrikli araç şarj istasyonu firmalarının güncel fiyatlarını, kampanyalarını ve avantajlarını karşılaştırabileceğiniz bağımsız bir platformdur. Hedefimiz, elektrikli araç kullanıcılarının en uygun şarj seçeneğini kolayca bulmalarını sağlamaktır.
+        sarjkampanya.com, Elektrikli araç şarj istasyonu firmalarının güncel fiyatlarını, kampanyalarını ve avantajlarını karşılaştırabileceğiniz bağımsız bir platformdur. Hedefimiz, elektrikli araç kullanıcılarının en uygun şarj seçeneğini kolayca bulmalarını sağlamaktır.
       </p>
     ),
   },

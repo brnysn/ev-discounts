@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Elektrikli Araç Şarj Kampanyaları",
-  description: "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
+  description: "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     url: "https://sarjkampanya.com",
     siteName: "Elektrikli Araç Şarj Kampanyaları",
     title: "Elektrikli Araç Şarj Kampanyaları",
-    description: "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
+    description: "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
     images: [
       {
         url: "https://sarjkampanya.com/images/logo.svg",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Elektrikli Araç Şarj Kampanyaları",
-    description: "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
+    description: "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
     images: ["https://sarjkampanya.com/images/logo.svg"],
   },
   robots: {
@@ -132,7 +132,7 @@ export default function RootLayout({
               "name": "Elektrikli Araç Şarj Kampanyaları",
               "alternateName": "Şarj Kampanya",
               "url": "https://sarjkampanya.com",
-              "description": "Türkiye'deki elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
+              "description": "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
               "author": {
                 "@type": "Person",
                 "name": "Yasin Baran",

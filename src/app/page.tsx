@@ -186,7 +186,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">Elektrikli Araç Şarj Kampanyaları</h1>
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground">
-            Türkiye genelinde elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
+            Elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
           </p>
         </div>
         {filteredDiscounts.length > 0 && (
