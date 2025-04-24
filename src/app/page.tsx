@@ -234,7 +234,7 @@ export default function Home() {
             description="Elektrikli araç kullanıcıları için faydalı bilgiler, tasarruf ipuçları ve sektördeki son gelişmeler. En verimli şarj stratejileri ve elektrikli araç bakımı konularında uzman görüşlerimizi okuyun."
             buttonText="Tüm yazılara göz atın"
             buttonUrl="/blog"
-            posts={blogPosts}
+            posts={blogPosts.slice(0, 3)}
           />
         </div>
 
