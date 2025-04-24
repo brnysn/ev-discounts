@@ -80,14 +80,23 @@ export function Timeline({ discounts }: TimelineProps) {
     const endDate = parseISO(discount.ends_at)
     const isEndDateToday = isSameDay(endDate, today)
     
-    // If ends_at is 23:59 and it's today, add one day to show until end of day
-    if (endDate.getHours() === 23 && endDate.getMinutes() === 59 && isEndDateToday) {
-      endDate.setDate(endDate.getDate() + 1)
-      endDate.setHours(0, 0, 0, 0)
-    } else {
-      endDate.setHours(0, 0, 0, 0)
+    // Create a copy for comparison, preserving the original time
+    const compareEndDate = new Date(endDate)
+    
+    // Check if endDate has already passed (including time)
+    const now = new Date()
+    
+    // If the end date is today and the end time has passed, exclude this discount
+    if (isEndDateToday && now > endDate) {
+      return false
     }
-    return endDate >= today
+    
+    // If the end date is before today, exclude this discount
+    if (compareEndDate < today && !isEndDateToday) {
+      return false
+    }
+    
+    return true
   })
 
   // Don't render the timeline if there are no active or upcoming discounts
@@ -138,15 +147,23 @@ export function Timeline({ discounts }: TimelineProps) {
             startDate.setHours(0, 0, 0, 0) // Normalize to start of day for calculation
             
             const endDate = parseISO(discount.ends_at)
+            const endHour = endDate.getHours()
+            const endMinute = endDate.getMinutes()
             const isEndDateToday = isSameDay(endDate, today)
-            const isLastDay = endDate.getTime() === days[3].getTime()
+            const isLastDay = isSameDay(endDate, days[days.length - 1])
             
-            // If ends_at is 23:59 and it's today (not last day), add one day
-            if (endDate.getHours() === 23 && endDate.getMinutes() === 59 && isEndDateToday && !isLastDay) {
+            // Handle special cases for end times
+            if (endHour === 23 && endMinute === 59 && isEndDateToday && !isLastDay) {
+              // For 23:59 end time, extend to next day
               endDate.setDate(endDate.getDate() + 1)
+              endDate.setHours(0, 0, 0, 0)
+            } else if (endHour > 0) {
+              // For partial days (like 12:00), keep the same day but add 0.5 to the width calculation later
+              // Do NOT reset hours here to preserve the time information
+            } else {
+              // Default case for 00:00 - normalize to start of day
+              endDate.setHours(0, 0, 0, 0)
             }
-            // Normalize to start of day for consistent calculation
-            endDate.setHours(0, 0, 0, 0)
             
             // Calculate the day index (0-7) for start and end dates
             let startDayIndex = -1
@@ -154,10 +171,16 @@ export function Timeline({ discounts }: TimelineProps) {
             
             // Find exact day indexes by comparing with our day array
             for (let i = 0; i < days.length; i++) {
-              if (startDate.getTime() === days[i].getTime()) {
+              // Only compare the date part (year, month, day) ignoring time
+              if (isSameDay(startDate, days[i])) {
                 startDayIndex = i
               }
-              if (endDate.getTime() === days[i].getTime()) {
+              
+              const dateOnly = new Date(endDate)
+              dateOnly.setHours(0, 0, 0, 0)
+              
+              // For end dates, we need to use the date part for day index calculation
+              if (isSameDay(dateOnly, days[i])) {
                 endDayIndex = i
               }
             }
@@ -188,8 +211,29 @@ export function Timeline({ discounts }: TimelineProps) {
               // If end date is beyond visible range, extend to the end
               widthDays = 6 - (startDayIndex === -1 ? 0 : startDayIndex)
             } else {
-              // Width is the number of days between start and end (subtract 1 to end exactly on the end date)
+              // Width is the number of days between start and end
               widthDays = endDayIndex - (startDayIndex === -1 ? 0 : startDayIndex)
+              
+              // Add partial day for mid-day end times (like 12:00)
+              if (endDate.getHours() > 0) {
+                // Scale by time of day (12:00 = 0.5, etc.)
+                const fractionOfDay = endDate.getHours() / 24
+                
+                // For 12:00, we want exactly half a day
+                if (endDate.getHours() === 12 && endDate.getMinutes() === 0) {
+                  widthDays += 0.5
+                } else {
+                  // For other times, calculate proportionally
+                  // Apply partial width for same day or multi-day discounts
+                  if (widthDays === 0) {
+                    // For same day discounts, use at least the fraction of the day
+                    widthDays = Math.max(0.25, fractionOfDay)
+                  } else {
+                    // For multi-day discounts, add the partial day
+                    widthDays += fractionOfDay
+                  }
+                }
+              }
             }
             
             // Ensure minimum width and convert to percentage
