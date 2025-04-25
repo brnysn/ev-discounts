@@ -2,6 +2,16 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-5",
+    title: "1 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları",
+    summary: "1 Mayıs Emek ve Dayanışma Günü'nde ZES, Eşarj, Sharz.net ve diğer şarj operatörlerinin sunduğu indirimler, kampanyalar ve fırsatlar. Karşılaştırmalı analiz.",
+    label: "Kampanyalar",
+    author: "Yasin Baran",
+    published: "28 Nisan 2025",
+    url: "/blog/1-mayis-kampanyalari",
+    image: "/images/1mayis.jpg",
+  },
+  {
     id: "post-4",
     title: "Deprem Sonrası Elektrikli Araç Kullanımı ve Şarj İstasyonlarının Rolü",
     summary: "23 Nisan 2025 İstanbul depremi sonrası elektrikli araçlar ve şarj istasyonlarının durumu, EnYakıt'ın ücretsiz şarj desteği ve kriz anlarında e-mobilitenin önemi.",
