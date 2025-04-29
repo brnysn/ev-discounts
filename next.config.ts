@@ -53,8 +53,8 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'www.sharz.net',
-        pathname: '/build/img/**',
+        hostname: 'cdn.prod.website-files.com',
+        pathname: '/6800c6e81bb4128ed4c241ca/**',
       },
       {
         protocol: 'https',

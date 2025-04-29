@@ -613,9 +613,9 @@
   },
   {
     "name": "Sharz",
-    "logo": "https://www.sharz.net/build/img/logo.svg",
+    "logo": "https://cdn.prod.website-files.com/6800c6e81bb4128ed4c241ca/6800c818f2e161d5a0b9b6d8_logo-p-500.png",
     "phone": "",
-    "website": "https://www.sharz.net/sharz-duyurulari/tarifelerimiz",
+    "website": "https://www.sharz.net/#tarrifs",
     "prices": [
       {
         "ac": [
