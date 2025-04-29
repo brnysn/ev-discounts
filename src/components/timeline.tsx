@@ -70,13 +70,15 @@ interface TimelineProps {
 }
 
 export function Timeline({ discounts }: TimelineProps) {
-  // Generate the next 7 days for the timeline and set first day to start of current day
+  // Generate the next 30 days for filtering discounts but only display 5 days in the timeline
   const today = new Date()
   today.setHours(0, 0, 0, 0) // Set to beginning of day for consistent calculations
-  const days = Array.from({ length: 5 }, (_, i) => addDays(today, i))
+  const allDays = Array.from({ length: 30 }, (_, i) => addDays(today, i))
+  const displayDays = allDays.slice(0, 5) // Only display first 5 days
   
-  // Filter only active and upcoming discounts
+  // Filter only active and upcoming discounts within the next 30 days
   const activeAndUpcomingDiscounts = discounts.filter(discount => {
+    const startDate = parseISO(discount.starts_at)
     const endDate = parseISO(discount.ends_at)
     const isEndDateToday = isSameDay(endDate, today)
     
@@ -96,7 +98,13 @@ export function Timeline({ discounts }: TimelineProps) {
       return false
     }
     
-    return true
+    // Include discounts that start within the 30-day range
+    const latestAllowedDate = allDays[allDays.length - 1]
+    if (startDate <= latestAllowedDate) {
+      return true
+    }
+    
+    return false
   })
 
   // Don't render the timeline if there are no active or upcoming discounts
@@ -114,7 +122,7 @@ export function Timeline({ discounts }: TimelineProps) {
         
         {/* Day markers */}
         <div className="flex justify-between items-start relative">
-          {days.map((day, index) => {
+          {displayDays.map((day, index) => {
             const isToday = isSameDay(day, today)
             
             return (
@@ -150,7 +158,7 @@ export function Timeline({ discounts }: TimelineProps) {
             const endHour = endDate.getHours()
             const endMinute = endDate.getMinutes()
             const isEndDateToday = isSameDay(endDate, today)
-            const isLastDay = isSameDay(endDate, days[days.length - 1])
+            const isLastDay = isSameDay(endDate, displayDays[displayDays.length - 1])
             
             // Handle special cases for end times
             if (endHour === 23 && endMinute === 59 && isEndDateToday && !isLastDay) {
@@ -170,9 +178,9 @@ export function Timeline({ discounts }: TimelineProps) {
             let endDayIndex = -1
             
             // Find exact day indexes by comparing with our day array
-            for (let i = 0; i < days.length; i++) {
+            for (let i = 0; i < displayDays.length; i++) {
               // Only compare the date part (year, month, day) ignoring time
-              if (isSameDay(startDate, days[i])) {
+              if (isSameDay(startDate, displayDays[i])) {
                 startDayIndex = i
               }
               
@@ -180,7 +188,7 @@ export function Timeline({ discounts }: TimelineProps) {
               dateOnly.setHours(0, 0, 0, 0)
               
               // For end dates, we need to use the date part for day index calculation
-              if (isSameDay(dateOnly, days[i])) {
+              if (isSameDay(dateOnly, displayDays[i])) {
                 endDayIndex = i
               }
             }
@@ -192,24 +200,34 @@ export function Timeline({ discounts }: TimelineProps) {
             
             // If dates are not in our visible range, skip this discount
             if (
-              (startDayIndex === -1 && startDate > days[6]) || // Start date after visible range
-              (endDayIndex === -1 && endDate < today) || // End date before visible range
-              (startDayIndex === -1 && endDayIndex === -1) // Neither start nor end date in range
+              (endDayIndex === -1 && endDate < today) // End date before visible range
             ) {
               return null
+            }
+
+            // For discounts starting after the visible window but within our 30-day range, show them at the end
+            if (startDayIndex === -1 && startDate > displayDays[displayDays.length-1]) {
+              const startDateWithinAllDays = allDays.findIndex(day => isSameDay(day, startDate));
+              if (startDateWithinAllDays >= 0 && startDateWithinAllDays < allDays.length) {
+                // The discount is within our 30-day range, so show it at the end of the visible timeline
+                startDayIndex = displayDays.length - 1;
+              } else {
+                // The discount is outside our 30-day range, so skip it
+                return null;
+              }
             }
             
             // Calculate position based on day indexes
             const leftPosition = startDayIndex === -1 
               ? 0 // If start date is before visible range, start at 0
-              : (startDayIndex / 6) * 100
+              : (startDayIndex / (displayDays.length - 1)) * 100
               
             // Calculate width based on day indexes
             let widthDays = 0
             
             if (endDayIndex === -1) {
               // If end date is beyond visible range, extend to the end
-              widthDays = 6 - (startDayIndex === -1 ? 0 : startDayIndex)
+              widthDays = displayDays.length - (startDayIndex === -1 ? 0 : startDayIndex)
             } else {
               // Width is the number of days between start and end
               widthDays = endDayIndex - (startDayIndex === -1 ? 0 : startDayIndex)
@@ -332,6 +350,21 @@ export function Timeline({ discounts }: TimelineProps) {
                         })()}
                       </>
                     )}
+
+                    {/* Check if discount starts after the visible timeline */}
+                    {(() => {
+                      const startDate = parseISO(discount.starts_at)
+                      const isAfterVisibleRange = startDate > displayDays[displayDays.length - 1]
+                      
+                      if (isAfterVisibleRange) {
+                        return (
+                          <Badge variant="outline" className="ml-1 h-5 text-[8px]">
+                            {format(startDate, "d MMM", { locale: tr })}
+                          </Badge>
+                        )
+                      }
+                      return null
+                    })()}
                   </CardContent>
                 </Card>
               </div>
