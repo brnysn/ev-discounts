@@ -42,6 +42,7 @@ export default function BlogPage() {
                   <Image
                     src={post.image}
                     alt={post.title}
+                    title={post.title}
                     className="object-cover object-center"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

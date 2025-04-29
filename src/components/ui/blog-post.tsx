@@ -52,6 +52,7 @@ export function BlogPost({
           <Image 
             src={image} 
             alt={title} 
+            title={title}
             className="object-cover" 
             fill
             sizes="(max-width: 768px) 100vw, 800px"
