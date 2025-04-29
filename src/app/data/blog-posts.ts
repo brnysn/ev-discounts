@@ -2,6 +2,16 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-6",
+    title: "Favori 5 İstasyonda %10 İndirim: Epsis’ten Yeni Kampanya!",
+    summary: "Epsis'in mobil uygulama üzerinden seçilen favori istasyonlarda %10 indirim fırsatı sunduğu kampanyanın detayları ve avantajları.",
+    label: "Kampanyalar",
+    author: "Yasin Baran",
+    published: "29 Nisan 2025",
+    url: "/blog/epsis-yuzde-10-kampanyasi",
+    image: "/images/epsis-kampanya.jpg",
+  },
+  {
     id: "post-5",
     title: "1 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları",
     summary: "1 Mayıs Emek ve Dayanışma Günü'nde ZES, Eşarj, Sharz.net ve diğer şarj operatörlerinin sunduğu indirimler, kampanyalar ve fırsatlar. Karşılaştırmalı analiz.",
@@ -51,4 +61,4 @@ export const blogPosts: Post[] = [
     url: "/blog/batarya-omru",
     image: "/images/batarya-omru.jpg",
   }
-]; 
+];
