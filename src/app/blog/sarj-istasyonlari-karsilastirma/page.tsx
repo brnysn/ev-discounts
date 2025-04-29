@@ -1,6 +1,7 @@
 "use client"
 
 import { BlogPost } from "@/components/ui/blog-post"
+import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
 import { 
@@ -20,6 +21,14 @@ export default function SarjIstasyonlariKarsilastirma() {
   return (
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50">
+        <BlogStructuredData 
+          title="Şarj İstasyonları Karşılaştırma | Fiyat ve Hizmet Analizi | Sarj Kampanya"
+          description="Türkiye'deki tüm elektrikli araç şarj istasyonlarının fiyat, hız ve hizmet karşılaştırması. En uygun şarj noktasını keşfedin."
+          datePublished="2025-04-13"
+          imageUrl="https://sarjkampanya.com/images/istasyon-karsilastirma.webp"
+          authorName="Yasin Baran"
+          canonicalUrl="https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma"
+        />
         <BlogPost
           title={post.title}
           label={post.label}
