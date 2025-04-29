@@ -7,7 +7,10 @@ import { BlogPostWrapper } from "@/components/blog-post-wrapper"
 import { 
   Percent, 
   Zap,
+  Battery,
+  ExternalLink
 } from "lucide-react"
+import Image from "next/image"
 
 export default function MayisKampanyalari() {
   const post = blogPosts.find(post => post.id === "post-5")
@@ -56,6 +59,70 @@ export default function MayisKampanyalari() {
           <p className="italic text-gray-600 mb-6">
             Aşağıda açıklanan tüm kampanyalar anlık olarak güncellenecek.
           </p>
+
+          {/* Beeful 1 Mayıs Kampanyası */}
+          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <Image 
+                src="https://i.ibb.co/F4KPsh51/beefull.webp" 
+                alt="Beeful Logo" 
+                width={32}
+                height={32}
+                className="h-8 w-auto object-contain"
+                unoptimized
+              />
+            </div>
+            
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Battery className="h-4 w-4 text-green-600" />
+                <span className="font-medium">Tarih:</span> 
+                <span>1 Mayıs 2025 (Tüm gün)</span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <ExternalLink className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">Detaylar:</span>
+                <span className="text-red-600">Sadece DC istasyonlarında geçerlidir</span>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">DC Şarj Fiyatları</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">{"< 60 kWh"}</span>
+                  <span className="font-bold text-green-600">₺5.00 / kWh</span>
+                </div>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-sm">{"> 60 kWh"}</span>
+                  <span className="font-bold text-green-600">₺5.00 / kWh</span>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Normal fiyat: ₺10.99-₺12.99 / kWh
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">AC Şarj Fiyatları</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">{"< 20 kWh"}</span>
+                  <span className="font-bold">₺8.29 / kWh</span>
+                </div>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-sm">{"> 20 kWh"}</span>
+                  <span className="font-bold">₺8.99 / kWh</span>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Bu fiyatlar AC&apos;de indirim olmadan geçerli fiyatlardır
+                </div>
+              </div>
+            </div>
+            
+            <div className="text-sm mt-4">
+              <span className="font-medium">Not:</span> Bu kampanya kapsamında DC şarj istasyonlarında yaklaşık %55 indirim uygulanmaktadır. AC şarjda indirim bulunmamaktadır.
+            </div>
+          </div>
           
           <h2 className="flex items-center gap-2 mt-10 text-2xl font-bold mb-4">
             <Zap className="h-6 w-6 text-primary" />
