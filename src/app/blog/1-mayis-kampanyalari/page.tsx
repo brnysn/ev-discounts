@@ -1,17 +1,5 @@
 "use client"
 
-import type { Metadata } from "next";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "1 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları | Şarj Kampanya",
-    description: "1 Mayıs Emek ve Dayanışma Günü'nde Türkiye'deki elektrikli araç şarj istasyonlarının sunduğu özel kampanya ve indirimleri keşfedin.",
-    alternates: {
-      canonical: "https://sarjkampanya.com/blog/1-mayis-kampanyalari",
-    },
-  };
-}
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
@@ -65,7 +53,7 @@ export default function MayisKampanyalari() {
           </div>
           
           <h3 className="flex items-center gap-2 text-xl font-semibold mb-3 mt-6">
-            <span>🗂</span> 1 Mayıs Şarj Kampanyaları Listesi
+            <span>��</span> 1 Mayıs Şarj Kampanyaları Listesi
           </h3>
           
           <p className="italic text-gray-600 mb-6">

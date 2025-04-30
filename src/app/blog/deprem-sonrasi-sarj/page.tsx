@@ -1,17 +1,5 @@
 "use client"
 
-import type { Metadata } from "next";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Deprem Sonrası Elektrikli Araç Kullanımı ve Şarj İstasyonlarının Rolü | Şarj Kampanya",
-    description: "23 Nisan 2025 İstanbul depremi sonrası elektrikli araçlar ve şarj istasyonlarının durumu, EnYakıt'ın ücretsiz şarj desteği ve kriz anlarında e-mobilitenin önemi.",
-    alternates: {
-      canonical: "https://sarjkampanya.com/blog/deprem-sonrasi-sarj",
-    },
-  };
-}
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
@@ -54,7 +42,7 @@ export default function DepremSonrasiSarj() {
             </h2>
             
             <p>
-              23 Nisan 2025 tarihinde İstanbul Silivri açıklarında saat 12.49’da 6.2, ardından 5.9 büyüklüğünde iki deprem meydana geldi. Depremler, Yalova ve Sakarya gibi çevre illerde de hissedildi. AFAD, şu ana kadar 184 artçı sarsıntı kaydedildiğini ve 7’sinin 4 ve üzeri büyüklükte olduğunu bildirdi.
+              23 Nisan 2025 tarihinde İstanbul Silivri açıklarında saat 12.49&apos;da 6.2, ardından 5.9 büyüklüğünde iki deprem meydana geldi. Depremler, Yalova ve Sakarya gibi çevre illerde de hissedildi. AFAD, şu ana kadar 184 artçı sarsıntı kaydedildiğini ve 7&apos;sinin 4 ve üzeri büyüklükte olduğunu bildirdi.
             </p>
             
             <h3 className="flex items-center gap-2 text-xl font-semibold mb-3 mt-6">

@@ -1,16 +1,6 @@
 "use client"
 
-import type { Metadata } from "next";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya",
-    description: "Elektrikli aracınızın batarya ömrünü uzatmak için 5 etkili yöntem. Doğru şarj pratikleri, hızlı şarj kullanımı, sıcaklık kontrolü ve daha fazlası.",
-    alternates: {
-      canonical: "https://sarjkampanya.com/blog/batarya-omru",
-    },
-  };
-}
+"use client"
 
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"

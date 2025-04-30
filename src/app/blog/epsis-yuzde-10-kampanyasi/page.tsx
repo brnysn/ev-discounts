@@ -1,17 +1,5 @@
 "use client"
 
-import type { Metadata } from "next";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası – Sarj Kampanya",
-    description: "Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında geçerli olan, favori istasyonlarda %10 indirimli şarj kampanyasını keşfedin. Kampanya detayları ve fiyat avantajları bu yazıda!",
-    alternates: {
-      canonical: "https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi",
-    },
-  };
-}
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"

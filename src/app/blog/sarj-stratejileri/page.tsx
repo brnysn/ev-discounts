@@ -1,6 +1,7 @@
 "use client"
 
-import type { Metadata } from "next";
+"use client"
+
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
@@ -14,15 +15,6 @@ import {
   Zap
 } from "lucide-react"
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri | Sarj Kampanya",
-    description: "Elektrikli araç kullanıcıları için uygun şarj stratejileri, kampanya takibi ve tasarruf yöntemleri hakkında kapsamlı rehber.",
-    alternates: {
-      canonical: "https://sarjkampanya.com/blog/sarj-stratejileri",
-    },
-  };
-}
 
 export default function SarjStratejileri() {
   const post = blogPosts.find(post => post.id === "post-1")
