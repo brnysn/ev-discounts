@@ -124,6 +124,62 @@ export default function MayisKampanyalari() {
             </div>
           </div>
           
+          {/* oncharge 1 Mayıs Kampanyası */}
+          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <Image 
+                src="https://www.sarjfiyat.com/images/oncharge_logo.png" 
+                alt="oncharge Logo" 
+                width={32}
+                height={32}
+                className="h-8 w-auto object-contain"
+                unoptimized
+              />
+            </div>
+            
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Battery className="h-4 w-4 text-green-600" />
+                <span className="font-medium">Tarih:</span> 
+                <span>1 Mayıs 2025 (Tüm gün)</span>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">DC Şarj Fiyatları</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Tüm kWh</span>
+                  <span className="font-bold text-green-600">₺8.79 / kWh</span>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Normal fiyat: ₺10.99 / kWh
+                </div>
+                <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  Tasarruf: ₺194.52
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">AC Şarj Fiyatları</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Tüm kWh</span>
+                  <span className="font-bold text-green-600">₺7.19 / kWh</span>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Normal fiyat: ₺8.99 / kWh
+                </div>
+                <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  Tasarruf: ₺159.12
+                </div>
+              </div>
+            </div>
+            
+            <div className="text-sm mt-4">
+              <span className="font-medium">Not:</span> Bu kampanya kapsamında tüm şarj istasyonlarında %20 indirim uygulanmaktadır.
+            </div>
+          </div>
+          
           <h2 className="flex items-center gap-2 mt-10 text-2xl font-bold mb-4">
             <Zap className="h-6 w-6 text-primary" />
             Kampanyalardan Nasıl Faydalanabilirsiniz?
