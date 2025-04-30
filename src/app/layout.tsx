@@ -54,7 +54,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "https://sarjkampanya.com",
     siteName: "Elektrikli Araç Şarj Kampanyaları",
     title: "Elektrikli Araç Şarj Kampanyaları",
     description: "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
@@ -83,9 +82,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  alternates: {
-    canonical: "https://sarjkampanya.com",
   },
 };
 
