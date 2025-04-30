@@ -862,7 +862,7 @@
         "name": "",
         "starts_at": "2025-04-23 00:00:00",
         "ends_at": "2025-05-30 00:00:00",
-        "text": "2 Favori istasyonunuzda %20 indirim! Diğer kampanyalar ile birleştirilemez.",
+        "text": "2 Favori istasyonunuzda %20 indirim! Diğer kampanyalar ile birleştirilemez. Sadece AC istasyonlarda geçerlidir.",
         "discount_rate": 20
       }
     ]
