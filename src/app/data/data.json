@@ -781,11 +781,11 @@
       {
         "ac": [
           {
-            "kwh": "",
+            "kwh": "AC-1",
             "price": 8.29
           },
           {
-            "kwh": "",
+            "kwh": "AC-2",
             "price": 9.29
           }
         ],
@@ -810,11 +810,11 @@
         "discounted_prices": {
           "ac": [
             {
-              "kwh": "",
+              "kwh": "AC-1",
               "price": 6.63
             },
             {
-              "kwh": "",
+              "kwh": "AC-2",
               "price": 6.63
             }
           ],
@@ -838,11 +838,11 @@
         "discounted_prices": {
           "ac": [
             {
-              "kwh": "",
+              "kwh": "AC-1",
               "price": 6.63
             },
             {
-              "kwh": "",
+              "kwh": "AC-2",
               "price": 6.63
             }
           ],
@@ -863,7 +863,28 @@
         "starts_at": "2025-04-23 00:00:00",
         "ends_at": "2025-05-30 00:00:00",
         "text": "2 Favori istasyonunuzda %20 indirim! Diğer kampanyalar ile birleştirilemez. Sadece AC istasyonlarda geçerlidir.",
-        "discount_rate": 20
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": "AC-1",
+              "price": 6.63
+            },
+            {
+              "kwh": "AC-2",
+              "price": 7.43
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 100",
+              "price": 10.49
+            },
+            {
+              "kwh": "100 >",
+              "price": 12.49
+            }
+          ]
+        }
       }
     ]
   },
