@@ -94,10 +94,10 @@ export default function RootLayout({
     <html lang="tr">
       <head>
         <meta name="google-adsense-account" content="ca-pub-2397496183137321" />
+        <link rel="canonical" href="https://sarjkampanya.com" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/apple-touch-icon.png" type="image/png" />
-        <link rel="icon" href="/android-chrome-192x192.png" type="image/png" />
-        <link rel="icon" href="/android-chrome-512x512.png" type="image/png" />
+        <link rel="icon" href="/favicon-16x16.png" type="image/png" />
+        <link rel="icon" href="/favicon-32x32.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="keywords" content="elektrikli araç, şarj, kampanya, indirim, fiyat karşılaştırma, togg, bedava şarj, epsis, beeful, trugo, bedava şarj, epsis, beeful, astor" />

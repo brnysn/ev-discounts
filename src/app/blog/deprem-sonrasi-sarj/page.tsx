@@ -1,5 +1,17 @@
 "use client"
 
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Deprem Sonrası Elektrikli Araç Kullanımı ve Şarj İstasyonlarının Rolü | Şarj Kampanya",
+    description: "23 Nisan 2025 İstanbul depremi sonrası elektrikli araçlar ve şarj istasyonlarının durumu, EnYakıt'ın ücretsiz şarj desteği ve kriz anlarında e-mobilitenin önemi.",
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/deprem-sonrasi-sarj",
+    },
+  };
+}
+
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"

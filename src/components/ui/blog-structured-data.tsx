@@ -1,6 +1,7 @@
 "use client"
 
 import Script from "next/script"
+import Head from "next/head"
 
 interface BlogStructuredDataProps {
   title: string
@@ -53,10 +54,15 @@ export function BlogStructuredData({
   }
 
   return (
-    <Script 
-      id="blog-structured-data" 
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-    />
+    <>
+      <Head>
+        <link rel="canonical" href={canonicalUrl} />
+      </Head>
+      <Script 
+        id="blog-structured-data" 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+    </>
   )
 } 

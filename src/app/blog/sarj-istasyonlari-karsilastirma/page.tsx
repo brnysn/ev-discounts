@@ -1,5 +1,17 @@
 "use client"
 
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Türkiye'deki Elektrikli Araç Şarj İstasyonlarının Karşılaştırması | Sarj Kampanya",
+    description: "ZES, Eşarj, Sharz.net ve diğer önemli şarj ağlarının fiyat, erişilebilirlik ve hız açısından kapsamlı karşılaştırması. Hangi şarj istasyonu ağı size daha uygun?",
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma",
+    },
+  };
+}
+
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
