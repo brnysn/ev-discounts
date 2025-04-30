@@ -41,7 +41,7 @@ export function BlogStructuredData({
       "name": "Şarj Kampanya",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://sarjkampanya.com/images/logo.svg",
+        "url": "https://sarjkampanya.com/images/logo.png",
         "width": "512",
         "height": "512"
       }

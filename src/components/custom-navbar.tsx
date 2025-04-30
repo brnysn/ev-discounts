@@ -56,7 +56,7 @@ interface CustomNavbarProps {
 export function CustomNavbar({
   logo = {
     url: "/",
-    src: "/images/logo.svg",
+    src: "/images/logo.png",
     alt: "EV Şarj Kampanyaları Logo",
     title: "Şarj Kampanya",
   },
@@ -165,13 +165,12 @@ export function CustomNavbar({
               <Image 
                 src={logo.src}
                 alt={logo.alt}
-                width={40}
-                height={40}
+                width={115}
+                height={50}
                 className="mr-1"
                 priority
                 unoptimized
               />
-              <span className="text-2xl font-bold">{logo.title}</span>
             </Link>
           </div>
           <div className="flex items-center">
@@ -241,13 +240,12 @@ export function CustomNavbar({
               <Image 
                 src={logo.src}
                 alt={logo.alt}
-                width={40}
-                height={40}
+                width={115}
+                height={50}
                 className="mr-1"
                 priority
                 unoptimized
               />
-              <span className="text-lg font-semibold">{logo.title}</span>
             </Link>
             <Sheet>
               <SheetTrigger asChild className="mr-2">
@@ -268,7 +266,6 @@ export function CustomNavbar({
                         priority
                         unoptimized
                       />
-                      <span className="text-lg font-semibold">{logo.title}</span>
                     </Link>
                   </SheetTitle>
                 </SheetHeader>

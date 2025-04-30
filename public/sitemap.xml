@@ -6,7 +6,7 @@
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/logo.svg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/logo.png</image:loc>
       <image:caption>Elektrikli Araç Şarj Kampanyaları Logo</image:caption>
       <image:title>Elektrikli Araç Şarj Kampanyaları</image:title>
     </image:image>
@@ -25,7 +25,7 @@
     <image:image>
       <image:loc>https://sarjkampanya.com/images/epsis-kampanya.jpg</image:loc>
       <image:caption>Epsis %10 İndirim Kampanyası</image:caption>
-      <image:title>Favori 5 İstasyonda %10 İndirim: Epsis’ten Yeni Kampanya!</image:title>
+      <image:title>Favori 5 İstasyonda %10 İndirim: Epsis'ten Yeni Kampanya!</image:title>
     </image:image>
     <news:news>
       <news:publication>
@@ -33,7 +33,7 @@
         <news:language>tr</news:language>
       </news:publication>
       <news:publication_date>2025-04-29</news:publication_date>
-      <news:title>Favori 5 İstasyonda %10 İndirim: Epsis’ten Yeni Kampanya!</news:title>
+      <news:title>Favori 5 İstasyonda %10 İndirim: Epsis'ten Yeni Kampanya!</news:title>
     </news:news>
   </url>
   <url>

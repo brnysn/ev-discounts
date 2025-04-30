@@ -26,11 +26,15 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/icon0.svg", type: "image/svg+xml" },
-      { url: "/icon1.png", type: "image/png" },
+      { url: "/favicon-16x16.png", type: "image/png" },
+      { url: "/favicon-32x32.png", type: "image/png" },
     ],
     apple: [
-      { url: "/apple-icon.png", type: "image/png" },
+      { url: "/apple-touch-icon.png", type: "image/png" },
+    ],
+    other: [
+      { url: "/android-chrome-192x192.png", type: "image/png" },
+      { url: "/android-chrome-512x512.png", type: "image/png" },
     ],
   },
   manifest: "/manifest.json",
@@ -56,7 +60,7 @@ export const metadata: Metadata = {
     description: "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
     images: [
       {
-        url: "https://sarjkampanya.com/images/logo.svg",
+        url: "https://sarjkampanya.com/images/logo.png",
         width: 512,
         height: 512,
         alt: "Elektrikli Araç Şarj Kampanyaları Logo",
@@ -67,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Elektrikli Araç Şarj Kampanyaları",
     description: "Elektrikli araç şarj istasyonlarının güncel kampanyaları, indirimleri ve fiyat karşılaştırmaları. En uygun şarj tarifelerini keşfedin.",
-    images: ["https://sarjkampanya.com/images/logo.svg"],
+    images: ["https://sarjkampanya.com/images/logo.png"],
   },
   robots: {
     index: true,
@@ -95,9 +99,10 @@ export default function RootLayout({
       <head>
         <meta name="google-adsense-account" content="ca-pub-2397496183137321" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon0.svg" type="image/svg+xml" />
-        <link rel="icon" href="/icon1.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" />
+        <link rel="icon" href="/apple-touch-icon.png" type="image/png" />
+        <link rel="icon" href="/android-chrome-192x192.png" type="image/png" />
+        <link rel="icon" href="/android-chrome-512x512.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="keywords" content="elektrikli araç, şarj, kampanya, indirim, fiyat karşılaştırma, togg, bedava şarj, epsis, beeful, trugo, bedava şarj, epsis, beeful, astor" />
         <meta name="author" content="Yasin Baran" />
@@ -143,7 +148,7 @@ export default function RootLayout({
                 "name": "Şarj Kampanya",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": "https://sarjkampanya.com/images/logo.svg",
+                  "url": "https://sarjkampanya.com/images/logo.png",
                   "width": "512",
                   "height": "512"
                 }
