@@ -17,6 +17,9 @@ import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 import { CustomNavbar } from "@/components/custom-navbar"
 import { FaqSection } from "@/components/faq-section"
 
+// Add import for HomeHeadTags
+import { HomeHeadTags } from "@/components/home-head-tags"
+
 export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
   const [filteredDiscounts, setFilteredDiscounts] = useState<DiscountWithCompany[]>([])
@@ -168,6 +171,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <HomeHeadTags />
       <CustomNavbar 
         scrollFunctions={{
           campaigns: scrollToCampaigns,

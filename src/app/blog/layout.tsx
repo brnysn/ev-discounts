@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { BlogNavbar } from "@/components/blog-navbar"
+import { BlogHeadTags } from "@/components/blog-head-tags"
 
 export const metadata: Metadata = {
   title: "Blog | Elektrikli Araç Şarj Kampanyaları",
@@ -14,6 +15,7 @@ export default function BlogLayout({
 }) {
   return (
     <>
+      <BlogHeadTags />
       <BlogNavbar />
       {children}
     </>

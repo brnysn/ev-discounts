@@ -9,6 +9,26 @@ import {
   Building, 
   Zap
 } from "lucide-react"
+import Script from 'next/script'
+
+function DepremCanonical() {
+  return (
+    <>
+      <link rel="canonical" href="https://sarjkampanya.com/blog/deprem-sonrasi-sarj" />
+      <Script id="deprem-canonical" strategy="afterInteractive">
+        {`
+          // Add canonical link if not present
+          if (!document.querySelector('link[rel="canonical"]')) {
+            const link = document.createElement('link');
+            link.rel = 'canonical';
+            link.href = 'https://sarjkampanya.com/blog/deprem-sonrasi-sarj';
+            document.head.appendChild(link);
+          }
+        `}
+      </Script>
+    </>
+  )
+}
 
 export default function DepremSonrasiSarj() {
   const post = blogPosts.find(post => post.id === "post-4")
@@ -20,6 +40,7 @@ export default function DepremSonrasiSarj() {
   return (
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50">
+        <DepremCanonical />
         <BlogStructuredData 
           title="Deprem Sonrası Elektrikli Araç Kullanımı ve Şarj İstasyonlarının Rolü"
           description="23 Nisan 2025 İstanbul depremi sonrası elektrikli araçlar ve şarj istasyonlarının durumu, EnYakıt'ın ücretsiz şarj desteği ve kriz anlarında e-mobilitenin önemi."

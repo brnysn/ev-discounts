@@ -11,6 +11,26 @@ import {
   Bell,
   Calendar
 } from "lucide-react"
+import Script from 'next/script'
+
+function EpsisCanonical() {
+  return (
+    <>
+      <link rel="canonical" href="https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi" />
+      <Script id="epsis-canonical" strategy="afterInteractive">
+        {`
+          // Add canonical link if not present
+          if (!document.querySelector('link[rel="canonical"]')) {
+            const link = document.createElement('link');
+            link.rel = 'canonical';
+            link.href = 'https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi';
+            document.head.appendChild(link);
+          }
+        `}
+      </Script>
+    </>
+  )
+}
 
 export default function EpsisKampanyasi() {
   const post = blogPosts.find(post => post.id === "post-6")
@@ -22,6 +42,7 @@ export default function EpsisKampanyasi() {
   return (
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50">
+        <EpsisCanonical />
         <BlogStructuredData 
           title="Favori 5 İstasyonda %10 İndirim: Epsis&apos;ten Yeni Kampanya!"
           description="Epsis&apos;in 23 Nisan – 30 Mayıs 2025 tarihleri arasında geçerli olan, favori istasyonlarda %10 indirimli şarj kampanyasını keşfedin. Kampanya detayları ve fiyat avantajları bu yazıda!"
