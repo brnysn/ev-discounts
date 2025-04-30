@@ -4,9 +4,6 @@ import { BlogNavbar } from "@/components/blog-navbar"
 export const metadata: Metadata = {
   title: "Blog | Elektrikli Araç Şarj Kampanyaları",
   description: "Elektrikli araç şarj istasyonları hakkında bilgiler, şarj stratejileri ve daha fazlası.",
-  alternates: {
-    canonical: "https://sarjkampanya.com/blog",
-  },
 }
 
 // Simple layout without client components to avoid hydration errors
