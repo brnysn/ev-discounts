@@ -16,11 +16,11 @@ import { CanonicalWrapper } from "@/components/canonical-wrapper"
 export function generateMetadata(): Metadata {
   return {
     title: "Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya",
-    description: "Elektrikli aracınızın batarya ömrünü maksimize etmek için 5 bilimsel yöntem. %20-80 şarj döngüsü prensibi, hızlı şarj kullanımının etkileri, optimum batarya sıcaklık yönetimi, yazılım güncellemelerinin önemi ve doğru park etme stratejileri ile bataryanızdan yıllarca verimli performans alın.",
+    description: "Batarya ömrünü uzatmak için 5 bilimsel yöntem: %20-80 şarj, hızlı şarjın etkisi, sıcaklık yönetimi, yazılım güncellemeleri ve park stratejileri.",
     keywords: ["elektrikli araç batarya ömrü", "batarya ömrünü uzatma", "elektrikli araç bakımı", "batarya sağlığı", "optimum şarj seviyesi", "batarya ısısı", "hızlı şarj etkisi", "batarya degradasyonu", "lityum iyon batarya bakımı", "elektrikli araç pil kullanımı"],
     openGraph: {
       title: "Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya",
-      description: "Elektrikli aracınızın batarya ömrünü maksimize etmek için 5 bilimsel yöntem. %20-80 şarj döngüsü prensibi, hızlı şarj kullanımının etkileri, optimum batarya sıcaklık yönetimi, yazılım güncellemelerinin önemi ve doğru park etme stratejileri ile bataryanızdan yıllarca verimli performans alın.",
+      description: "Batarya ömrünü uzatmak için 5 bilimsel yöntem: %20-80 şarj, hızlı şarjın etkisi, sıcaklık yönetimi, yazılım güncellemeleri ve park stratejileri.",
       url: "https://sarjkampanya.com/blog/batarya-omru",
       type: "article",
       publishedTime: "2025-04-10",
@@ -37,7 +37,7 @@ export function generateMetadata(): Metadata {
     twitter: {
       card: "summary_large_image",
       title: "Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya",
-      description: "Elektrikli aracınızın batarya ömrünü maksimize etmek için 5 bilimsel yöntem. %20-80 şarj döngüsü prensibi, hızlı şarj kullanımının etkileri, optimum batarya sıcaklık yönetimi, yazılım güncellemelerinin önemi ve doğru park etme stratejileri ile bataryanızdan yıllarca verimli performans alın.",
+      description: "Batarya ömrünü uzatmak için 5 bilimsel yöntem: %20-80 şarj, hızlı şarjın etkisi, sıcaklık yönetimi, yazılım güncellemeleri ve park stratejileri.",
       images: ["https://sarjkampanya.com/images/batarya-omru.jpg"],
     },
     alternates: {
@@ -62,7 +62,7 @@ export default function BataryaOmru() {
         <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/batarya-omru" />
         <BlogStructuredData 
           title="Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya"
-          description="Elektrikli aracınızın batarya ömrünü maksimize etmek için 5 bilimsel yöntem. %20-80 şarj döngüsü prensibi, hızlı şarj kullanımının etkileri, optimum batarya sıcaklık yönetimi, yazılım güncellemelerinin önemi ve doğru park etme stratejileri ile bataryanızdan yıllarca verimli performans alın."
+          description="Batarya ömrünü uzatmak için 5 bilimsel yöntem: %20-80 şarj, hızlı şarjın etkisi, sıcaklık yönetimi, yazılım güncellemeleri ve park stratejileri."
           datePublished="2025-04-10"
           imageUrl="https://sarjkampanya.com/images/batarya-omru.jpg"
           authorName="Yasin Baran"

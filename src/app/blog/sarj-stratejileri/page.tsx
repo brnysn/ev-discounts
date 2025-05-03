@@ -16,12 +16,12 @@ import { CanonicalWrapper } from "@/components/canonical-wrapper"
 // Generate metadata using Next.js 13 App Router pattern
 export function generateMetadata(): Metadata {
   return {
-    title: "Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya",
-    description: "Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin.",
+    title: "Optimum Şarj Stratejileri Elektrikli Araçlar | Sarj Kampanya",
+    description: "Elektrikli araç sahipleri için akıllı şarj rehberi: Gece tarifesi, ev-halka açık istasyon kullanımı, kampanyalar ve tasarruf sağlayan stratejiler.",
     keywords: ["elektrikli araç şarj stratejileri", "elektrikli araç tasarruf", "şarj kampanyaları", "ev şarj istasyonu", "gece tarifesi", "ekonomik şarj", "regeneratif frenleme", "DC hızlı şarj", "AC yavaş şarj"],
     openGraph: {
-      title: "Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya",
-      description: "Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin.",
+      title: "Optimum Şarj Stratejileri Elektrikli Araçlar | Sarj Kampanya",
+      description: "Elektrikli araç sahipleri için akıllı şarj rehberi: Gece tarifesi, ev-halka açık istasyon kullanımı, kampanyalar ve tasarruf sağlayan stratejiler.",
       url: "https://sarjkampanya.com/blog/sarj-stratejileri",
       type: "article",
       publishedTime: "2025-04-16",
@@ -37,8 +37,8 @@ export function generateMetadata(): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya",
-      description: "Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin.",
+      title: "Optimum Şarj Stratejileri Elektrikli Araçlar | Sarj Kampanya",
+      description: "Elektrikli araç sahipleri için akıllı şarj rehberi: Gece tarifesi, ev-halka açık istasyon kullanımı, kampanyalar ve tasarruf sağlayan stratejiler.",
       images: ["https://sarjkampanya.com/images/sarj-strateji.jpg"],
     },
     alternates: {
@@ -62,8 +62,8 @@ export default function SarjStratejileri() {
       <div className="min-h-screen bg-gray-50">
         <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/sarj-stratejileri" />
         <BlogStructuredData 
-          title="Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya"
-          description="Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin."
+          title="Optimum Şarj Stratejileri Elektrikli Araçlar | Sarj Kampanya"
+          description="Elektrikli araç sahipleri için akıllı şarj rehberi: Gece tarifesi, ev-halka açık istasyon kullanımı, kampanyalar ve tasarruf sağlayan stratejiler."
           datePublished="2025-04-16"
           imageUrl="https://sarjkampanya.com/images/sarj-strateji.jpg"
           authorName="Yasin Baran"

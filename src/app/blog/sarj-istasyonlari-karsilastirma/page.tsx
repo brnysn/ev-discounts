@@ -14,12 +14,12 @@ import { CanonicalWrapper } from "@/components/canonical-wrapper"
 // Generate metadata using Next.js 13 App Router pattern
 export function generateMetadata(): Metadata {
   return {
-    title: "Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya",
-    description: "ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin.",
+    title: "Şarj İstasyonları Karşılaştırması Türkiye | Sarj Kampanya",
+    description: "ZES, Eşarj, Sharz.net ve Voltrun 2025 karşılaştırması: Fiyatlar, hizmet kalitesi, şarj hızı, ağ genişliği ve ev/AC/DC şarj seçenekleriyle analiz.",
     keywords: ["şarj istasyonu karşılaştırma", "elektrikli araç şarj fiyatları", "hızlı şarj istasyonları", "ZES", "Eşarj", "Sharz", "Voltrun", "Trugo", "Beeful", "şarj istasyonu ağları", "DC şarj", "AC şarj"],
     openGraph: {
-      title: "Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya",
-      description: "ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin.",
+      title: "Şarj İstasyonları Karşılaştırması Türkiye | Sarj Kampanya",
+      description: "ZES, Eşarj, Sharz.net ve Voltrun 2025 karşılaştırması: Fiyatlar, hizmet kalitesi, şarj hızı, ağ genişliği ve ev/AC/DC şarj seçenekleriyle analiz.",
       url: "https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma",
       type: "article",
       publishedTime: "2025-04-13",
@@ -35,8 +35,8 @@ export function generateMetadata(): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya",
-      description: "ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin.",
+      title: "Şarj İstasyonları Karşılaştırması Türkiye | Sarj Kampanya",
+      description: "ZES, Eşarj, Sharz.net ve Voltrun 2025 karşılaştırması: Fiyatlar, hizmet kalitesi, şarj hızı, ağ genişliği ve ev/AC/DC şarj seçenekleriyle analiz.",
       images: ["https://sarjkampanya.com/images/istasyon-karsilastirma.webp"],
     },
     alternates: {
@@ -60,8 +60,8 @@ export default function SarjIstasyonlariKarsilastirma() {
       <div className="min-h-screen bg-gray-50">
         <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma" />
         <BlogStructuredData 
-          title="Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya"
-          description="ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin."
+          title="Şarj İstasyonları Karşılaştırması Türkiye | Sarj Kampanya"
+          description="ZES, Eşarj, Sharz.net ve Voltrun 2025 karşılaştırması: Fiyatlar, hizmet kalitesi, şarj hızı, ağ genişliği ve ev/AC/DC şarj seçenekleriyle analiz."
           datePublished="2025-04-13"
           imageUrl="https://sarjkampanya.com/images/istasyon-karsilastirma.webp"
           authorName="Yasin Baran"

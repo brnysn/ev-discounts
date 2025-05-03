@@ -16,11 +16,11 @@ import { CanonicalWrapper } from "@/components/canonical-wrapper"
 export function generateMetadata(): Metadata {
   return {
     title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
-    description: "1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber.",
+    description: "1 Mayıs 2025’e özel Beefull, onChange kampanyaları: İndirimli, ücretsiz şarj fırsatları ve tarifeleri karşılaştırmalı rehber.",
     keywords: ["1 Mayıs şarj kampanyaları", "elektrikli araç indirimleri", "ZES 1 Mayıs", "Eşarj kampanya", "şarj istasyonu indirimleri", "elektrikli araç şarj fırsatları", "1 Mayıs özel fırsatlar", "DC hızlı şarj indirimi", "Sharz.net kampanya", "EV şarj kampanyaları"],
     openGraph: {
       title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
-      description: "1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber.",
+      description: "1 Mayıs 2025’e özel Beefull, onChange kampanyaları: İndirimli, ücretsiz şarj fırsatları ve tarifeleri karşılaştırmalı rehber.",
       url: "https://sarjkampanya.com/blog/1-mayis-kampanyalari",
       type: "article",
       publishedTime: "2025-04-25",
@@ -37,7 +37,7 @@ export function generateMetadata(): Metadata {
     twitter: {
       card: "summary_large_image",
       title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
-      description: "1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber.",
+      description: "1 Mayıs 2025’e özel Beefull, onChange kampanyaları: İndirimli, ücretsiz şarj fırsatları ve tarifeleri karşılaştırmalı rehber.",
       images: ["https://sarjkampanya.com/images/1mayis.jpg"],
     },
     alternates: {
@@ -62,7 +62,7 @@ export default function MayisKampanyalari() {
         <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/1-mayis-kampanyalari" />
         <BlogStructuredData 
           title="1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya"
-          description="1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber."
+          description="1 Mayıs 2025’e özel Beefull, onChange kampanyaları: İndirimli, ücretsiz şarj fırsatları ve tarifeleri karşılaştırmalı rehber."
           datePublished="2025-04-28"
           imageUrl="https://sarjkampanya.com/images/1mayis.jpg"
           authorName="Yasin Baran"
