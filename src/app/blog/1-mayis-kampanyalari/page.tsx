@@ -102,7 +102,7 @@ export default function MayisKampanyalari() {
           <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="https://i.ibb.co/F4KPsh51/beefull.webp" 
+                src="/images/chargers/beeful.webp" 
                 alt="Beeful Logo" 
                 width={32}
                 height={32}
@@ -166,7 +166,7 @@ export default function MayisKampanyalari() {
           <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="https://www.sarjfiyat.com/images/oncharge_logo.png" 
+                src="/images/chargers/oncharge.png" 
                 alt="oncharge Logo" 
                 width={32}
                 height={32}

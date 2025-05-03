@@ -1,7 +1,7 @@
 [
   {
     "name": "Aksa Şarj",
-    "logo": "/images/chargers/aksa-şarj.svg",
+    "logo": "/images/chargers/aksa-sarj.svg",
     "phone": "",
     "website": "https://www.aksasarj.com.tr/tr/ucretler",
     "prices": [
@@ -194,7 +194,7 @@
   },
   {
     "name": "En Yakıt",
-    "logo": "/images/chargers/en-yakıt.png",
+    "logo": "/images/chargers/en-yakit.png",
     "phone": "",
     "website": "https://www.enyakit.com.tr/ucretlendirme.html",
     "prices": [
@@ -301,7 +301,7 @@
   },
   {
     "name": "eŞarj",
-    "logo": "/images/chargers/eşarj.png",
+    "logo": "/images/chargers/esarj.png",
     "phone": "",
     "website": "https://esarj.com/tarifeler",
     "prices": [
@@ -525,7 +525,7 @@
   },
   {
     "name": "Öniz Şarj",
-    "logo": "/images/chargers/öniz-şarj.png",
+    "logo": "/images/chargers/oniz-sarj.png",
     "phone": "",
     "website": "https://onizsarj.com/fiyat-tarifesi/",
     "prices": [
@@ -617,7 +617,7 @@
   },
   {
     "name": "Rhg Enertürk",
-    "logo": "/images/chargers/rhg-enertürk.svg",
+    "logo": "/images/chargers/rhg-enerturk.svg",
     "phone": "",
     "website": "https://www.enerturk.com/sarj/uyelik-tarifeler",
     "prices": [
