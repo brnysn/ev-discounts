@@ -1,7 +1,7 @@
 [
   {
     "name": "Aksa Şarj",
-    "logo": "https://www.sarjfiyat.com/images/aksa.svg",
+    "logo": "/images/chargers/aksa-şarj.svg",
     "phone": "",
     "website": "https://www.aksasarj.com.tr/tr/ucretler",
     "prices": [
@@ -28,7 +28,7 @@
   },
   {
     "name": "Astor",
-    "logo": "https://www.sarjfiyat.com/images/astor_logo.png",
+    "logo": "/images/chargers/astor.png",
     "phone": "",
     "website": "https://astorsarj.com.tr/#priceweb",
     "prices": [
@@ -51,15 +51,15 @@
   },
   {
     "name": "Beeful",
-    "logo": "https://i.ibb.co/F4KPsh51/beefull.webp",
+    "logo": "/images/chargers/beeful.webp",
     "phone": "08508110018",
     "website": "https://beefull.com/tarifeler/elektrikli-arac-tarifesi/",
     "prices": [
       {
         "ac": [
           {
-              "kwh": "< 20",
-              "price": 8.29
+            "kwh": "< 20",
+            "price": 8.29
           },
           {
             "kwh": "20 >",
@@ -167,7 +167,7 @@
   },
   {
     "name": "ecobox",
-    "logo": "https://www.sarjfiyat.com/images/ecobox.jfif",
+    "logo": "/images/chargers/ecobox.png",
     "phone": "",
     "website": "https://www.ecoboxsarj.com/tarifeler",
     "prices": [
@@ -179,13 +179,13 @@
           },
           {
             "kwh": "20 >",
-            "price": 6.50
+            "price": 6.5
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 8.50
+            "price": 8.5
           }
         ]
       }
@@ -194,7 +194,7 @@
   },
   {
     "name": "En Yakıt",
-    "logo": "https://www.sarjfiyat.com/images/enyakit_logo.png",
+    "logo": "/images/chargers/en-yakıt.png",
     "phone": "",
     "website": "https://www.enyakit.com.tr/ucretlendirme.html",
     "prices": [
@@ -238,7 +238,7 @@
   },
   {
     "name": "Epsis",
-    "logo": "https://www.epsis.net/wp-content/uploads/2022/08/epsis_logo-scaled.webp",
+    "logo": "/images/chargers/epsis.webp",
     "phone": "",
     "website": "https://www.epsis.net/elektrikli-arac-sarj-tarifeleri/",
     "prices": [
@@ -301,7 +301,7 @@
   },
   {
     "name": "eŞarj",
-    "logo": "https://www.sarjfiyat.com/images/esarj_logo.jfif",
+    "logo": "/images/chargers/eşarj.png",
     "phone": "",
     "website": "https://esarj.com/tarifeler",
     "prices": [
@@ -309,17 +309,17 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.90
+            "price": 8.9
           }
         ],
         "dc": [
           {
             "kwh": "< 90",
-            "price": 10.90
+            "price": 10.9
           },
           {
             "kwh": "90 >",
-            "price": 12.90
+            "price": 12.9
           }
         ]
       }
@@ -328,7 +328,7 @@
   },
   {
     "name": "GelDol",
-    "logo": "https://www.sarjfiyat.com/images/geldol.png",
+    "logo": "/images/chargers/geldol.png",
     "phone": "",
     "website": "https://geldol.com/tarifelerimiz/",
     "prices": [
@@ -351,7 +351,7 @@
   },
   {
     "name": "Gio EV",
-    "logo": "https://www.sarjfiyat.com/images/gio_logo.png",
+    "logo": "/images/chargers/gio-ev.png",
     "phone": "",
     "website": "https://gioev.com/fiyatlandirma",
     "prices": [
@@ -374,7 +374,7 @@
   },
   {
     "name": "Lumicle",
-    "logo": "https://www.sarjfiyat.com/images/lumicle_logo.svg",
+    "logo": "/images/chargers/lumicle.svg",
     "phone": "",
     "website": "https://lumicle.com.tr/",
     "prices": [
@@ -397,7 +397,7 @@
   },
   {
     "name": "Miggo",
-    "logo": "https://www.mig-go.com/images/custom-img/Logo_white.svg",
+    "logo": "/images/chargers/miggo.svg",
     "phone": "",
     "website": "https://www.mig-go.com/#ucretlendirme",
     "prices": [
@@ -405,7 +405,7 @@
         "ac": [
           {
             "kwh": "",
-            "price": 7.50
+            "price": 7.5
           }
         ],
         "dc": [
@@ -420,7 +420,7 @@
   },
   {
     "name": "Multiforce",
-    "logo": "https://multiforce.com.tr/assets/img/icon/logo.png",
+    "logo": "/images/chargers/multiforce.png",
     "phone": "",
     "website": "https://multiforce.com.tr/price.html",
     "prices": [
@@ -428,7 +428,7 @@
         "ac": [
           {
             "kwh": "AC",
-            "price": 6.50
+            "price": 6.5
           },
           {
             "kwh": "AC-2",
@@ -467,7 +467,7 @@
   },
   {
     "name": "oncharge",
-    "logo": "https://www.sarjfiyat.com/images/oncharge_logo.png",
+    "logo": "/images/chargers/oncharge.png",
     "phone": "",
     "website": "https://oncharge.com.tr/fiyatlar",
     "prices": [
@@ -493,7 +493,7 @@
         "ends_at": "2025-03-31 23:59:00",
         "text": "",
         "discount_rate": 20
-      },      
+      },
       {
         "name": "",
         "starts_at": "2025-04-23 00:00:00",
@@ -525,7 +525,7 @@
   },
   {
     "name": "Öniz Şarj",
-    "logo": "https://www.sarjfiyat.com/images/oniz.png",
+    "logo": "/images/chargers/öniz-şarj.png",
     "phone": "",
     "website": "https://onizsarj.com/fiyat-tarifesi/",
     "prices": [
@@ -556,7 +556,7 @@
   },
   {
     "name": "Onlife Charge",
-    "logo": "https://www.sarjfiyat.com/images/onlife.png",
+    "logo": "/images/chargers/onlife-charge.png",
     "phone": "",
     "website": "https://www.onlifecharge.com/elektrikli-arac-sarj-fiyatlari",
     "prices": [
@@ -583,7 +583,7 @@
   },
   {
     "name": "Otojet",
-    "logo": "https://www.inbrandadworks.com/wp-content/uploads/2024/05/logo-otojet.svg",
+    "logo": "/images/chargers/otojet.svg",
     "phone": "4445496",
     "website": "https://www.oto-jet.com.tr/fiyatlarimiz.html",
     "prices": [
@@ -617,7 +617,7 @@
   },
   {
     "name": "Rhg Enertürk",
-    "logo": "https://www.enerturk.com/application/themes/mediaclick/assets/img/logo.svg",
+    "logo": "/images/chargers/rhg-enertürk.svg",
     "phone": "",
     "website": "https://www.enerturk.com/sarj/uyelik-tarifeler",
     "prices": [
@@ -648,7 +648,7 @@
   },
   {
     "name": "Sharz",
-    "logo": "https://cdn.prod.website-files.com/6800c6e81bb4128ed4c241ca/6800c818f2e161d5a0b9b6d8_logo-p-500.png",
+    "logo": "/images/chargers/sharz.png",
     "phone": "",
     "website": "https://www.sharz.net/#tarrifs",
     "prices": [
@@ -677,31 +677,30 @@
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-03-31 23:59:00",
         "text": "",
-        "discounted_prices":
-          {
-            "ac": [
-              {
-                "kwh": "",
-                "price": 5.99
-              }
-            ],
-            "dc": [
-              {
-                "kwh": "< 60",
-                "price": 5.99
-              },
-              {
-                "kwh": "60 >",
-                "price": 5.99
-              }
-            ]
-          }
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": "",
+              "price": 5.99
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 60",
+              "price": 5.99
+            },
+            {
+              "kwh": "60 >",
+              "price": 5.99
+            }
+          ]
+        }
       }
     ]
   },
   {
     "name": "Shell Recharge",
-    "logo": "https://www.sarjfiyat.com/images/shell_logo.png",
+    "logo": "/images/chargers/shell-recharge.png",
     "phone": "",
     "website": "https://www.shell.com.tr/suruculer/shell-recharge-turkiye/fiyat-tarifesi.html",
     "prices": [
@@ -728,7 +727,7 @@
   },
   {
     "name": "Trugo",
-    "logo": "https://www.trugo.com.tr/images/trugo-logo-yeni.svg",
+    "logo": "/images/chargers/trugo.svg",
     "phone": "",
     "website": "https://www.trugo.com.tr/price",
     "prices": [
@@ -757,8 +756,10 @@
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-04-01 23:59:00",
         "text": "Yalnızca Trumore üzerinden başlatılan şarjlarda TOGG kullanıcılarına özeldir.",
-        "cars": ["Togg"],
-        "discounted_prices":       {
+        "cars": [
+          "Togg"
+        ],
+        "discounted_prices": {
           "ac": [
             {
               "kwh": "",
@@ -781,7 +782,7 @@
   },
   {
     "name": "Voltrun",
-    "logo": "https://www.voltrun.com/wp-content/uploads/2022/07/voltrun-logo-1024x576.webp",
+    "logo": "/images/chargers/voltrun.png",
     "phone": "",
     "website": "https://www.voltrun.com/voltrun-uyelik-tarife/#tarife",
     "prices": [
@@ -897,7 +898,7 @@
   },
   {
     "name": "Wat Mobilite",
-    "logo": "https://www.watmobilite.com/images/logo.svg",
+    "logo": "/images/chargers/wat-mobilite.svg",
     "phone": "",
     "website": "https://www.watmobilite.com/cozumler/kamusal-alanlar#guncel-fiyat-ve-tarifeler",
     "prices": [
@@ -961,7 +962,7 @@
   },
   {
     "name": "Zes",
-    "logo": "https://zes.net/Uploads/Page/zes_yeni_logo_3.svg",
+    "logo": "/images/chargers/zes.svg",
     "phone": "",
     "website": "https://zes.net/fiyatlar-tr",
     "prices": [
