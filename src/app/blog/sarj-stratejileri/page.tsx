@@ -6,7 +6,8 @@ import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
-import { metadata } from "./metadata"
+import { metadata as pageMetadata } from "./metadata"
+import Head from "next/head"
 import { 
   Moon, 
   Tags, 
@@ -26,10 +27,33 @@ export default function SarjStratejileri() {
   
   return (
     <BlogPostWrapper>
+      <Head>
+        <title>{pageMetadata.title as string}</title>
+        <meta name="description" content={pageMetadata.description as string} />
+        
+        {/* OpenGraph tags */}
+        <meta property="og:title" content={pageMetadata.openGraph?.title as string} />
+        <meta property="og:description" content={pageMetadata.openGraph?.description as string} />
+        <meta property="og:url" content={pageMetadata.openGraph?.url as string} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://sarjkampanya.com/images/sarj-strateji.jpg" />
+        
+        {/* Twitter tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageMetadata.twitter?.title as string} />
+        <meta name="twitter:description" content={pageMetadata.twitter?.description as string} />
+        <meta name="twitter:image" content="https://sarjkampanya.com/images/sarj-strateji.jpg" />
+
+        {/* Keywords */}
+        <meta name="keywords" content={(pageMetadata.keywords as string[])?.join(',')} />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://sarjkampanya.com/blog/sarj-stratejileri" />
+      </Head>
       <div className="min-h-screen bg-gray-50">
         <BlogStructuredData 
-          title={metadata.title as string}
-          description={metadata.description as string}
+          title={pageMetadata.title as string}
+          description={pageMetadata.description as string}
           datePublished="2025-04-16"
           imageUrl="https://sarjkampanya.com/images/sarj-strateji.jpg"
           authorName="Yasin Baran"
