@@ -1,71 +1,66 @@
-"use client"
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
-import { metadata as pageMetadata } from "./metadata"
-import Head from "next/head"
 import { 
   AlertTriangle, 
   Building, 
   Zap
 } from "lucide-react"
-import Script from 'next/script'
+import type { Metadata } from "next"
+import { CanonicalWrapper } from "@/components/canonical-wrapper"
 
-function DepremCanonical() {
-  return (
-    <>
-      <link rel="canonical" href="https://sarjkampanya.com/blog/deprem-sonrasi-sarj" />
-      <Script id="deprem-canonical" strategy="afterInteractive">
-        {`
-          // Add canonical link if not present
-          if (!document.querySelector('link[rel="canonical"]')) {
-            const link = document.createElement('link');
-            link.rel = 'canonical';
-            link.href = 'https://sarjkampanya.com/blog/deprem-sonrasi-sarj';
-            document.head.appendChild(link);
-          }
-        `}
-      </Script>
-    </>
-  )
+// Generate metadata using Next.js 13 App Router pattern
+export function generateMetadata(): Metadata {
+  return {
+    title: "Deprem Sonrası Elektrikli Araç Şarj Çözümleri | Sarj Kampanya",
+    description: "23 Nisan 2025 İstanbul depremi sonrası elektrikli araç sahipleri için kritik şarj bilgileri. Acil durum şarj noktaları, EnYakıt'ın ücretsiz şarj istasyonları, kesintisiz enerji sağlayan şarj lokasyonları, V2G (Vehicle-to-Grid) teknolojisinin kriz anlarındaki rolü ve afet durumlarında elektrikli araç kullanımına dair önemli tavsiyeler.",
+    keywords: ["İstanbul depremi", "elektrikli araç deprem", "şarj istasyonları", "EnYakıt ücretsiz şarj", "e-mobilite afet", "acil durumlarda EV", "EV şarj Marmara"],
+    openGraph: {
+      title: "Deprem Sonrası Elektrikli Araç Şarj Çözümleri | Sarj Kampanya",
+      description: "23 Nisan 2025 İstanbul depremi sonrası elektrikli araç sahipleri için kritik şarj bilgileri. Acil durum şarj noktaları, EnYakıt'ın ücretsiz şarj istasyonları, kesintisiz enerji sağlayan şarj lokasyonları, V2G (Vehicle-to-Grid) teknolojisinin kriz anlarındaki rolü ve afet durumlarında elektrikli araç kullanımına dair önemli tavsiyeler.",
+      url: "https://sarjkampanya.com/blog/deprem-sonrasi-sarj",
+      type: "article",
+      publishedTime: "2025-04-24",
+      authors: ["Yasin Baran"],
+      images: [
+        {
+          url: "https://sarjkampanya.com/images/deprem-ev.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Deprem Sonrası EV Kullanımı",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Deprem Sonrası Elektrikli Araç Şarj Çözümleri | Sarj Kampanya",
+      description: "23 Nisan 2025 İstanbul depremi sonrası elektrikli araç sahipleri için kritik şarj bilgileri. Acil durum şarj noktaları, EnYakıt'ın ücretsiz şarj istasyonları, kesintisiz enerji sağlayan şarj lokasyonları, V2G (Vehicle-to-Grid) teknolojisinin kriz anlarındaki rolü ve afet durumlarında elektrikli araç kullanımına dair önemli tavsiyeler.",
+      images: ["https://sarjkampanya.com/images/deprem-ev.jpg"],
+    },
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/deprem-sonrasi-sarj",
+    },
+  }
 }
 
+// Server component
 export default function DepremSonrasiSarj() {
+  // Find the post data server-side
   const post = blogPosts.find(post => post.id === "post-4")
   
   if (!post) {
     return <div>Blog yazısı bulunamadı</div>
   }
   
+  // Directly render the content with proper metadata
   return (
     <BlogPostWrapper>
-      <Head>
-        <title>{pageMetadata.title as string}</title>
-        <meta name="description" content={pageMetadata.description as string} />
-        
-        {/* OpenGraph tags */}
-        <meta property="og:title" content={pageMetadata.openGraph?.title as string} />
-        <meta property="og:description" content={pageMetadata.openGraph?.description as string} />
-        <meta property="og:url" content={pageMetadata.openGraph?.url as string} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://sarjkampanya.com/images/deprem-ev.jpg" />
-        
-        {/* Twitter tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageMetadata.twitter?.title as string} />
-        <meta name="twitter:description" content={pageMetadata.twitter?.description as string} />
-        <meta name="twitter:image" content="https://sarjkampanya.com/images/deprem-ev.jpg" />
-
-        {/* Keywords */}
-        <meta name="keywords" content={(pageMetadata.keywords as string[])?.join(',')} />
-      </Head>
       <div className="min-h-screen bg-gray-50">
-        <DepremCanonical />
+        <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/deprem-sonrasi-sarj" />
         <BlogStructuredData 
-          title={pageMetadata.title as string}
-          description={pageMetadata.description as string}
+          title="Deprem Sonrası Elektrikli Araç Şarj Çözümleri | Sarj Kampanya"
+          description="23 Nisan 2025 İstanbul depremi sonrası elektrikli araç sahipleri için kritik şarj bilgileri. Acil durum şarj noktaları, EnYakıt'ın ücretsiz şarj istasyonları, kesintisiz enerji sağlayan şarj lokasyonları, V2G (Vehicle-to-Grid) teknolojisinin kriz anlarındaki rolü ve afet durumlarında elektrikli araç kullanımına dair önemli tavsiyeler."
           datePublished="2025-04-24"
           imageUrl="https://sarjkampanya.com/images/deprem-ev.jpg"
           authorName="Yasin Baran"

@@ -1,11 +1,7 @@
-"use client"
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
-import { metadata as pageMetadata } from "./metadata"
-import Head from "next/head"
 import { 
   Percent, 
   Zap,
@@ -13,43 +9,60 @@ import {
   ExternalLink
 } from "lucide-react"
 import Image from "next/image"
+import type { Metadata } from "next"
+import { CanonicalWrapper } from "@/components/canonical-wrapper"
 
+// Generate metadata using Next.js 13 App Router pattern
+export function generateMetadata(): Metadata {
+  return {
+    title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
+    description: "1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber.",
+    keywords: ["1 Mayıs şarj kampanyaları", "elektrikli araç indirimleri", "ZES 1 Mayıs", "Eşarj kampanya", "şarj istasyonu indirimleri", "elektrikli araç şarj fırsatları", "1 Mayıs özel fırsatlar", "DC hızlı şarj indirimi", "Sharz.net kampanya", "EV şarj kampanyaları"],
+    openGraph: {
+      title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
+      description: "1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber.",
+      url: "https://sarjkampanya.com/blog/1-mayis-kampanyalari",
+      type: "article",
+      publishedTime: "2025-04-25",
+      authors: ["Yasin Baran"],
+      images: [
+        {
+          url: "https://sarjkampanya.com/images/1mayis.jpg",
+          width: 1200,
+          height: 630,
+          alt: "1 Mayıs Elektrikli Araç Şarj Kampanyaları",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
+      description: "1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber.",
+      images: ["https://sarjkampanya.com/images/1mayis.jpg"],
+    },
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/1-mayis-kampanyalari",
+    },
+  }
+}
+
+// Server component
 export default function MayisKampanyalari() {
+  // Find the post data server-side
   const post = blogPosts.find(post => post.id === "post-5")
   
   if (!post) {
     return <div>Blog yazısı bulunamadı</div>
   }
   
+  // Directly render the content with proper metadata
   return (
     <BlogPostWrapper>
-      <Head>
-        <title>{pageMetadata.title as string}</title>
-        <meta name="description" content={pageMetadata.description as string} />
-        
-        {/* OpenGraph tags */}
-        <meta property="og:title" content={pageMetadata.openGraph?.title as string} />
-        <meta property="og:description" content={pageMetadata.openGraph?.description as string} />
-        <meta property="og:url" content={pageMetadata.openGraph?.url as string} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://sarjkampanya.com/images/1mayis.jpg" />
-        
-        {/* Twitter tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageMetadata.twitter?.title as string} />
-        <meta name="twitter:description" content={pageMetadata.twitter?.description as string} />
-        <meta name="twitter:image" content="https://sarjkampanya.com/images/1mayis.jpg" />
-
-        {/* Keywords */}
-        <meta name="keywords" content={(pageMetadata.keywords as string[])?.join(',')} />
-        
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://sarjkampanya.com/blog/1-mayis-kampanyalari" />
-      </Head>
       <div className="min-h-screen bg-gray-50">
+        <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/1-mayis-kampanyalari" />
         <BlogStructuredData 
-          title={pageMetadata.title as string}
-          description={pageMetadata.description as string}
+          title="1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya"
+          description="1 Mayıs 2025 Emek ve Dayanışma Günü'ne özel elektrikli araç şarj istasyonu kampanyaları. ZES, Eşarj, Sharz.net ve EnYakıt'ın sunduğu özel indirimler, ücretsiz şarj fırsatları ve avantajlı tarifeler hakkında karşılaştırmalı detaylı rehber."
           datePublished="2025-04-28"
           imageUrl="https://sarjkampanya.com/images/1mayis.jpg"
           authorName="Yasin Baran"
@@ -78,7 +91,7 @@ export default function MayisKampanyalari() {
           </div>
           
           <h3 className="flex items-center gap-2 text-xl font-semibold mb-3 mt-6">
-            <span>��</span> 1 Mayıs Şarj Kampanyaları Listesi
+            <span></span> 1 Mayıs Şarj Kampanyaları Listesi
           </h3>
           
           <p className="italic text-gray-600 mb-6">

@@ -1,13 +1,7 @@
-"use client"
-
-"use client"
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
-import { metadata as pageMetadata } from "./metadata"
-import Head from "next/head"
 import { 
   Moon, 
   Tags, 
@@ -16,44 +10,60 @@ import {
   Battery, 
   Zap
 } from "lucide-react"
+import type { Metadata } from "next"
+import { CanonicalWrapper } from "@/components/canonical-wrapper"
 
+// Generate metadata using Next.js 13 App Router pattern
+export function generateMetadata(): Metadata {
+  return {
+    title: "Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya",
+    description: "Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin.",
+    keywords: ["elektrikli araç şarj stratejileri", "elektrikli araç tasarruf", "şarj kampanyaları", "ev şarj istasyonu", "gece tarifesi", "ekonomik şarj", "regeneratif frenleme", "DC hızlı şarj", "AC yavaş şarj"],
+    openGraph: {
+      title: "Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya",
+      description: "Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin.",
+      url: "https://sarjkampanya.com/blog/sarj-stratejileri",
+      type: "article",
+      publishedTime: "2025-04-16",
+      authors: ["Yasin Baran"],
+      images: [
+        {
+          url: "https://sarjkampanya.com/images/sarj-strateji.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Elektrikli Araç Şarj Stratejileri",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya",
+      description: "Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin.",
+      images: ["https://sarjkampanya.com/images/sarj-strateji.jpg"],
+    },
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/sarj-stratejileri",
+    },
+  }
+}
 
+// Server component
 export default function SarjStratejileri() {
+  // Find the post data server-side
   const post = blogPosts.find(post => post.id === "post-1")
   
   if (!post) {
     return <div>Blog yazısı bulunamadı</div>
   }
   
+  // Directly render the content with proper metadata
   return (
     <BlogPostWrapper>
-      <Head>
-        <title>{pageMetadata.title as string}</title>
-        <meta name="description" content={pageMetadata.description as string} />
-        
-        {/* OpenGraph tags */}
-        <meta property="og:title" content={pageMetadata.openGraph?.title as string} />
-        <meta property="og:description" content={pageMetadata.openGraph?.description as string} />
-        <meta property="og:url" content={pageMetadata.openGraph?.url as string} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://sarjkampanya.com/images/sarj-strateji.jpg" />
-        
-        {/* Twitter tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageMetadata.twitter?.title as string} />
-        <meta name="twitter:description" content={pageMetadata.twitter?.description as string} />
-        <meta name="twitter:image" content="https://sarjkampanya.com/images/sarj-strateji.jpg" />
-
-        {/* Keywords */}
-        <meta name="keywords" content={(pageMetadata.keywords as string[])?.join(',')} />
-        
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://sarjkampanya.com/blog/sarj-stratejileri" />
-      </Head>
       <div className="min-h-screen bg-gray-50">
+        <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/sarj-stratejileri" />
         <BlogStructuredData 
-          title={pageMetadata.title as string}
-          description={pageMetadata.description as string}
+          title="Elektrikli Araç Sahipleri İçin Optimum Şarj Stratejileri | Sarj Kampanya"
+          description="Elektrikli araç kullanıcıları için maliyet ve zaman tasarrufu sağlayan kapsamlı şarj rehberi. Gece tarifesi avantajları, akıllı şarj planlaması, ev ve halka açık şarj istasyonlarının optimum kullanımı, mevsimsel faktörler ve operatör kampanyalarından faydalanma taktikleri ile şarj giderlerinizi minimum seviyeye indirin."
           datePublished="2025-04-16"
           imageUrl="https://sarjkampanya.com/images/sarj-strateji.jpg"
           authorName="Yasin Baran"

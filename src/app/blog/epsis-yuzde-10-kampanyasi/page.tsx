@@ -1,11 +1,8 @@
-"use client"
-
+import { blogPosts } from "@/app/data/blog-posts"
+import type { Metadata } from "next"
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
-import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
-import { metadata as pageMetadata } from "./metadata"
-import Head from "next/head"
 import { 
   Zap, 
   Tags, 
@@ -13,61 +10,60 @@ import {
   Bell,
   Calendar
 } from "lucide-react"
-import Script from 'next/script'
+import { CanonicalWrapper } from "@/components/canonical-wrapper"
 
-function EpsisCanonical() {
-  return (
-    <>
-      <link rel="canonical" href="https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi" />
-      <Script id="epsis-canonical" strategy="afterInteractive">
-        {`
-          // Add canonical link if not present
-          if (!document.querySelector('link[rel="canonical"]')) {
-            const link = document.createElement('link');
-            link.rel = 'canonical';
-            link.href = 'https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi';
-            document.head.appendChild(link);
-          }
-        `}
-      </Script>
-    </>
-  )
+// This is a server component
+// Generate metadata using Next.js 13 App Router pattern
+export function generateMetadata(): Metadata {
+  return {
+    title: "Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası – Sarj Kampanya",
+    description: "Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında mobil uygulama üzerinden seçilen favori 5 istasyonda sunduğu %10 indirim kampanyasının tüm detayları.",
+    keywords: ["Epsis şarj kampanyası", "elektrikli araç indirim", "şarj istasyonu kampanyası", "favori istasyon indirimi", "1 Mayıs şarj", "ev şarj indirimleri"],
+    openGraph: {
+      title: "Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası – Sarj Kampanya",
+      description: "Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında mobil uygulama üzerinden seçilen favori 5 istasyonda sunduğu %10 indirim kampanyasının tüm detayları.",
+      url: "https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi",
+      type: "article",
+      publishedTime: "2025-04-29",
+      authors: ["Yasin Baran"],
+      images: [
+        {
+          url: "https://sarjkampanya.com/images/epsis-kampanya.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Epsis %10 İndirim Kampanyası",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası",
+      description: "Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında mobil uygulama üzerinden seçilen favori 5 istasyonda sunduğu %10 indirim kampanyasının tüm detayları.",
+      images: ["https://sarjkampanya.com/images/epsis-kampanya.jpg"],
+    },
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi",
+    },
+  }
 }
 
+// Server component
 export default function EpsisKampanyasi() {
+  // Find the post data server-side
   const post = blogPosts.find(post => post.id === "post-6")
   
   if (!post) {
     return <div>Blog yazısı bulunamadı</div>
   }
   
+  // Directly render the content with proper metadata
   return (
     <BlogPostWrapper>
-      <Head>
-        <title>{pageMetadata.title as string}</title>
-        <meta name="description" content={pageMetadata.description as string} />
-        
-        {/* OpenGraph tags */}
-        <meta property="og:title" content={pageMetadata.openGraph?.title as string} />
-        <meta property="og:description" content={pageMetadata.openGraph?.description as string} />
-        <meta property="og:url" content={pageMetadata.openGraph?.url as string} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://sarjkampanya.com/images/epsis-kampanya.jpg" />
-        
-        {/* Twitter tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageMetadata.twitter?.title as string} />
-        <meta name="twitter:description" content={pageMetadata.twitter?.description as string} />
-        <meta name="twitter:image" content="https://sarjkampanya.com/images/epsis-kampanya.jpg" />
-
-        {/* Keywords */}
-        <meta name="keywords" content={(pageMetadata.keywords as string[])?.join(',')} />
-      </Head>
       <div className="min-h-screen bg-gray-50">
-        <EpsisCanonical />
+        <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi" />
         <BlogStructuredData 
-          title={pageMetadata.title as string}
-          description={pageMetadata.description as string}
+          title="Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası – Sarj Kampanya"
+          description="Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında mobil uygulama üzerinden seçilen favori 5 istasyonda sunduğu %10 indirim kampanyasının tüm detayları."
           datePublished="2025-04-29"
           imageUrl="https://sarjkampanya.com/images/epsis-kampanya.jpg"
           authorName="Yasin Baran"

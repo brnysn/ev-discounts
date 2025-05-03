@@ -1,56 +1,67 @@
-"use client"
-
-"use client"
-
 import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
-import { metadata as pageMetadata } from "./metadata"
-import Head from "next/head"
 import { 
   Zap, 
   Scale, 
   BarChart4,
   Gauge
 } from "lucide-react"
+import type { Metadata } from "next"
+import { CanonicalWrapper } from "@/components/canonical-wrapper"
 
+// Generate metadata using Next.js 13 App Router pattern
+export function generateMetadata(): Metadata {
+  return {
+    title: "Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya",
+    description: "ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin.",
+    keywords: ["şarj istasyonu karşılaştırma", "elektrikli araç şarj fiyatları", "hızlı şarj istasyonları", "ZES", "Eşarj", "Sharz", "Voltrun", "Trugo", "Beeful", "şarj istasyonu ağları", "DC şarj", "AC şarj"],
+    openGraph: {
+      title: "Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya",
+      description: "ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin.",
+      url: "https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma",
+      type: "article",
+      publishedTime: "2025-04-13",
+      authors: ["Yasin Baran"],
+      images: [
+        {
+          url: "https://sarjkampanya.com/images/istasyon-karsilastirma.webp",
+          width: 1200,
+          height: 630,
+          alt: "Şarj İstasyonları Karşılaştırma",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya",
+      description: "ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin.",
+      images: ["https://sarjkampanya.com/images/istasyon-karsilastirma.webp"],
+    },
+    alternates: {
+      canonical: "https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma",
+    },
+  }
+}
+
+// Server component
 export default function SarjIstasyonlariKarsilastirma() {
+  // Find the post data server-side
   const post = blogPosts.find(post => post.id === "post-2")
   
   if (!post) {
     return <div>Blog yazısı bulunamadı</div>
   }
   
+  // Directly render the content with proper metadata
   return (
     <BlogPostWrapper>
-      <Head>
-        <title>{pageMetadata.title as string}</title>
-        <meta name="description" content={pageMetadata.description as string} />
-        
-        {/* OpenGraph tags */}
-        <meta property="og:title" content={pageMetadata.openGraph?.title as string} />
-        <meta property="og:description" content={pageMetadata.openGraph?.description as string} />
-        <meta property="og:url" content={pageMetadata.openGraph?.url as string} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://sarjkampanya.com/images/istasyon-karsilastirma.webp" />
-        
-        {/* Twitter tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageMetadata.twitter?.title as string} />
-        <meta name="twitter:description" content={pageMetadata.twitter?.description as string} />
-        <meta name="twitter:image" content="https://sarjkampanya.com/images/istasyon-karsilastirma.webp" />
-
-        {/* Keywords */}
-        <meta name="keywords" content={(pageMetadata.keywords as string[])?.join(',')} />
-        
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma" />
-      </Head>
       <div className="min-h-screen bg-gray-50">
+        <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma" />
         <BlogStructuredData 
-          title={pageMetadata.title as string}
-          description={pageMetadata.description as string}
+          title="Türkiye'deki Elektrikli Araç Şarj İstasyonları Karşılaştırması | Sarj Kampanya"
+          description="ZES, Eşarj, Sharz.net, Voltrun ve diğer şarj operatörlerinin 2025 güncel fiyatları, hizmet kalitesi, ağ genişliği ve uygulama özellikleri bakımından kapsamlı karşılaştırması. DC hızlı şarj, AC şarj ve ev şarj ünitesi seçenekleri ile hangi operatörün sizin için en uygun olduğunu keşfedin."
           datePublished="2025-04-13"
           imageUrl="https://sarjkampanya.com/images/istasyon-karsilastirma.webp"
           authorName="Yasin Baran"

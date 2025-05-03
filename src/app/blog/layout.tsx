@@ -1,11 +1,4 @@
-import type { Metadata } from "next"
 import { BlogNavbar } from "@/components/blog-navbar"
-import { BlogHeadTags } from "@/components/blog-head-tags"
-
-export const metadata: Metadata = {
-  title: "Blog | Elektrikli Araç Şarj Kampanyaları",
-  description: "Elektrikli araç şarj istasyonları, operatör karşılaştırmaları, kampanyalar ve batarya bakımı hakkında kapsamlı rehber.",
-}
 
 // Simple layout without client components to avoid hydration errors
 export default function BlogLayout({
@@ -15,7 +8,6 @@ export default function BlogLayout({
 }) {
   return (
     <>
-      <BlogHeadTags />
       <BlogNavbar />
       {children}
     </>
