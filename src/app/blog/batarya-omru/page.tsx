@@ -6,6 +6,7 @@ import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
+import { metadata } from "./metadata"
 import { 
   Battery, 
   Zap, 
@@ -25,8 +26,8 @@ export default function BataryaOmru() {
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50">
         <BlogStructuredData 
-          title="Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya"
-          description="Elektrikli aracınızın batarya ömrünü uzatmak için 5 etkili yöntem. Doğru şarj pratikleri, hızlı şarj kullanımı, sıcaklık kontrolü ve daha fazlası."
+          title={metadata.title as string}
+          description={metadata.description as string}
           datePublished="2025-04-10"
           imageUrl="https://sarjkampanya.com/images/batarya-omru.jpg"
           authorName="Yasin Baran"

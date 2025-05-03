@@ -4,6 +4,7 @@ import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
+import { metadata } from "./metadata"
 import { 
   AlertTriangle, 
   Building, 
@@ -42,8 +43,8 @@ export default function DepremSonrasiSarj() {
       <div className="min-h-screen bg-gray-50">
         <DepremCanonical />
         <BlogStructuredData 
-          title="Deprem Sonrası Elektrikli Araç Kullanımı ve Şarj İstasyonlarının Rolü"
-          description="23 Nisan 2025 İstanbul depremi sonrası elektrikli araçlar ve şarj istasyonlarının durumu, EnYakıt'ın ücretsiz şarj desteği ve kriz anlarında e-mobilitenin önemi."
+          title={metadata.title as string}
+          description={metadata.description as string}
           datePublished="2025-04-24"
           imageUrl="https://sarjkampanya.com/images/deprem-ev.jpg"
           authorName="Yasin Baran"

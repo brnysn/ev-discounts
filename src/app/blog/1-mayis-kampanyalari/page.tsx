@@ -4,6 +4,7 @@ import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
+import { metadata } from "./metadata"
 import { 
   Percent, 
   Zap,
@@ -23,8 +24,8 @@ export default function MayisKampanyalari() {
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50">
         <BlogStructuredData 
-          title="1 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları | Şarj Kampanya"
-          description="1 Mayıs Emek ve Dayanışma Günü'nde Türkiye'deki elektrikli araç şarj istasyonlarının sunduğu özel indirimler, kampanyalar ve fırsatlar. ZES, Eşarj, Sharz.net ve diğer operatörlerin kampanyaları karşılaştırmalı olarak burada!"
+          title={metadata.title as string}
+          description={metadata.description as string}
           datePublished="2025-04-28"
           imageUrl="https://sarjkampanya.com/images/1mayis.jpg"
           authorName="Yasin Baran"

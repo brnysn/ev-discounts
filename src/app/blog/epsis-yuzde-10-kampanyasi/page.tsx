@@ -4,6 +4,7 @@ import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
+import { metadata } from "./metadata"
 import { 
   Zap, 
   Tags, 
@@ -44,8 +45,8 @@ export default function EpsisKampanyasi() {
       <div className="min-h-screen bg-gray-50">
         <EpsisCanonical />
         <BlogStructuredData 
-          title="Favori 5 İstasyonda %10 İndirim: Epsis&apos;ten Yeni Kampanya!"
-          description="Epsis&apos;in 23 Nisan – 30 Mayıs 2025 tarihleri arasında geçerli olan, favori istasyonlarda %10 indirimli şarj kampanyasını keşfedin. Kampanya detayları ve fiyat avantajları bu yazıda!"
+          title={metadata.title as string}
+          description={metadata.description as string}
           datePublished="2025-04-29"
           imageUrl="https://sarjkampanya.com/images/epsis-kampanya.jpg"
           authorName="Yasin Baran"

@@ -4,7 +4,7 @@ import { BlogHeadTags } from "@/components/blog-head-tags"
 
 export const metadata: Metadata = {
   title: "Blog | Elektrikli Araç Şarj Kampanyaları",
-  description: "Elektrikli araç şarj istasyonları hakkında bilgiler, şarj stratejileri ve daha fazlası.",
+  description: "Elektrikli araç şarj istasyonları hakkında güncel bilgiler, operatör karşılaştırmaları, özel kampanyalar, verimli şarj stratejileri ve batarya bakımı ile ilgili uzman tavsiyeleri. Türkiye'deki tüm EV kullanıcıları için kapsamlı şarj rehberi.",
 }
 
 // Simple layout without client components to avoid hydration errors

@@ -6,6 +6,7 @@ import { BlogPost } from "@/components/ui/blog-post"
 import { BlogStructuredData } from "@/components/ui/blog-structured-data"
 import { blogPosts } from "@/app/data/blog-posts"
 import { BlogPostWrapper } from "@/components/blog-post-wrapper"
+import { metadata } from "./metadata"
 import { 
   Moon, 
   Tags, 
@@ -27,8 +28,8 @@ export default function SarjStratejileri() {
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50">
         <BlogStructuredData 
-          title="Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri"
-          description="Elektrikli araç kullanıcıları için uygun şarj stratejileri, kampanya takibi ve tasarruf yöntemleri hakkında kapsamlı rehber."
+          title={metadata.title as string}
+          description={metadata.description as string}
           datePublished="2025-04-16"
           imageUrl="https://sarjkampanya.com/images/sarj-strateji.jpg"
           authorName="Yasin Baran"
