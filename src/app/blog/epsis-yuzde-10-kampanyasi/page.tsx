@@ -28,7 +28,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/epsis-kampanya.jpg",
+          url: "https://sarjkampanya.com/images/posts/epsis-kampanya.jpg",
           width: 1200,
           height: 630,
           alt: "Epsis %10 İndirim Kampanyası",
@@ -39,7 +39,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası",
       description: "Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında mobil uygulama üzerinden seçilen favori 5 istasyonda sunduğu %10 indirim kampanyasının tüm detayları.",
-      images: ["https://sarjkampanya.com/images/epsis-kampanya.jpg"],
+      images: ["https://sarjkampanya.com/images/posts/epsis-kampanya.jpg"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi",
@@ -65,7 +65,7 @@ export default function EpsisKampanyasi() {
           title="Favori 5 İstasyonda %10 İndirim | Epsis Kampanyası – Sarj Kampanya"
           description="Epsis'in 23 Nisan – 30 Mayıs 2025 tarihleri arasında mobil uygulama üzerinden seçilen favori 5 istasyonda sunduğu %10 indirim kampanyasının tüm detayları."
           datePublished="2025-04-29"
-          imageUrl="https://sarjkampanya.com/images/epsis-kampanya.jpg"
+          imageUrl="https://sarjkampanya.com/images/posts/epsis-kampanya.jpg"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/epsis-yuzde-10-kampanyasi"
         />

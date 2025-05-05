@@ -26,7 +26,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/istasyon-karsilastirma.webp",
+          url: "https://sarjkampanya.com/images/posts/istasyon-karsilastirma.webp",
           width: 1200,
           height: 630,
           alt: "Şarj İstasyonları Karşılaştırma",
@@ -37,7 +37,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "Şarj İstasyonları Karşılaştırması Türkiye | Sarj Kampanya",
       description: "ZES, Eşarj, Sharz.net ve Voltrun 2025 karşılaştırması: Fiyatlar, hizmet kalitesi, şarj hızı, ağ genişliği ve ev/AC/DC şarj seçenekleriyle analiz.",
-      images: ["https://sarjkampanya.com/images/istasyon-karsilastirma.webp"],
+      images: ["https://sarjkampanya.com/images/posts/istasyon-karsilastirma.webp"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma",
@@ -63,7 +63,7 @@ export default function SarjIstasyonlariKarsilastirma() {
           title="Şarj İstasyonları Karşılaştırması Türkiye | Sarj Kampanya"
           description="ZES, Eşarj, Sharz.net ve Voltrun 2025 karşılaştırması: Fiyatlar, hizmet kalitesi, şarj hızı, ağ genişliği ve ev/AC/DC şarj seçenekleriyle analiz."
           datePublished="2025-04-13"
-          imageUrl="https://sarjkampanya.com/images/istasyon-karsilastirma.webp"
+          imageUrl="https://sarjkampanya.com/images/posts/istasyon-karsilastirma.webp"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/sarj-istasyonlari-karsilastirma"
         />

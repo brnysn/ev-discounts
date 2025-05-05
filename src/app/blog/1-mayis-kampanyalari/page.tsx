@@ -27,7 +27,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/1mayis.jpg",
+          url: "https://sarjkampanya.com/images/posts/1mayis.jpg",
           width: 1200,
           height: 630,
           alt: "1 Mayıs Elektrikli Araç Şarj Kampanyaları",
@@ -38,7 +38,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya",
       description: "1 Mayıs 2025’e özel Beefull, onChange kampanyaları: İndirimli, ücretsiz şarj fırsatları ve tarifeleri karşılaştırmalı rehber.",
-      images: ["https://sarjkampanya.com/images/1mayis.jpg"],
+      images: ["https://sarjkampanya.com/images/posts/1mayis.jpg"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/1-mayis-kampanyalari",
@@ -64,7 +64,7 @@ export default function MayisKampanyalari() {
           title="1 Mayıs Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya"
           description="1 Mayıs 2025’e özel Beefull, onChange kampanyaları: İndirimli, ücretsiz şarj fırsatları ve tarifeleri karşılaştırmalı rehber."
           datePublished="2025-04-28"
-          imageUrl="https://sarjkampanya.com/images/1mayis.jpg"
+          imageUrl="https://sarjkampanya.com/images/posts/1mayis.jpg"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/1-mayis-kampanyalari"
         />

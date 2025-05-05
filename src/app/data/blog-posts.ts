@@ -9,7 +9,7 @@ export const blogPosts: Post[] = [
     author: "Yasin Baran",
     published: "5 Mayıs 2025",
     url: "/blog/optimize-sarj",
-    image: "/images/optimize-sarj.jpg",
+    image: "/images/posts/optimize-sarj.jpg",
   },
   {
     id: "post-6",
@@ -19,7 +19,7 @@ export const blogPosts: Post[] = [
     author: "Yasin Baran",
     published: "29 Nisan 2025",
     url: "/blog/epsis-yuzde-10-kampanyasi",
-    image: "/images/epsis-kampanya.jpg",
+    image: "/images/posts/epsis-kampanya.jpg",
   },
   {
     id: "post-5",
@@ -29,7 +29,7 @@ export const blogPosts: Post[] = [
     author: "Yasin Baran",
     published: "28 Nisan 2025",
     url: "/blog/1-mayis-kampanyalari",
-    image: "/images/1mayis.jpg",
+    image: "/images/posts/1mayis.jpg",
   },
   {
     id: "post-4",
@@ -39,7 +39,7 @@ export const blogPosts: Post[] = [
     author: "Yasin Baran",
     published: "24 Nisan 2025",
     url: "/blog/deprem-sonrasi-sarj",
-    image: "/images/deprem-ev.jpg",
+    image: "/images/posts/deprem-ev.jpg",
   },
   {
     id: "post-1",
@@ -49,7 +49,7 @@ export const blogPosts: Post[] = [
     author: "EV Ekibi",
     published: "16 Nisan 2025",
     url: "/blog/sarj-stratejileri",
-    image: "/images/sarj-strateji.jpg",
+    image: "/images/posts/sarj-strateji.jpg",
   },
   {
     id: "post-2",
@@ -59,7 +59,7 @@ export const blogPosts: Post[] = [
     author: "EV Ekibi",
     published: "13 Nisan 2025",
     url: "/blog/sarj-istasyonlari-karsilastirma",
-    image: "/images/istasyon-karsilastirma.webp",
+    image: "/images/posts/istasyon-karsilastirma.webp",
   },
   {
     id: "post-3",
@@ -69,6 +69,6 @@ export const blogPosts: Post[] = [
     author: "EV Ekibi",
     published: "10 Nisan 2025",
     url: "/blog/batarya-omru",
-    image: "/images/batarya-omru.jpg",
+    image: "/images/posts/batarya-omru.jpg",
   }
 ];

@@ -28,7 +28,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/sarj-strateji.jpg",
+          url: "https://sarjkampanya.com/images/posts/sarj-strateji.jpg",
           width: 1200,
           height: 630,
           alt: "Elektrikli Araç Şarj Stratejileri",
@@ -39,7 +39,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "Optimum Şarj Stratejileri Elektrikli Araçlar | Sarj Kampanya",
       description: "Elektrikli araç sahipleri için akıllı şarj rehberi: Gece tarifesi, ev-halka açık istasyon kullanımı, kampanyalar ve tasarruf sağlayan stratejiler.",
-      images: ["https://sarjkampanya.com/images/sarj-strateji.jpg"],
+      images: ["https://sarjkampanya.com/images/posts/sarj-strateji.jpg"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/sarj-stratejileri",
@@ -65,7 +65,7 @@ export default function SarjStratejileri() {
           title="Optimum Şarj Stratejileri Elektrikli Araçlar | Sarj Kampanya"
           description="Elektrikli araç sahipleri için akıllı şarj rehberi: Gece tarifesi, ev-halka açık istasyon kullanımı, kampanyalar ve tasarruf sağlayan stratejiler."
           datePublished="2025-04-16"
-          imageUrl="https://sarjkampanya.com/images/sarj-strateji.jpg"
+          imageUrl="https://sarjkampanya.com/images/posts/sarj-strateji.jpg"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/sarj-stratejileri"
         />

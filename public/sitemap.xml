@@ -23,7 +23,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/epsis-kampanya.jpg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/epsis-kampanya.jpg</image:loc>
       <image:caption>Epsis %10 İndirim Kampanyası</image:caption>
       <image:title>Favori 5 İstasyonda %10 İndirim: Epsis'ten Yeni Kampanya!</image:title>
     </image:image>
@@ -42,7 +42,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/1mayis.jpg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/1mayis.jpg</image:loc>
       <image:caption>1 Mayıs Elektrikli Araç Şarj Kampanyaları</image:caption>
       <image:title>1 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları</image:title>
     </image:image>
@@ -61,7 +61,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/deprem-ev.jpg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/deprem-ev.jpg</image:loc>
       <image:caption>Deprem Sonrası Elektrikli Araç Kullanımı</image:caption>
       <image:title>Deprem Sonrası Elektrikli Araç Kullanımı ve Şarj İstasyonlarının Rolü</image:title>
     </image:image>
@@ -80,7 +80,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/sarj-strateji.jpg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/sarj-strateji.jpg</image:loc>
       <image:caption>Elektrikli Araç Şarj Stratejileri</image:caption>
       <image:title>Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri</image:title>
     </image:image>
@@ -99,7 +99,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/istasyon-karsilastirma.webp</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/istasyon-karsilastirma.webp</image:loc>
       <image:caption>Şarj İstasyonları Karşılaştırma</image:caption>
       <image:title>Şarj İstasyonları Karşılaştırma | Fiyat ve Hizmet Analizi</image:title>
     </image:image>
@@ -118,7 +118,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/optimize-sarj.jpg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/optimize-sarj.jpg</image:loc>
       <image:caption>20/80 Kuralı Optimize Şarj</image:caption>
       <image:title>20/80 Kuralı ile Optimize Şarj: Batarya Sağlığınızı Nasıl Korursunuz?</image:title>
     </image:image>
@@ -137,7 +137,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://sarjkampanya.com/images/batarya-omru.jpg</image:loc>
+      <image:loc>https://sarjkampanya.com/images/posts/batarya-omru.jpg</image:loc>
       <image:caption>Elektrikli Araç Batarya Ömrü</image:caption>
       <image:title>Elektrikli Araç Batarya Ömrünü Uzatma Rehberi</image:title>
     </image:image>

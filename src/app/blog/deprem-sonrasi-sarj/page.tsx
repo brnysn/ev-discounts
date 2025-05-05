@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/deprem-ev.jpg",
+          url: "https://sarjkampanya.com/images/posts/deprem-ev.jpg",
           width: 1200,
           height: 630,
           alt: "Deprem Sonrası EV Kullanımı",
@@ -36,7 +36,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "Deprem Sonrası Elektrikli Araç Şarj Çözümleri | Sarj Kampanya",
       description: "23 Nisan 2025 İstanbul depremi sonrası EnYakıt ücretsiz şarj, kesintisiz enerji noktaları, V2G rolü ve afetlerde EV kullanımı için kritik bilgiler.",
-      images: ["https://sarjkampanya.com/images/deprem-ev.jpg"],
+      images: ["https://sarjkampanya.com/images/posts/deprem-ev.jpg"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/deprem-sonrasi-sarj",
@@ -62,7 +62,7 @@ export default function DepremSonrasiSarj() {
           title="Deprem Sonrası Elektrikli Araç Şarj Çözümleri | Sarj Kampanya"
           description="23 Nisan 2025 İstanbul depremi sonrası EnYakıt ücretsiz şarj, kesintisiz enerji noktaları, V2G rolü ve afetlerde EV kullanımı için kritik bilgiler."
           datePublished="2025-04-24"
-          imageUrl="https://sarjkampanya.com/images/deprem-ev.jpg"
+          imageUrl="https://sarjkampanya.com/images/posts/deprem-ev.jpg"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/deprem-sonrasi-sarj"
         />

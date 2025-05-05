@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/optimize-sarj.jpg",
+          url: "https://sarjkampanya.com/images/posts/optimize-sarj.jpg",
           width: 1200,
           height: 630,
           alt: "20/80 Kuralı Optimize Şarj",
@@ -36,7 +36,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "20/80 Kuralı ile Optimize Şarj Nedir? | Sarj Kampanya",
       description: "Elektrikli araç batarya sağlığı için en etkili strateji: Şarjınızı %20 ile %80 arasında tutarak batarya ömrünü uzatın.",
-      images: ["https://sarjkampanya.com/images/optimize-sarj.jpg"],
+      images: ["https://sarjkampanya.com/images/posts/optimize-sarj.jpg"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/optimize-sarj",
@@ -62,7 +62,7 @@ export default function OptimizeSarj() {
           title="20/80 Kuralı ile Optimize Şarj Nedir? | Sarj Kampanya"
           description="Elektrikli araç batarya sağlığı için en etkili strateji: Şarjınızı %20 ile %80 arasında tutarak batarya ömrünü uzatın."
           datePublished="2025-04-16"
-          imageUrl="https://sarjkampanya.com/images/optimize-sarj.jpg"
+          imageUrl="https://sarjkampanya.com/images/posts/optimize-sarj.jpg"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/optimize-sarj"
         />

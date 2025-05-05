@@ -27,7 +27,7 @@ export function generateMetadata(): Metadata {
       authors: ["Yasin Baran"],
       images: [
         {
-          url: "https://sarjkampanya.com/images/batarya-omru.jpg",
+          url: "https://sarjkampanya.com/images/posts/batarya-omru.jpg",
           width: 1200,
           height: 630,
           alt: "Elektrikli Araç Batarya Ömrü",
@@ -38,7 +38,7 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title: "Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya",
       description: "Batarya ömrünü uzatmak için 5 bilimsel yöntem: %20-80 şarj, hızlı şarjın etkisi, sıcaklık yönetimi, yazılım güncellemeleri ve park stratejileri.",
-      images: ["https://sarjkampanya.com/images/batarya-omru.jpg"],
+      images: ["https://sarjkampanya.com/images/posts/batarya-omru.jpg"],
     },
     alternates: {
       canonical: "https://sarjkampanya.com/blog/batarya-omru",
@@ -64,7 +64,7 @@ export default function BataryaOmru() {
           title="Elektrikli Araç Batarya Ömrünü Uzatma Rehberi | Şarj Kampanya"
           description="Batarya ömrünü uzatmak için 5 bilimsel yöntem: %20-80 şarj, hızlı şarjın etkisi, sıcaklık yönetimi, yazılım güncellemeleri ve park stratejileri."
           datePublished="2025-04-10"
-          imageUrl="https://sarjkampanya.com/images/batarya-omru.jpg"
+          imageUrl="https://sarjkampanya.com/images/posts/batarya-omru.jpg"
           authorName="Yasin Baran"
           canonicalUrl="https://sarjkampanya.com/blog/batarya-omru"
         />
