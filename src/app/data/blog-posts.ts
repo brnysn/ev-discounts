@@ -2,6 +2,16 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-7",
+    title: "Optimize Şarj 20/80 Kuralı Ne Demek? Batarya Sağlığını Nasıl Koruyabiliriz?",
+    summary: "Elektrikli araçlarda 'optimize şarj', 20/80 kuralı ile batarya sağlığını korumanın ve enerji maliyetlerini azaltmanın yolları.",
+    label: "Bilgilendirici",
+    author: "Yasin Baran",
+    published: "5 Mayıs 2025",
+    url: "/blog/optimize-sarj",
+    image: "/images/optimize-sarj.jpg",
+  },
+  {
     id: "post-6",
     title: "Favori 5 İstasyonda %10 İndirim: Epsis’ten Yeni Kampanya!",
     summary: "Epsis'in mobil uygulama üzerinden seçilen favori istasyonlarda %10 indirim fırsatı sunduğu kampanyanın detayları ve avantajları.",

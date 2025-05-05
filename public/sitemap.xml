@@ -113,6 +113,25 @@
     </news:news>
   </url>
   <url>
+    <loc>https://sarjkampanya.com/blog/optimize-sarj</loc>
+    <lastmod>2025-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://sarjkampanya.com/images/optimize-sarj.jpg</image:loc>
+      <image:caption>20/80 Kuralı Optimize Şarj</image:caption>
+      <image:title>20/80 Kuralı ile Optimize Şarj: Batarya Sağlığınızı Nasıl Korursunuz?</image:title>
+    </image:image>
+    <news:news>
+      <news:publication>
+        <news:name>Şarj Kampanya</news:name>
+        <news:language>tr</news:language>
+      </news:publication>
+      <news:publication_date>2025-04-12</news:publication_date>
+      <news:title>20/80 Kuralı ile Optimize Şarj: Batarya Sağlığınızı Nasıl Korursunuz?</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://sarjkampanya.com/blog/batarya-omru</loc>
     <lastmod>2025-04-10</lastmod>
     <changefreq>monthly</changefreq>
