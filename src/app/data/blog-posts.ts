@@ -2,6 +2,16 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-8",
+    title: "19 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları",
+    summary: "19 Mayıs Gençlik ve Spor Bayramı'nda Beefull ve diğer şarj operatörlerinin sunduğu indirimler, kampanyalar ve fırsatlar. Karşılaştırmalı analiz.",
+    label: "Kampanyalar",
+    author: "Yasin Baran",
+    published: "15 Mayıs 2025",
+    url: "/blog/19-mayis-kampanyalari",
+    image: "/images/posts/19mayis.webp",
+  },
+  {
     id: "post-7",
     title: "Optimize Şarj 20/80 Kuralı Ne Demek? Batarya Sağlığını Nasıl Koruyabiliriz?",
     summary: "Elektrikli araçlarda 'optimize şarj', 20/80 kuralı ile batarya sağlığını korumanın ve enerji maliyetlerini azaltmanın yolları.",
@@ -13,7 +23,7 @@ export const blogPosts: Post[] = [
   },
   {
     id: "post-6",
-    title: "Favori 5 İstasyonda %10 İndirim: Epsis’ten Yeni Kampanya!",
+    title: "Favori 5 İstasyonda %10 İndirim: Epsis'ten Yeni Kampanya!",
     summary: "Epsis'in mobil uygulama üzerinden seçilen favori istasyonlarda %10 indirim fırsatı sunduğu kampanyanın detayları ve avantajları.",
     label: "Kampanyalar",
     author: "Yasin Baran",
