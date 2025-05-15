@@ -162,6 +162,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "19 Mayıs 2025",
+        "starts_at": "2025-05-19 00:00:00",
+        "ends_at": "2025-05-19 23:59:00",
+        "text": "Sadece Dc istasyonlarında geçerlidir.",
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": "< 20",
+              "price": 8.29
+            },
+            {
+              "kwh": "20 >",
+              "price": 8.99
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 60",
+              "price": 5
+            },
+            {
+              "kwh": "60 >",
+              "price": 5
+            }
+          ]
+        }
       }
     ]
   },
