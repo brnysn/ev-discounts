@@ -4,10 +4,10 @@ export const blogPosts: Post[] = [
   {
     id: "post-8",
     title: "19 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları",
-    summary: "19 Mayıs Gençlik ve Spor Bayramı'nda Beefull ve diğer şarj operatörlerinin sunduğu indirimler, kampanyalar ve fırsatlar. Karşılaştırmalı analiz.",
+    summary: "19 Mayıs Gençlik ve Spor Bayramı'nda Beefull, Voltrun ve diğer şarj operatörlerinin sunduğu indirimler, kampanyalar ve fırsatlar. Karşılaştırmalı analiz.",
     label: "Kampanyalar",
     author: "Yasin Baran",
-    published: "15 Mayıs 2025",
+    published: "16 Mayıs 2025",
     url: "/blog/19-mayis-kampanyalari",
     image: "/images/posts/19mayis.webp",
   },
