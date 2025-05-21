@@ -16,6 +16,7 @@ import Image from "next/image"
 import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 import { CustomNavbar } from "@/components/custom-navbar"
 import { FaqSection } from "@/components/faq-section"
+import { BankCampaigns } from "@/components/BankCampaigns"
 
 // Add import for HomeHeadTags
 import { HomeHeadTags } from "@/components/home-head-tags"
@@ -200,7 +201,7 @@ export default function Home() {
         )}
         
         <div className="mb-8 pt-4" ref={campaignsRef} id="kampanyalar">
-          <h2 className="text-2xl font-bold mb-2">Kampanyalar</h2>
+          <h2 className="text-2xl font-bold mb-2">Şarj İstasyonu Kampanyaları</h2>
         </div>
 
         <DiscountFilters
@@ -229,6 +230,11 @@ export default function Home() {
             ))}
           </div>
         )}
+
+        {/* Bank Campaigns Section */}
+        <div className="mt-12 mb-8 border-t pt-12">
+          <BankCampaigns />
+        </div>
 
         {/* Blog Section */}
         <div className="mt-16 mb-8">

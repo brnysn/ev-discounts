@@ -1,0 +1,143 @@
+[
+  {
+    "company": {
+      "name": "VakıfBank",
+      "logo": "/images/companies/vakifbank.svg",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "VakıfBank Kartınızla %20 Şarj İndirimi",
+      "description": "VakıfBank Bireysel kredi kartınız ile 1-31 Mayıs 2025 tarihleri arasında seçili elektrikli şarj istasyonlarında yapacağınız harcamalarınıza %20 indirim hediye edilecektir.",
+      "startDate": "2025-05-01",
+      "endDate": "2025-05-31",
+      "combinable": true,
+      "compatibleWith": ["zes", "eşarj", "tesla", "trugo", "solargize", "rhg-enertürk"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 20
+      },
+      "conditions": [
+        "Aylık en fazla 300 TL indirim kazanılabilir.",
+        "Katılım için 'Hemen Katıl' butonu kullanılmalıdır.",
+        "Express Card kullanıcıları için katılım bedeli 9.99 TL'dir.",
+        "Kampanyaya ticari kartlar, Bankomat Kartlar ve Recycle Card dahil değildir.",
+        "VakıfBank kampanya koşullarını değiştirme hakkını saklı tutar."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.vakifkart.com.tr/kampanyalar/elektrikli-sarj-istasyonu-harcamalariniza-20-indirim-38257"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "Ziraat Bankası",
+      "logo": "/images/companies/ziraat.svg",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Bankkart ile %10 İndirim ve 500 TL Bankkart Lira",
+      "description": "Bireysel Bankkart kredi kartınızla seçili şarj istasyonlarında 250 TL ve üzeri tek seferlik ödeme yaparak %10 indirim ve 500 TL'ye kadar Bankkart Lira kazanabilirsiniz.",
+      "startDate": "2025-05-12",
+      "endDate": "2025-05-31",
+      "combinable": true,
+      "compatibleWith": ["zes", "eşarj", "tesla", "trugo", "solargize", "rhg-enertürk"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 10
+      },
+      "conditions": [
+        "Kampanya müşteri bazındadır.",
+        "Maksimum 500 TL Bankkart Lira kazanılabilir.",
+        "Katılım Bankkart Mobil veya bankkart.com.tr üzerinden yapılmalıdır.",
+        "Bankkart POS'undan yapılan işlemler geçerlidir.",
+        "Katılım ödeme öncesinde yapılmalıdır."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.bankkart.com.tr/kampanyalar/akaryakit/elektrikli-sarj-istasyonlarinda-500-tl-bankkart-lira"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "Türkiye İş Bankası",
+      "logo": "/images/companies/is.png",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "İşCep ile Şarjda %10 İndirim ve MaxiPuan",
+      "description": "1-31 Mayıs 2025 tarihleri arasında İş Bankası bireysel kartları ile yapılan her 250 TL ve üzeri şarj ödemesine %10 MaxiPuan kazanabilirsiniz.",
+      "startDate": "2025-05-01",
+      "endDate": "2025-05-31",
+      "combinable": true,
+      "compatibleWith": [
+        "5-şarj",
+        "360-enerj",
+        "astor",
+        "beeful",
+        "en-yakıt",
+        "epsis",
+        "eşarj",
+        "g-charge",
+        "oncharge",
+        "rhg-enertürk",
+        "sharz",
+        "tesla",
+        "trugo",
+        "usarj",
+        "vec",
+        "voltla",
+        "voltrun",
+        "wat-mobilite"
+      ],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 10
+      },
+      "conditions": [
+        "Katılım İşCep veya Maximum Mobil üzerinden yapılmalıdır.",
+        "İşlem başına maksimum 100 TL, toplamda 500 TL MaxiPuan kazanılabilir.",
+        "Kazançlar, kampanya sonrası 10 iş günü içinde yüklenir.",
+        "Kazançların son kullanım tarihi 31 Temmuz 2025'tir.",
+        "Aidatsız, ticari ve MaxiPara kartlar dahil değildir."
+      ],
+      "categories": ["EV Charging", "Bank Card", "MaxiPuan"],
+      "links": {
+        "details": "https://www.maximum.com.tr/kampanyalar/elektrikli-sarj-istasyonlari-harcamalariniza-maxipuan-firsati"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "Akbank",
+      "logo": "/images/companies/akbank.svg",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Elektrikli Araç Sahiplerine Özel %20 İade",
+      "description": "Elektrikli Araç Sahiplerine Özel fırsatlar kapsamında 30 Haziran 2025 tarihine kadar araç şarj işlemlerini Akbank banka kartları ile gerçekleştiren Akbanklılar aylık 500 TL, yıl sonuna kadar 2.500 TL iade fırsatından yararlanabilecektir.",
+      "startDate": "2025-05-01",
+      "endDate": "2025-06-30",
+      "combinable": true,
+      "compatibleWith": ["all"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 20
+      },
+      "conditions": [
+        "Kampanya sadece iletişime geçilen müşterilere özeldir.",
+        "Akbank Mobil'de 'Tam Senlik Fırsatlar' programı altındaki 'Elektrikli Araç Sahiplerine Özel Fırsatlar' kampanyasına katılım gereklidir.",
+        "Programa katılım sağlamayan müşteriler kampanyadan faydalanamaz.",
+        "Kampanya sadece debit kartları ile yapılacak şarj ödemelerinde geçerlidir.",
+        "Aylık maksimum 500 TL indirim kazanılabilir.",
+        "Yıl sonuna kadar toplam 2.500 TL iade fırsatı sunulmaktadır.",
+        "Kampanya kişi bazındadır."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.akbank.com/kampanyalar/elektrikli-arac-sahiplerine-ozel-firsatlar"
+      }
+    }
+  }
+]

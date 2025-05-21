@@ -1,5 +1,54 @@
 [
   {
+    "name": "5 Şarj",
+    "logo": "/images/chargers/5-sarj.svg",
+    "phone": "",
+    "website": "https://5sarj.com/tr/pricing",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 180",
+            "price": 10.99
+          },
+          {
+            "kwh": "180 >",
+            "price": 13.99
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "name": "5inci Şarj Bedava",
+        "starts_at": "2025-05-01 00:00:00",
+        "ends_at": "2025-05-31 23:59:00",
+        "text": "5 ay boyunca her 5. şarjınız bedava olacaktır. %20 indirime tekabül eder.",
+        "discount_rate": 20
+      },
+      {
+        "name": "",
+        "starts_at": "2025-05-01 00:00:00",
+        "ends_at": "2025-05-31 23:59:00",
+        "text": "BMW Prime Üyelerine Özel %10 İndirim!",
+        "discount_rate": 10
+      },
+      {
+        "name": "",
+        "starts_at": "2025-05-01 00:00:00",
+        "ends_at": "2025-05-31 23:59:00",
+        "text": "Mini Club Üyelerine Özel %10 İndirim Fırsatı!",
+        "discount_rate": 10
+      }
+    ]
+  },
+  {
     "name": "Aksa Şarj",
     "logo": "/images/chargers/aksa-sarj.svg",
     "phone": "",
