@@ -109,9 +109,10 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
     
     return (
       <div className="grid grid-cols-2 gap-2 mt-4">
-        {/* Always show AC prices */}
-        <div className="flex flex-col space-y-1">
-          <div className="text-xs text-muted-foreground">AC</div>
+        {/* Show AC prices when there are discounts */}
+        {hasAcDiscounts && (
+          <div className="flex flex-col space-y-1">
+            <div className="text-xs text-muted-foreground">AC</div>
           {acPowerRanges.map((range: string | number, index: number) => {
             // Skip if range is empty and not the first item
             if (range === "" && index > 0) return null;
@@ -159,8 +160,9 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
                 )}
               </div>
             )
-          })}
-        </div>
+            })}
+          </div>
+        )}
 
         {/* Show DC prices when there are discounts */}
         {hasDcDiscounts && (

@@ -294,25 +294,29 @@ export function Timeline({ discounts }: TimelineProps) {
                     
                     <div className="flex-grow overflow-hidden">
                       <div className="flex flex-col gap-1">
-                        <div className="text-[10px] flex gap-1 items-center">
-                          <span className="font-medium">DC:</span>
-                          <PriceDisplay 
-                            prices={discount.company.prices[0].dc} 
-                            type="DC" 
-                            company={discount.company}
-                            discount={discount}
-                          />
-                        </div>
+                        {discount.company.prices[0].dc.length > 0 && (
+                          <div className="text-[10px] flex gap-1 items-center">
+                            <span className="font-medium">DC:</span>
+                            <PriceDisplay 
+                              prices={discount.company.prices[0].dc} 
+                              type="DC" 
+                              company={discount.company}
+                              discount={discount}
+                            />
+                          </div>
+                        )}
                         
-                        <div className="text-[10px] flex gap-1 items-center">
-                          <span className="font-medium">AC:</span>
-                          <PriceDisplay 
+                        {discount.company.prices[0].ac.length > 0 && (
+                          <div className="text-[10px] flex gap-1 items-center">
+                            <span className="font-medium">AC:</span>
+                            <PriceDisplay 
                             prices={discount.company.prices[0].ac} 
                             type="AC" 
                             company={discount.company}
-                            discount={discount}
-                          />
-                        </div>
+                              discount={discount}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 

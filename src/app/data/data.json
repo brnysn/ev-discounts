@@ -754,6 +754,43 @@
     "discounts": []
   },
   {
+    "name": "Tesla",
+    "logo": "/images/chargers/tesla.png",
+    "phone": "",
+    "website": "https://www.tesla.com/tr_tr/support/charging/supercharger/fees",
+    "prices": [
+      {
+        "ac": [],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 8.8
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "name": "tesla Sahipleri İndirimi",
+        "starts_at": "2025-05-21 00:00:00",
+        "ends_at": "2025-12-31 23:59:00",
+        "text": "Yalnızca tesla sahipleri için geçerlidir.",
+        "cars": [
+          "Tesla"
+        ],
+        "discounted_prices": {
+          "ac": [],
+          "dc": [
+            {
+              "kwh": "",
+              "price": 7.1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "name": "Trugo",
     "logo": "/images/chargers/trugo.svg",
     "phone": "",
