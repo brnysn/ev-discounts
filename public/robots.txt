@@ -1,20 +1,22 @@
 User-agent: *
 Allow: /
 
-# Disallow Next.js static files and other resources
-Disallow: /_next/
-Disallow: /_next/static/
-Disallow: /_next/static/css/
-Disallow: /_next/static/media/
-Disallow: /_next/static/images/
-Disallow: /_next/static/chunks/
-Disallow: /_next/data/
+# Block all Next.js internal routes and static files
+Disallow: /_next
+Disallow: /_next/*
+Disallow: /_next/static/*
+Disallow: /_next/image/*
+Disallow: /_next/data/*
 Disallow: /manifest.json
 Disallow: /favicon.ico
 
 # Specific rules for Google
 User-agent: Googlebot
-Disallow: /_next/
+Disallow: /_next
+Disallow: /_next/*
+Disallow: /_next/static/*
+Disallow: /_next/image/*
+Disallow: /_next/data/*
 Disallow: /manifest.json
 Disallow: /favicon.ico
 
