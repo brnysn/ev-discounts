@@ -2,12 +2,22 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-10",
+    title: "Akbank'tan Elektrikli Araç Sahiplerine %20 İade Kampanyası",
+    summary: "Akbank banka kartı sahiplerine özel, tüm elektrikli şarj istasyonlarında %20 iade fırsatı. Aylık 500 TL, yıl sonuna kadar toplam 2.500 TL iade imkanı.",
+    label: "Kampanyalar",
+    author: "Yasin Baran",
+    published: "21 Mayıs 2025",
+    url: "/blog/akbank-kampanyasi",
+    image: "/images/posts/akbank-kampanya.webp",
+  },
+  {
     id: "post-9",
     title: "VakıfBank'tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi",
     summary: "VakıfBank kredi kartı sahiplerine özel, seçili elektrikli şarj istasyonlarında %20 indirim fırsatı. Kampanya detayları, katılım koşulları ve uyumlu şarj istasyonları hakkında bilgi.",
     label: "Kampanyalar",
     author: "Yasin Baran",
-    published: "23 Mayıs 2025",
+    published: "19 Mayıs 2025",
     url: "/blog/vakifbank-kampanyasi",
     image: "/images/posts/vakifbank-kampanya.webp",
   },
