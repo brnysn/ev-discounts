@@ -2,6 +2,16 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-9",
+    title: "VakıfBank'tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi",
+    summary: "VakıfBank kredi kartı sahiplerine özel, seçili elektrikli şarj istasyonlarında %20 indirim fırsatı. Kampanya detayları, katılım koşulları ve uyumlu şarj istasyonları hakkında bilgi.",
+    label: "Kampanyalar",
+    author: "Yasin Baran",
+    published: "23 Mayıs 2025",
+    url: "/blog/vakifbank-kampanyasi",
+    image: "/images/posts/vakifbank-kampanya.webp",
+  },
+  {
     id: "post-8",
     title: "19 Mayıs'ta Elektrikli Araç Şarj İstasyonlarının Özel Kampanyaları",
     summary: "19 Mayıs Gençlik ve Spor Bayramı'nda Beefull, Voltrun ve diğer şarj operatörlerinin sunduğu indirimler, kampanyalar ve fırsatlar. Karşılaştırmalı analiz.",
@@ -56,7 +66,7 @@ export const blogPosts: Post[] = [
     title: "Elektrikli Araç Sahipleri İçin En Uygun Şarj Stratejileri",
     summary: "Elektrikli araç kullanımında zamandan ve paradan tasarruf etmenin yolları. Gece tarifesi, kampanyalar ve daha fazla ipucu ile şarj maliyetlerinizi optimize edin.",
     label: "Tasarruf İpuçları",
-    author: "EV Ekibi",
+    author: "Yasin Baran",
     published: "16 Nisan 2025",
     url: "/blog/sarj-stratejileri",
     image: "/images/posts/sarj-strateji.jpg",
@@ -66,7 +76,7 @@ export const blogPosts: Post[] = [
     title: "Türkiye'deki Elektrikli Araç Şarj İstasyonlarının Karşılaştırması",
     summary: "ZES, Eşarj, Sharz.net ve diğer önemli şarj ağlarının fiyat, erişilebilirlik ve hız açısından kapsamlı karşılaştırması. Hangi şarj istasyonu ağı size daha uygun?",
     label: "Karşılaştırma",
-    author: "EV Ekibi",
+    author: "Yasin Baran",
     published: "13 Nisan 2025",
     url: "/blog/sarj-istasyonlari-karsilastirma",
     image: "/images/posts/istasyon-karsilastirma.webp",
@@ -76,7 +86,7 @@ export const blogPosts: Post[] = [
     title: "Elektrikli Araçlarda Batarya Ömrünü Uzatmanın 5 Etkili Yolu",
     summary: "Batarya ömrünü maksimize etmek için şarj alışkanlıklarınızı nasıl düzenleyebilirsiniz? İdeal şarj seviyesi, mevsimsel faktörler ve batarya sağlığını koruyan ipuçları.",
     label: "Bakım",
-    author: "EV Ekibi",
+    author: "Yasin Baran",
     published: "10 Nisan 2025",
     url: "/blog/batarya-omru",
     image: "/images/posts/batarya-omru.jpg",

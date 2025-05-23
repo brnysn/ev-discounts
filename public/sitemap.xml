@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
     <loc>https://sarjkampanya.com</loc>
-    <lastmod>2025-05-16</lastmod>
+    <lastmod>2025-05-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -13,9 +13,28 @@
   </url>
   <url>
     <loc>https://sarjkampanya.com/blog</loc>
-    <lastmod>2025-05-16</lastmod>
+    <lastmod>2025-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sarjkampanya.com/blog/vakifbank-kampanyasi</loc>
+    <lastmod>2025-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://sarjkampanya.com/images/posts/vakifbank-kampanya.webp</image:loc>
+      <image:caption>VakıfBank Elektrikli Araç Şarj Kampanyası</image:caption>
+      <image:title>VakıfBank'tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi</image:title>
+    </image:image>
+    <news:news>
+      <news:publication>
+        <news:name>Şarj Kampanya</news:name>
+        <news:language>tr</news:language>
+      </news:publication>
+      <news:publication_date>2025-05-23</news:publication_date>
+      <news:title>VakıfBank'tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi</news:title>
+    </news:news>
   </url>
   <url>
     <loc>https://sarjkampanya.com/blog/19-mayis-kampanyalari</loc>
