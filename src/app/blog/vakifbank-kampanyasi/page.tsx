@@ -15,11 +15,11 @@ import data from "@/app/data/data.json"
 import campaigns from "@/app/data/campaigns.json"
 
 export const metadata: Metadata = {
-  title: "VakıfBank'tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi | Şarj Kampanya",
-  description: "VakıfBank kredi kartı sahiplerine özel, seçili elektrikli şarj istasyonlarında %20 indirim fırsatı. Kampanya detayları, katılım koşulları ve uyumlu şarj istasyonları hakkında bilgi.",
+  title: "VakıfBank EV Şarj Kampanyası: %20 İndirim | Şarj Kampanya",
+  description: "VakıfBank kredi kartı sahiplerine özel, seçili şarj istasyonlarında %20 indirim fırsatı. Aylık 300 TL'ye varan tasarruf.",
   openGraph: {
-    title: "VakıfBank'tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi",
-    description: "VakıfBank kredi kartı sahiplerine özel, seçili elektrikli şarj istasyonlarında %20 indirim fırsatı. Kampanya detayları ve koşulları.",
+    title: "VakıfBank EV Şarj Kampanyası: %20 İndirim",
+    description: "VakıfBank kredi kartı sahiplerine özel, seçili şarj istasyonlarında %20 indirim fırsatı. Aylık 300 TL'ye varan tasarruf.",
     url: "https://sarjkampanya.com/blog/vakifbank-kampanyasi",
     type: "article",
     publishedTime: "2025-05-23",
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "VakıfBank&apos;tan Elektrikli Araç Sahiplerine %20 Şarj İndirimi",
-    description: "VakıfBank kredi kartı sahiplerine özel, seçili elektrikli şarj istasyonlarında %20 indirim fırsatı. Kampanya detayları ve koşulları.",
+    title: "VakıfBank EV Şarj Kampanyası: %20 İndirim",
+    description: "VakıfBank kredi kartı sahiplerine özel, seçili şarj istasyonlarında %20 indirim fırsatı. Aylık 300 TL'ye varan tasarruf.",
     images: ["https://sarjkampanya.com/images/posts/vakifbank-kampanya.webp"],
   },
   alternates: {

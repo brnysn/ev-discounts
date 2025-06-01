@@ -702,13 +702,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 6.95
+            "price": 8.4
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 8.8
+            "price": 10.6
           }
         ]
       }
@@ -720,6 +720,13 @@
         "ends_at": "2025-04-05 23:59:00",
         "text": "Site içi AC istasyonlar dahil değildir.",
         "discount_rate": 20
+      },
+      {
+        "name": "Kurban Bayramı 2025",
+        "starts_at": "2025-06-02 00:00:00",
+        "ends_at": "2025-06-09 23:59:00",
+        "text": "Akbank Kartları ile ek %20, Ziraat Bankası Kartları ile %10 indirim kazanabilirsiniz.",
+        "discount_rate": 30
       }
     ]
   },
@@ -854,6 +861,37 @@
             }
           ]
         }
+      }
+    ]
+  },
+  {
+    "name": "Voltgo",
+    "logo": "/images/chargers/voltgo.png",
+    "phone": "",
+    "website": "https://voltgo.com.tr/voltgo-tarife/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 6.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 9.75
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "name": "Kurban Bayramı 2025",
+        "starts_at": "2025-06-06 00:00:00",
+        "ends_at": "2025-06-09 23:59:00",
+        "text": "Akbank Kartları ile ek %20 kazanabilirsiniz.",
+        "discount_rate": 50
       }
     ]
   },

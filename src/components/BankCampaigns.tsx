@@ -60,13 +60,19 @@ export function BankCampaigns() {
     }
   };
 
+  // Filter active campaigns
+  const activeCampaigns = campaigns.filter(item => {
+    const status = getCampaignStatus(item.campaign.startDate, item.campaign.endDate);
+    return status === "current";
+  });
+
   return (
     <section className="container mx-auto">
       <div className="mb-8 pt-4">
-        <h2 className="text-2xl font-bold mb-2">Diğer Kampanyalar</h2>
+        <h2 className="text-2xl font-bold mb-2">Aktif Kampanyalar</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {campaigns.map((item, index) => {
+        {activeCampaigns.map((item, index) => {
           const status = getCampaignStatus(item.campaign.startDate, item.campaign.endDate);
           
           return (

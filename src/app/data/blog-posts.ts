@@ -2,6 +2,16 @@ import { Post } from "@/components/ui/blog";
 
 export const blogPosts: Post[] = [
   {
+    id: "post-11",
+    title: "Kurban Bayramı 2025'te Elektrikli Araç Şarj Kampanyaları",
+    summary: "Kurban Bayramı 2025'te elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
+    label: "Kampanyalar",
+    author: "Yasin Baran",
+    published: "1 Haziran 2025",
+    url: "/blog/kurban-bayrami-2025",
+    image: "/images/posts/kurban-2025.webp",
+  },
+  {
     id: "post-10",
     title: "Akbank'tan Elektrikli Araç Sahiplerine %20 İade Kampanyası",
     summary: "Akbank banka kartı sahiplerine özel, tüm elektrikli şarj istasyonlarında %20 iade fırsatı. Aylık 500 TL, yıl sonuna kadar toplam 2.500 TL iade imkanı.",

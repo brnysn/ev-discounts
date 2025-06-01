@@ -39,7 +39,7 @@
       "title": "Bankkart ile %10 İndirim ve 500 TL Bankkart Lira",
       "description": "Bireysel Bankkart kredi kartınızla seçili şarj istasyonlarında 250 TL ve üzeri tek seferlik ödeme yaparak %10 indirim ve 500 TL'ye kadar Bankkart Lira kazanabilirsiniz.",
       "startDate": "2025-05-12",
-      "endDate": "2025-05-31",
+      "endDate": "2025-06-30",
       "combinable": true,
       "compatibleWith": ["zes", "eşarj", "tesla", "trugo", "solargize", "rhg-enertürk"],
       "calculateCombinedPrice": {

@@ -15,10 +15,10 @@ import data from "@/app/data/data.json"
 import campaigns from "@/app/data/campaigns.json"
 
 export const metadata: Metadata = {
-  title: "Akbank'tan Elektrikli Araç Sahiplerine %20 İade Kampanyası | Şarj Kampanya",
+  title: "Akbank EV Şarj Kampanyası: %20 İade Fırsatı | Şarj Kampanya",
   description: "Akbank banka kartı sahiplerine özel, tüm elektrikli şarj istasyonlarında %20 iade fırsatı. Aylık 500 TL, yıl sonuna kadar toplam 2.500 TL iade imkanı.",
   openGraph: {
-    title: "Akbank'tan Elektrikli Araç Sahiplerine %20 İade Kampanyası",
+    title: "Akbank EV Şarj Kampanyası: %20 İade Fırsatı",
     description: "Akbank banka kartı sahiplerine özel, tüm elektrikli şarj istasyonlarında %20 iade fırsatı. Aylık 500 TL, yıl sonuna kadar toplam 2.500 TL iade imkanı.",
     url: "https://sarjkampanya.com/blog/akbank-kampanyasi",
     type: "article",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Akbank'tan Elektrikli Araç Sahiplerine %20 İade Kampanyası",
+    title: "Akbank EV Şarj Kampanyası: %20 İade Fırsatı",
     description: "Akbank banka kartı sahiplerine özel, tüm elektrikli şarj istasyonlarında %20 iade fırsatı. Aylık 500 TL, yıl sonuna kadar toplam 2.500 TL iade imkanı.",
     images: ["https://sarjkampanya.com/images/posts/akbank-kampanya.webp"],
   },
