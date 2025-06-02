@@ -114,7 +114,7 @@ export function Timeline({ discounts }: TimelineProps) {
 
   return (
     <div className="mb-12">
-      <h2 className="text-2xl font-bold mb-6">Kampanya Takvimi</h2>
+      {/* <h2 className="text-2xl font-bold mb-6">Kampanya Takvimi</h2> */}
       
       <div className="mb-8 relative">
         {/* Timeline bar */}

@@ -17,6 +17,7 @@ import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 import { CustomNavbar } from "@/components/custom-navbar"
 import { FaqSection } from "@/components/faq-section"
 import { BankCampaigns } from "@/components/BankCampaigns"
+import { TelegramButton } from "@/components/telegram-button"
 
 // Add import for HomeHeadTags
 import { HomeHeadTags } from "@/components/home-head-tags"
@@ -188,12 +189,15 @@ export default function Home() {
       />
       
       <main className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-4">Elektrikli Araç Şarj Kampanyaları</h1>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <h1 className="text-3xl font-bold">Elektrikli Araç Şarj Kampanyaları</h1>
+          <TelegramButton />
+        </div>
+        {/* <div className="flex items-center justify-between">
           <p className="text-muted-foreground">
             Elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
           </p>
-        </div>
+        </div> */}
         {filteredDiscounts.length > 0 && (
           <div className="min-h-[200px] pt-4">
             <Timeline discounts={filteredDiscounts} />
