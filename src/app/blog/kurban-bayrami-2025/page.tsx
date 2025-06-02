@@ -667,6 +667,31 @@ export default function KurbanBayrami2025() {
             </p>
           </div>
         </BlogPost>
+        {/* Feedback Button */}
+        <div className="fixed bottom-8 right-8">
+          <a
+            href="https://form.jotform.com/251522243559961"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-lg"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-message-square"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            Hata Bildir & Yeni Kampanya Ekle
+          </a>
+        </div>
       </div>
     </BlogPostWrapper>
   );
