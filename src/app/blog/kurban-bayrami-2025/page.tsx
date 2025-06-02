@@ -121,7 +121,7 @@ export default function KurbanBayrami2025() {
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-green-600" />
                 <span className="font-medium">Kampanya Süresi:</span> 
-                <span>6-9 Haziran 2025 (Kurban Bayramı boyunca)</span>
+                <span>2-9 Haziran 2025 (Kurban Bayramı boyunca)</span>
               </div>
               
               <div className="flex items-center gap-2">
