@@ -126,17 +126,47 @@
         "value": 20
       },
       "conditions": [
+        "Kampanya kişi bazındadır.",
         "Kampanya sadece iletişime geçilen müşterilere özeldir.",
         "Akbank Mobil'de 'Tam Senlik Fırsatlar' programı altındaki 'Elektrikli Araç Sahiplerine Özel Fırsatlar' kampanyasına katılım gereklidir.",
         "Programa katılım sağlamayan müşteriler kampanyadan faydalanamaz.",
         "Kampanya sadece debit kartları ile yapılacak şarj ödemelerinde geçerlidir.",
         "Aylık maksimum 500 TL indirim kazanılabilir.",
-        "Yıl sonuna kadar toplam 2.500 TL iade fırsatı sunulmaktadır.",
-        "Kampanya kişi bazındadır."
+        "Yıl sonuna kadar toplam 2.500 TL iade fırsatı sunulmaktadır."
       ],
       "categories": ["EV Charging", "Bank Card"],
       "links": {
         "details": "https://www.akbank.com/kampanyalar/elektrikli-arac-sahiplerine-ozel-firsatlar"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "Halkbank",
+      "logo": "/images/companies/paraf.jpg",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Paraf Doğal ile Elektrikli Araç Şarj İstasyonlarında %10 İndirim",
+      "description": "Paraf Doğal kredi kartınız ile yurt içinde yapacağınız elektrikli araç şarj istasyonu harcamalarında %10 indirim fırsatı.",
+      "startDate": "2025-05-01",
+      "endDate": "2025-12-31",
+      "combinable": false,
+      "compatibleWith": ["all"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 10
+      },
+      "conditions": [
+        "Sadece Paraf Doğal kredi kartı ile yapılan yurt içi şarj harcamalarında geçerlidir.",
+        "Kampanya müşteri bazlıdır ve aylık maksimum 300 TL indirim kazanılabilir.",
+        "Katılım için SARJ yazarak 3404'e SMS gönderilmelidir.",
+        "ParafPara kullanılarak yapılan işlemler kampanyaya dahil değildir.",
+        "Kampanya diğer indirim kampanyaları ile birleştirilemez."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.paraf.com.tr/tr/parafi-taniyin/elektrikli-arac-sarj-istasyonu-indirimi.html"
       }
     }
   }
