@@ -118,12 +118,12 @@ export default function KurbanBayrami2025() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
               <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-                <h5 className="text-sm font-semibold mb-2">DC Şarj Fiyatları</h5>
+                <h5 className="text-sm font-semibold mb-2">DC</h5>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Normal Tarife</span>
                   <div>
                     <span className="text-red-500 line-through mr-2">₺10.60</span>
-                    <span className="font-bold text-green-600">₺7.42 / kWh</span>
+                    <span className="font-bold text-green-600">₺7.42</span> / kWh
                   </div>
                 </div>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -132,12 +132,12 @@ export default function KurbanBayrami2025() {
               </div>
               
               <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-                <h5 className="text-sm font-semibold mb-2">AC Şarj Fiyatları</h5>
+                <h5 className="text-sm font-semibold mb-2">AC</h5>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Normal Tarife</span>
                   <div>
                     <span className="text-red-500 line-through mr-2">₺8.40</span>
-                    <span className="font-bold text-green-600">₺5.88 / kWh</span>
+                    <span className="font-bold text-green-600">₺5.88</span> / kWh
                   </div>
                 </div>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -147,7 +147,7 @@ export default function KurbanBayrami2025() {
             </div>
 
             {/* Bank Discounts for RHG Enertürk */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-3">
               <a 
                 href="#akbank-campaign" 
                 className="transition-transform hover:scale-[1.02]"
@@ -163,21 +163,21 @@ export default function KurbanBayrami2025() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">DC Şarj Fiyatları</span>
+                    <span className="text-sm">DC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺7.42</span>
-                      <span className="font-bold text-green-600">₺5.94 / kWh</span>
+                      <span className="font-bold text-green-600">₺5.94</span> / kWh
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm">AC Şarj Fiyatları</span>
+                    <span className="text-sm">AC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺5.88</span>
-                      <span className="font-bold text-green-600">₺4.70 / kWh</span>
+                      <span className="font-bold text-green-600">₺4.70</span> / kWh
                     </div>
                   </div>
                   <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    RHG Enertürk istasyonlarında Akbank banka kartı ile %20 ek indirim
+                    Akbank banka kartı ile %20 iade
                   </div>
                 </div>
               </a>
@@ -197,21 +197,55 @@ export default function KurbanBayrami2025() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">DC Şarj Fiyatları</span>
+                    <span className="text-sm">DC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺7.42</span>
-                      <span className="font-bold text-green-600">₺6.68 / kWh</span>
+                      <span className="font-bold text-green-600">₺6.68</span> / kWh
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm">AC Şarj Fiyatları</span>
+                    <span className="text-sm">AC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺5.88</span>
-                      <span className="font-bold text-green-600">₺5.29 / kWh</span>
+                      <span className="font-bold text-green-600">₺5.29</span> / kWh
                     </div>
                   </div>
                   <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    RHG Enertürk istasyonlarında Ziraat kredi kartı ile %10 ek indirim
+                    Ziraat Bankası kredi kartı ile %10 Bankkart Lira Kazanımı
+                  </div>
+                </div>
+              </a>
+
+              <a 
+                href="#paraf-campaign" 
+                className="transition-transform hover:scale-[1.02]"
+              >
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                  <div className="h-12 relative mb-2">
+                    <Image 
+                      src="/images/companies/paraf.jpg"
+                      alt="Paraf Logo"
+                      fill
+                      className="object-contain"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">DC</span>
+                    <div>
+                      <span className="text-red-500 line-through mr-2">₺7.42</span>
+                      <span className="font-bold text-green-600">₺6.68</span> / kWh
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-sm">AC</span>
+                    <div>
+                      <span className="text-red-500 line-through mr-2">₺5.88</span>
+                      <span className="font-bold text-green-600">₺5.29</span> / kWh
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
+                    Paraf Doğal kredi kartı ile %10 ek indirim
                   </div>
                 </div>
               </a>
@@ -250,12 +284,12 @@ export default function KurbanBayrami2025() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
               <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-                <h5 className="text-sm font-semibold mb-2">DC Şarj Fiyatları</h5>
+                <h5 className="text-sm font-semibold mb-2">DC</h5>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Normal Tarife</span>
                   <div>
                     <span className="text-red-500 line-through mr-2">₺9.75</span>
-                    <span className="font-bold text-green-600">₺4.88 / kWh</span>
+                    <span className="font-bold text-green-600">₺4.88</span> / kWh
                   </div>
                 </div>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -264,12 +298,12 @@ export default function KurbanBayrami2025() {
               </div>
               
               <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-                <h5 className="text-sm font-semibold mb-2">AC Şarj Fiyatları</h5>
+                <h5 className="text-sm font-semibold mb-2">AC</h5>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Normal Tarife</span>
                   <div>
                     <span className="text-red-500 line-through mr-2">₺6.99</span>
-                    <span className="font-bold text-green-600">₺3.50 / kWh</span>
+                    <span className="font-bold text-green-600">₺3.50</span> / kWh
                   </div>
                 </div>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -279,7 +313,7 @@ export default function KurbanBayrami2025() {
             </div>
 
             {/* Bank Discounts for Voltgo */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-3">
               <a 
                 href="#akbank-campaign" 
                 className="transition-transform hover:scale-[1.02]"
@@ -295,21 +329,21 @@ export default function KurbanBayrami2025() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">DC Şarj Fiyatları</span>
+                    <span className="text-sm">DC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺4.88</span>
-                      <span className="font-bold text-green-600">₺3.90 / kWh</span>
+                      <span className="font-bold text-green-600">₺3.90</span> / kWh
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm">AC Şarj Fiyatları</span>
+                    <span className="text-sm">AC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺3.50</span>
-                      <span className="font-bold text-green-600">₺2.80 / kWh</span>
+                      <span className="font-bold text-green-600">₺2.80</span> / kWh
                     </div>
                   </div>
                   <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    Voltgo istasyonlarında Akbank banka kartı ile %20 ek indirim
+                    Akbank banka kartı ile %20 iade
                   </div>
                 </div>
               </a>
@@ -329,21 +363,55 @@ export default function KurbanBayrami2025() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">DC Şarj Fiyatları</span>
+                    <span className="text-sm">DC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺4.88</span>
-                      <span className="font-bold text-green-600">₺4.39 / kWh</span>
+                      <span className="font-bold text-green-600">₺4.39</span> / kWh
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm">AC Şarj Fiyatları</span>
+                    <span className="text-sm">AC</span>
                     <div>
                       <span className="text-red-500 line-through mr-2">₺3.50</span>
-                      <span className="font-bold text-green-600">₺3.15 / kWh</span>
+                      <span className="font-bold text-green-600">₺3.15</span> / kWh
                     </div>
                   </div>
                   <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    Voltgo istasyonlarında Ziraat kredi kartı ile %10 ek indirim
+                    Ziraat kredi kartı ile %10 ek indirim
+                  </div>
+                </div>
+              </a>
+
+              <a 
+                href="#paraf-campaign" 
+                className="transition-transform hover:scale-[1.02]"
+              >
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                  <div className="h-12 relative mb-2">
+                    <Image 
+                      src="/images/companies/paraf.jpg"
+                      alt="Paraf Logo"
+                      fill
+                      className="object-contain"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">DC</span>
+                    <div>
+                      <span className="text-red-500 line-through mr-2">₺4.88</span>
+                      <span className="font-bold text-green-600">₺4.39</span> / kWh
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-sm">AC</span>
+                    <div>
+                      <span className="text-red-500 line-through mr-2">₺3.50</span>
+                      <span className="font-bold text-green-600">₺3.15</span> / kWh
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
+                    Paraf Doğal kredi kartı ile %10 ek indirim
                   </div>
                 </div>
               </a>
@@ -436,7 +504,7 @@ export default function KurbanBayrami2025() {
               </div>
             </div>
 
-            <h3 className="text-xl font-semibold mb-3">Ziraat Bankası %10 İndirim ve 500 TL Bankkart Lira</h3>
+            <h3 className="text-xl font-semibold mb-3">Ziraat Bankası %10 Bankkart Lira</h3>
             
             <div className="flex flex-col gap-2 mb-4">
               <div className="flex items-center gap-2">
@@ -448,7 +516,7 @@ export default function KurbanBayrami2025() {
               <div className="flex items-center gap-2">
                 <Percent className="h-4 w-4 text-blue-600" />
                 <span className="font-medium">İndirim ve Kazanım:</span>
-                <span className="text-green-600 font-semibold">%10 İndirim + 500 TL&apos;ye kadar Bankkart Lira</span>
+                <span className="text-green-600 font-semibold">%10 u kadar (500 TL&apos;ye kadar) Bankkart Lira</span>
               </div>
             </div>
 
@@ -473,6 +541,72 @@ export default function KurbanBayrami2025() {
             <div className="text-center">
               <a 
                 href={ziraatCampaign?.campaign.links.details}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-primary border-2 border-primary rounded-lg hover:bg-primary hover:text-white transition-colors"
+              >
+                Kampanya Detayları
+                <span className="text-lg">↗</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Paraf Campaign Section */}
+          <div 
+            id="paraf-campaign" 
+            className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm scroll-mt-16"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="relative w-[500px] h-[140px]">
+                <Image 
+                  src="/images/companies/paraf.jpg"
+                  alt="Paraf Logo"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+            </div>
+
+            <h3 className="text-xl font-semibold mb-3">Paraf Doğal ile %10 İndirim Kampanyası</h3>
+            
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-green-600" />
+                <span className="font-medium">Kampanya Süresi:</span> 
+                <span>1 Mayıs - 31 Temmuz 2025 (Bayramda da Geçerli)</span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Percent className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">İndirim Oranı:</span>
+                <span className="text-green-600 font-semibold">%10</span>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Kampanya Koşulları</h4>
+              <ul className="list-disc pl-5 space-y-1">
+                <li className="text-sm">Kampanya müşteri bazlı olup bir müşteri ayda en fazla 300 TL indirim kazanabilir.</li>
+                <li className="text-sm">Kampanya sadece Paraf Doğal kredi kartı ile gerçekleştirilen yurt içi elektrikli araç şarj istasyonu harcamalarında geçerlidir.</li>
+                <li className="text-sm">Kampanyadan yararlanmak için SARJ yazarak 3404&apos;e SMS gönderilmelidir.</li>
+                <li className="text-sm">SMS ile katılım sağlandıktan sonra yapılacak elektrikli araç şarj istasyonu harcamasında kampanyadan yararlanılacaktır.</li>
+                <li className="text-sm">ParafPara kullanarak yapılan işlemler, iptal ve iade işlemleri kampanyaya dahil değildir.</li>
+              </ul>
+            </div>
+
+            <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800 mt-4 mb-6">
+              <p className="flex items-start gap-2 m-0 text-green-800 dark:text-green-300">
+                <span className="mt-1 flex-shrink-0">💡</span>
+                <span>
+                  <strong>Önemli Not:</strong> Kampanyaya katılım SMS&apos;i Halkbank&apos;a kayıtlı olan cep telefonu numaranızdan gönderilmelidir. SMS&apos;ler Turkcell, Vodafone veya Türk Telekom operatörleri üzerinden ücretsiz olarak gönderilebilir.
+                </span>
+              </p>
+            </div>
+
+            <div className="text-center">
+              <a 
+                href="https://www.paraf.com.tr/tr/parafi-taniyin/elektrikli-arac-sarj-istasyonu-indirimi.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-primary border-2 border-primary rounded-lg hover:bg-primary hover:text-white transition-colors"
