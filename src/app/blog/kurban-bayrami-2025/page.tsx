@@ -668,12 +668,12 @@ export default function KurbanBayrami2025() {
           </div>
         </BlogPost>
         {/* Feedback Button */}
-        <div className="fixed bottom-8 right-8">
+        <div className="fixed bottom-18 left-1/2 -translate-x-1/2 sm:left-auto sm:right-8 sm:-translate-x-0">
           <a
             href="https://form.jotform.com/251522243559961"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-lg"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-lg whitespace-nowrap"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
