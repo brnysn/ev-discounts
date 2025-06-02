@@ -3,8 +3,8 @@ import { Post } from "@/components/ui/blog";
 export const blogPosts: Post[] = [
   {
     id: "post-11",
-    title: "Kurban Bayramı 2025'te Elektrikli Araç Şarj Kampanyaları",
-    summary: "Kurban Bayramı 2025'te elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
+    title: "Kurban Bayramında Elektrikli Araç Şarj Kampanyaları",
+    summary: "Kurban Bayramında elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
     label: "Kampanyalar",
     author: "Yasin Baran",
     published: "1 Haziran 2025",
