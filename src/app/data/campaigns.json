@@ -41,7 +41,7 @@
       "startDate": "2025-05-12",
       "endDate": "2025-06-30",
       "combinable": true,
-      "compatibleWith": ["zes", "eşarj", "tesla", "trugo", "solargize", "rhg-enertürk"],
+      "compatibleWith": ["all"],
       "calculateCombinedPrice": {
         "type": "percentage",
         "value": 10

@@ -11,14 +11,8 @@ import {
 import Image from "next/image"
 import type { Metadata } from "next"
 import { CanonicalWrapper } from "@/components/canonical-wrapper"
-import data from "@/app/data/data.json"
 import campaigns from "@/app/data/campaigns.json"
 
-// Add type definition at the top of the file
-interface Company {
-  name: string;
-  logo: string;
-}
 
 export const metadata: Metadata = {
   title: "Kurban Bayramında Elektrikli Araç Şarj Kampanyaları | Şarj Kampanya",
@@ -55,15 +49,6 @@ export default function KurbanBayrami2025() {
   // Find Akbank and Ziraat campaigns
   const akbankCampaign = campaigns.find(c => c.company.name === "Akbank")
   const ziraatCampaign = campaigns.find(c => c.company.name === "Ziraat Bankası")
-  
-  // Get compatible charging companies
-  const getCompanyById = (id: string) => {
-    return data.find(company => 
-      company.name.toLowerCase().replace(/\s+/g, '-') === id.toLowerCase()
-    );
-  };
-
-  const ziraatCompatible = ziraatCampaign?.campaign.compatibleWith.map(id => getCompanyById(id)).filter(company => company !== undefined) || [];
   
   return (
     <BlogPostWrapper>
@@ -474,23 +459,6 @@ export default function KurbanBayrami2025() {
                   <li key={index} className="text-sm">{condition}</li>
                 ))}
               </ul>
-            </div>
-
-            <h4 className="font-semibold mt-4 mb-2">Geçerli Şarj İstasyonları</h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {ziraatCompatible.map((company: Company, index: number) => (
-                <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
-                  <div className="relative h-12">
-                    <Image 
-                      src={company.logo}
-                      alt={`${company.name} Logo`}
-                      fill
-                      className="object-contain"
-                      unoptimized
-                    />
-                  </div>
-                </div>
-              ))}
             </div>
 
             <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800 mt-4 mb-6">
