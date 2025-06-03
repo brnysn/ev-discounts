@@ -150,7 +150,7 @@ export default function KurbanBayrami2025() {
               <p className="flex items-start gap-2 m-0 text-yellow-800 dark:text-yellow-300">
                 <span className="mt-1 flex-shrink-0">💡</span>
                 <span>
-                  <strong>Önemli Not:</strong> Şarj başlatılırken #kurban_bayrami kupon kodu girilmelidir.
+                  <strong>Önemli Not:</strong> Şarj başlatılırken #kurban_bayrami kupon kodu ile kampanya seçimi yapılmalıdır.
                 </span>
               </p>
             </div>
