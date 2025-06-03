@@ -86,6 +86,68 @@ export default function KurbanBayrami2025() {
             </p>
           </div>
 
+          {/* ŞarjTak Campaign Section */}
+          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <Image 
+                src="/images/chargers/sarj-tak.webp" 
+                alt="Şarj Tak Logo"
+                width={500}
+                height={140}
+                style={{ height: '140px' }}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+
+            <h3 className="text-xl font-semibold mb-3">Şarj Tak Bayram Özel Bedava Şarj</h3>
+            
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-green-600" />
+                <span className="font-medium">Kampanya Süresi:</span> 
+                <span>6-9 Haziran 2025 (Kurban Bayramı boyunca)</span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Percent className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">İndirim Oranı:</span>
+                <span className="text-green-600 font-semibold">%100</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">DC</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Normal Tarife</span>
+                  <div>
+                    <span className="text-red-500 line-through mr-2">₺9.99</span>
+                    <span className="font-bold text-green-600">₺0.00</span> / kWh
+                  </div>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Bayram boyunca tüm DC hızlı şarj noktalarında bedava şarj
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">AC</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Normal Tarife</span>
+                  <div>
+                    <span className="text-red-500 line-through mr-2">₺7.99</span>
+                    <span className="font-bold text-green-600">₺0.00</span> / kWh
+                  </div>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Bayram boyunca tüm AC hızlı şarj noktalarında bedava şarj
+                </div>
+              </div>
+            </div>
+
+          </div>
+
           {/* Beeful Campaign Section */}
           <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
