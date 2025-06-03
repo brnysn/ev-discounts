@@ -277,7 +277,7 @@ export default function KurbanBayrami2025() {
               <p className="flex items-start gap-2 m-0 text-yellow-800 dark:text-yellow-300">
                 <span className="mt-1 flex-shrink-0">💡</span>
                 <span>
-                  <strong>Önemli Not:</strong> Bu kampanya sadece Beeful DC hızlı şarj noktalarında geçerlidir. Şarj kapasitesinden bağımsız olarak sabit ₺1.00/kWh fiyat uygulanacaktır. Banka kampanyaları ile birleştirilebilir.
+                  <strong>Önemli Not:</strong> Bu kampanya sadece Beeful DC hızlı şarj noktalarında geçerlidir.
                 </span>
               </p>
             </div>
