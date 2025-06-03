@@ -365,7 +365,7 @@ export default function KurbanBayrami2025() {
                     </div>
                   </div>
                   <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    Ziraat kredi kartı ile %10 ek indirim
+                  Ziraat Bankası kredi kartı ile %10 Bankkart Lira Kazanımı
                   </div>
                 </div>
               </a>
