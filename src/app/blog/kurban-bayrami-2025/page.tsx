@@ -147,34 +147,7 @@ export default function KurbanBayrami2025() {
             </div>
 
             {/* Bank Discounts for Beeful */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-3">
-              <a 
-                href="#akbank-campaign" 
-                className="transition-transform hover:scale-[1.02]"
-              >
-                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-                  <div className="h-12 relative mb-2">
-                    <Image 
-                      src={akbankCampaign?.company.logo || ''}
-                      alt="Akbank Logo"
-                      fill
-                      className="object-contain"
-                      unoptimized
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">DC</span>
-                    <div>
-                      <span className="text-red-500 line-through mr-2">₺1.00</span>
-                      <span className="font-bold text-green-600">₺0.80</span> / kWh
-                    </div>
-                  </div>
-                  <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    Akbank banka kartı ile %20 iade
-                  </div>
-                </div>
-              </a>
-              
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
               <a 
                 href="#ziraat-campaign" 
                 className="transition-transform hover:scale-[1.02]"
@@ -301,41 +274,7 @@ export default function KurbanBayrami2025() {
             </div>
 
             {/* Bank Discounts for Voltgo */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-3">
-              <a 
-                href="#akbank-campaign" 
-                className="transition-transform hover:scale-[1.02]"
-              >
-                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-                  <div className="h-12 relative mb-2">
-                    <Image 
-                      src={akbankCampaign?.company.logo || ''}
-                      alt="Akbank Logo"
-                      fill
-                      className="object-contain"
-                      unoptimized
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">DC</span>
-                    <div>
-                      <span className="text-red-500 line-through mr-2">₺4.88</span>
-                      <span className="font-bold text-green-600">₺3.90</span> / kWh
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm">AC</span>
-                    <div>
-                      <span className="text-red-500 line-through mr-2">₺3.50</span>
-                      <span className="font-bold text-green-600">₺2.80</span> / kWh
-                    </div>
-                  </div>
-                  <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
-                    Akbank banka kartı ile %20 iade
-                  </div>
-                </div>
-              </a>
-              
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">              
               <a 
                 href="#ziraat-campaign" 
                 className="transition-transform hover:scale-[1.02]"
