@@ -146,6 +146,14 @@ export default function KurbanBayrami2025() {
               </div>
             </div>
 
+            <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800 mt-4">
+              <p className="flex items-start gap-2 m-0 text-yellow-800 dark:text-yellow-300">
+                <span className="mt-1 flex-shrink-0">💡</span>
+                <span>
+                  <strong>Önemli Not:</strong> Şarj başlatılırken #kurban_bayrami kupon kodu girilmelidir.
+                </span>
+              </p>
+            </div>
           </div>
 
           {/* Beeful Campaign Section */}
