@@ -415,6 +415,78 @@ export default function KurbanBayrami2025() {
             </div>
           </div>
 
+          {/* Trugo Campaign Section */}
+          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <Image 
+                src="/images/chargers/trugo.svg" 
+                alt="Trugo Logo"
+                width={500}
+                height={140}
+                style={{ height: '140px' }}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+
+            <h3 className="text-xl font-semibold mb-3">Trugo Bayram Özel %50 İndirimli Şarj Kuponu</h3>
+            
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-green-600" />
+                <span className="font-medium">Kampanya Süresi:</span> 
+                <span>4-15 Haziran 2025</span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Percent className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">İndirim Oranı:</span>
+                <span className="text-green-600 font-semibold">%50</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">DC</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">&lt; 150 kWh</span>
+                  <div>
+                    <span className="text-red-500 line-through mr-2">₺10.60</span>
+                    <span className="font-bold text-green-600">₺5.30</span> / kWh
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">&gt; 150 kWh</span>
+                  <div>
+                    <span className="text-red-500 line-through mr-2">₺11.82</span>
+                    <span className="font-bold text-green-600">₺5.91</span> / kWh
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">AC</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Normal Tarife</span>
+                  <div>
+                    <span className="text-red-500 line-through mr-2">₺8.49</span>
+                    <span className="font-bold text-green-600">₺4.25</span> / kWh
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800 mt-4">
+              <p className="flex items-start gap-2 m-0 text-yellow-800 dark:text-yellow-300">
+                <span className="mt-1 flex-shrink-0">💡</span>
+                <span>
+                  <strong>Önemli Not:</strong> İndirim değil, kupon kullanımıdır. Kuponlar kullanımdan önce Trumore üzerinden alınmalıdır. Şarj Trumore üzerinden başlatılmalıdır. Sadece Togg sahiplerine özeldir.
+                </span>
+              </p>
+            </div>
+          </div>
+
           {/* Estasyon Campaign Section */}
           <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">

@@ -972,27 +972,16 @@
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-04-01 23:59:00",
         "text": "Yalnızca Trumore üzerinden başlatılan şarjlarda TOGG kullanıcılarına özeldir.",
-        "cars": [
-          "Togg"
-        ],
-        "discounted_prices": {
-          "ac": [
-            {
-              "kwh": "",
-              "price": 0
-            }
-          ],
-          "dc": [
-            {
-              "kwh": "< 150",
-              "price": 0
-            },
-            {
-              "kwh": "150 >",
-              "price": 0
-            }
-          ]
-        }
+        "cars": ["Togg"],
+        "discount_rate": 100
+      },
+      {
+        "name": "Kurban Bayramı 2025",
+        "starts_at": "2025-06-04 00:00:00",
+        "ends_at": "2025-06-15 23:59:00",
+        "text": "Trumore üzerinden ön satın alım yapılan şarj kullanım kuponudur. TOGG kullanıcılarına özeldir.",
+        "cars": ["Togg"],
+        "discount_rate": 50
       }
     ]
   },
