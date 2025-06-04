@@ -151,7 +151,7 @@
       "description": "Paraf Doğal kredi kartınız ile yurt içinde yapacağınız elektrikli araç şarj istasyonu harcamalarında %10 indirim fırsatı.",
       "startDate": "2025-05-01",
       "endDate": "2025-12-31",
-      "combinable": false,
+      "combinable": true,
       "compatibleWith": ["all"],
       "calculateCombinedPrice": {
         "type": "percentage",
