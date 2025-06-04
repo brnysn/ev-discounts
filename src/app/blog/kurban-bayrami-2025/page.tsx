@@ -65,7 +65,7 @@ export default function KurbanBayrami2025() {
         <BlogPost
           title="Kurban Bayramında Elektrikli Araç Şarj Kampanyaları"
           label="Kampanyalar"
-          published="1 Haziran 2025"
+          published="4 Haziran 2025"
           image="/images/posts/kurban-2025.webp"
         >
           <h2 className="flex items-center gap-2 text-2xl font-bold mb-4">
