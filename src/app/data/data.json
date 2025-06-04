@@ -794,6 +794,58 @@
     ]
   },
   {
+    "name": "Ovolt",
+    "logo": "/images/chargers/ovolt.png",
+    "phone": "",
+    "website": "https://ovolt.com.tr/tarifeler/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 60",
+            "price": 9.49
+          },
+          {
+            "kwh": "60 >",
+            "price": 10.99
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "name": "Kurban Bayramı 2025",
+        "starts_at": "2025-06-05 00:00:00",
+        "ends_at": "2025-06-09 23:59:00",
+        "text": "Ziraat Bankası Kartları veya Paraf Doğal Kartları ile %10 iade kazanabilirsiniz.",
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": "",
+              "price": 5.99
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 60",
+              "price": 5.99
+            },
+            {
+              "kwh": "60 >",
+              "price": 5.99
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "name": "Rhg Enertürk",
     "logo": "/images/chargers/rhg-enerturk.svg",
     "phone": "",
@@ -862,6 +914,30 @@
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-03-31 23:59:00",
         "text": "",
+        "discounted_prices": {
+          "ac": [
+            {
+              "kwh": "",
+              "price": 5.99
+            }
+          ],
+          "dc": [
+            {
+              "kwh": "< 60",
+              "price": 5.99
+            },
+            {
+              "kwh": "60 >",
+              "price": 5.99
+            }
+          ]
+        }
+      },
+      {
+        "name": "Kurban Bayramı 2025",
+        "starts_at": "2025-06-05 00:00:00",
+        "ends_at": "2025-06-09 23:59:00",
+        "text": "Ziraat Bankası Kartları veya Paraf Doğal Kartları ile %10 iade kazanabilirsiniz.",
         "discounted_prices": {
           "ac": [
             {
