@@ -1334,6 +1334,119 @@ export default function KurbanBayrami2025() {
             </div>
           </div>
 
+          {/* Wat Mobilite Campaign Section */}
+          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <Image 
+                src="/images/chargers/wat-mobilite.svg" 
+                alt="Wat Mobilite Logo"
+                width={500}
+                height={140}
+                style={{ height: '140px' }}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+
+            <h3 className="text-xl font-semibold mb-3">Wat Mobilite Seçili istasyonlarda %25 İndirim</h3>
+            
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-green-600" />
+                <span className="font-medium">Kampanya Süresi:</span> 
+                <span>5-9 Haziran 2025 (Kurban Bayramı boyunca)</span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Percent className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">İndirim Oranı:</span>
+                <span className="text-green-600 font-semibold">%25</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                <h5 className="text-sm font-semibold mb-2">DC</h5>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Normal Tarife</span>
+                  <div>
+                    <span className="text-red-500 line-through mr-2">₺10.89</span>
+                    <span className="font-bold text-green-600">₺8.16</span> / kWh 
+                  </div>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Bayram boyunca seçili DC şarj noktalarında %25 indirim
+                </div>
+              </div>
+            </div>
+
+            {/* Bank Discounts for Aos Technology */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3">
+              <a 
+                href="#ziraat-campaign" 
+                className="transition-transform hover:scale-[1.02]"
+              >
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                  <div className="h-12 relative mb-2">
+                    <Image 
+                      src={ziraatCampaign?.company.logo || ''}
+                      alt="Ziraat Bankası Logo"
+                      fill
+                      className="object-contain"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">DC</span>
+                    <div>
+                      <span className="text-red-500 line-through mr-2">₺8.16</span>
+                      <span className="font-bold text-green-600">₺7.34</span> / kWh
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
+                    Ziraat Bankası kredi kartı ile %10 Bankkart Lira Kazanımı
+                  </div>
+                </div>
+              </a>
+
+              <a 
+                href="#paraf-campaign" 
+                className="transition-transform hover:scale-[1.02]"
+              >
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
+                  <div className="h-12 relative mb-2">
+                    <Image 
+                      src="/images/companies/paraf.jpg"
+                      alt="Paraf Logo"
+                      fill
+                      className="object-contain"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">DC</span>
+                    <div>
+                      <span className="text-red-500 line-through mr-2">₺8.16</span>
+                      <span className="font-bold text-green-600">₺7.34</span> / kWh
+                    </div>
+                  </div>
+                  <div className="mt-2 text-xs text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-950 p-2 rounded-md">
+                    Paraf Doğal kredi kartı ile %10 ek indirim
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800 mt-4">
+              <p className="flex items-start gap-2 m-0 text-yellow-800 dark:text-yellow-300">
+                <span className="mt-1 flex-shrink-0">💡</span>
+                <span>
+                  <strong>Önemli Not:</strong> Kampanya sadece İstanbul-İzmir otobanındaki bazı istasyonlarda geçerlidir. İstasyonları <a href="https://www.watmobilite.com/kampanyalar/kurban-bayrami-kampanyasi" target="_blank" className="text-blue-600 hover:underline">buradan</a> kontrol edebilirsiniz. 
+                </span>
+              </p>
+            </div>
+          </div>
+
           {/* Aos Technology Campaign Section */}
           <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
