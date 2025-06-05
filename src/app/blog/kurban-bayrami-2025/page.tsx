@@ -12,7 +12,10 @@ import Image from "next/image"
 import type { Metadata } from "next"
 import { CanonicalWrapper } from "@/components/canonical-wrapper"
 import campaigns from "@/app/data/campaigns.json"
-
+import { Timeline } from "@/components/timeline"
+import type { Company } from "@/types"
+import data from "@/app/data/data.json"
+import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 
 export const metadata: Metadata = {
   title: "Kurban Bayramında Elektrikli Araç Şarj Kampanyaları | Şarj Kampanya",
@@ -50,6 +53,31 @@ export default function KurbanBayrami2025() {
   const akbankCampaign = campaigns.find(c => c.company.name === "Akbank")
   const ziraatCampaign = campaigns.find(c => c.company.name === "Ziraat Bankası")
   
+  // Get discounts from data.json
+  const initialDiscounts = (data as Company[]).flatMap((company) =>
+    company.discounts.map((discount) => ({
+      ...discount,
+      company,
+    }))
+  ).filter(discount => {
+    const startDate = new Date(discount.starts_at)
+    const endDate = new Date(discount.ends_at)
+    const bayramStart = new Date("2025-06-06")
+    const bayramEnd = new Date("2025-06-09")
+    
+    // Only show discounts that overlap with Kurban Bayramı
+    return startDate <= bayramEnd && endDate >= bayramStart
+  })
+
+  // Sort discounts using the same hook as home page
+  const { sortDiscounts } = useDiscountCalculator({
+    discounts: initialDiscounts,
+    chargingPort: "DC",
+    powerRange: "all"
+  })
+  
+  const discounts = sortDiscounts(initialDiscounts)
+  
   return (
     <BlogPostWrapper>
       <div className="min-h-screen bg-gray-50 [&_html]:scroll-pt-8">
@@ -86,8 +114,14 @@ export default function KurbanBayrami2025() {
             </p>
           </div>
 
+          {discounts.length > 0 && (
+            <div className="min-h-[200px] pt-4">
+              <Timeline discounts={discounts} />
+            </div>
+          )}
+
           {/* ŞarjTak Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-şarj-tak" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/sarj-tak.webp" 
@@ -157,7 +191,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Beeful Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-beeful" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/beeful.webp" 
@@ -284,7 +318,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Voltgo Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-voltgo" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/voltgo.png" 
@@ -416,7 +450,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Trugo Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-trugo" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/trugo.svg" 
@@ -487,7 +521,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Estasyon Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-estasyon" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/estasyon.webp" 
@@ -628,7 +662,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Ovolt Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-ovolt" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/ovolt.png" 
@@ -790,7 +824,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Sharz Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-sharz" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/sharz.png" 
@@ -952,7 +986,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Voltrun Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-voltrun" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/voltrun.png" 
@@ -1169,7 +1203,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* RHG Enertürk Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-rhg-enertürk" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/rhg-enerturk.svg" 
@@ -1335,7 +1369,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Öniz Şarj Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-öniz-şarj" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/oniz-sarj.png" 
@@ -1467,7 +1501,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* K Şarj Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-k-şarj" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/k-sarj.png" 
@@ -1620,7 +1654,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Wat Mobilite Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-wat-mobilite" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/wat-mobilite.svg" 
@@ -1733,7 +1767,7 @@ export default function KurbanBayrami2025() {
           </div>
 
           {/* Aos Technology Campaign Section */}
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
+          <div id="discount-aos-technology" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src="/images/chargers/aos-technology.png" 

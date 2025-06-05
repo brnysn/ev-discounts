@@ -161,7 +161,7 @@ img[loading="lazy"] {
 }
 
 /* Fix for blog post images on mobile */
-.prose img {
+.prose img:not(.timeline-logo) {
   max-width: 100%;
   height: auto;
   display: block;

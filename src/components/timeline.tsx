@@ -113,9 +113,6 @@ export function Timeline({ discounts }: TimelineProps) {
   }
 
   return (
-    <div className="mb-12">
-      {/* <h2 className="text-2xl font-bold mb-6">Kampanya Takvimi</h2> */}
-      
       <div className="mb-8 relative">
         {/* Timeline bar */}
         <div className="h-0.5 bg-gray-300 w-full absolute top-8" />
@@ -287,7 +284,7 @@ export function Timeline({ discounts }: TimelineProps) {
                         alt={discount.company.name}
                         width={32}
                         height={32}
-                        className="h-8 w-auto object-contain"
+                        className="h-8 w-auto object-contain timeline-logo"
                         unoptimized
                       />
                     </div>
@@ -376,7 +373,6 @@ export function Timeline({ discounts }: TimelineProps) {
           })}
         </div>
       </div>
-    </div>
   )
 }
 
