@@ -298,6 +298,29 @@
     ]
   },
   {
+    "name": "Bladeco",
+    "logo": "/images/chargers/bladeco.png",
+    "phone": "",
+    "website": "https://www.bladeco.com.tr/tarifeler/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 5.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 7.43
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "ecobox",
     "logo": "/images/chargers/ecobox.png",
     "phone": "",
