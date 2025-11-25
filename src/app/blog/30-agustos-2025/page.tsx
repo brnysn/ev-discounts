@@ -18,11 +18,11 @@ import data from "@/app/data/data.json"
 import { useDiscountCalculator } from "@/hooks/useDiscountCalculator"
 
 export const metadata: Metadata = {
-  title: "30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları | Şarj Kampanya",
+  title: "30 Ağustos Zafer Bayramı Şarj Kampanyaları | Şarj Kampanya",
   description: "30 Ağustos Zafer Bayramı'nda elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
   keywords: ["30 Ağustos şarj kampanyaları", "Zafer Bayramı indirimleri", "elektrikli araç şarj", "bayram kampanyaları", "şarj indirimi", "bayramda şarj istasyonu", "EV şarj kampanyaları"],
   openGraph: {
-    title: "30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları",
+    title: "30 Ağustos Zafer Bayramı Şarj Kampanyaları",
     description: "30 Ağustos Zafer Bayramı'nda elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
     url: "https://sarjkampanya.com/blog/30-agustos-2025",
     type: "article",
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
         url: "https://sarjkampanya.com/images/posts/30-agustos.webp",
         width: 1200,
         height: 630,
-        alt: "30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları",
+        alt: "30 Ağustos Zafer Bayramı Şarj Kampanyaları",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları | Şarj Kampanya",
+    title: "30 Ağustos Zafer Bayramı Şarj Kampanyaları | Şarj Kampanya",
     description: "30 Ağustos Zafer Bayramı'nda elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
     images: ["https://sarjkampanya.com/images/posts/30-agustos.webp"],
   },
@@ -83,7 +83,7 @@ export default function OtuzAgustos2025() {
       <div className="min-h-screen bg-gray-50 [&_html]:scroll-pt-8">
         <CanonicalWrapper canonicalUrl="https://sarjkampanya.com/blog/30-agustos-2025" />
         <BlogStructuredData 
-          title="30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları | Sarj Kampanya"
+          title="30 Ağustos Zafer Bayramı Şarj Kampanyaları | Sarj Kampanya"
           description="30 Ağustos Zafer Bayramı'nda elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi."
           datePublished="2025-08-30"
           imageUrl="https://sarjkampanya.com/images/posts/30-agustos.webp"
@@ -91,7 +91,7 @@ export default function OtuzAgustos2025() {
           canonicalUrl="https://sarjkampanya.com/blog/30-agustos-2025"
         />
                   <BlogPost
-            title="30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları"
+            title="30 Ağustos Zafer Bayramı Şarj Kampanyaları"
             label="Kampanyalar"
             published="05 Ağustos 2025"
             image="/images/posts/30-agustos.webp"

@@ -3,7 +3,7 @@ import { Post } from "@/components/ui/blog";
 export const blogPosts: Post[] = [
   {
     id: "post-12",
-    title: "30 Ağustos Zafer Bayramı Elektrikli Araç Şarj Kampanyaları",
+    title: "30 Ağustos Zafer Bayramı Şarj Kampanyaları",
     summary: "30 Ağustos Zafer Bayramı'nda elektrikli araç şarj istasyonlarının özel kampanyaları, banka kartı indirimleri ve avantajlı fırsatlar hakkında detaylı bilgi.",
     label: "Kampanyalar",
     author: "Yasin Baran",
