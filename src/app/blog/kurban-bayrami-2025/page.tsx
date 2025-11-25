@@ -1760,7 +1760,7 @@ export default function KurbanBayrami2025() {
               <p className="flex items-start gap-2 m-0 text-yellow-800 dark:text-yellow-300">
                 <span className="mt-1 flex-shrink-0">💡</span>
                 <span>
-                  <strong>Önemli Not:</strong> Kampanya sadece İstanbul-İzmir otobanındaki bazı istasyonlarda geçerlidir. İstasyonları <a href="https://www.watmobilite.com/kampanyalar/kurban-bayrami-kampanyasi" target="_blank" className="text-blue-600 hover:underline">buradan</a> kontrol edebilirsiniz. 
+                  <strong>Önemli Not:</strong> Kampanya sadece İstanbul-İzmir otobanındaki bazı istasyonlarda geçerlidir. İstasyonları <a href="https://www.watmobilite.com/" target="_blank" className="text-blue-600 hover:underline">buradan</a> kontrol edebilirsiniz. 
                 </span>
               </p>
             </div>
