@@ -2,7 +2,7 @@ import { dcBoltStyle } from "@/lib/station-sockets"
 import { hasKnownAvailability, type StationStatusPayload } from "@/lib/station-status"
 import type { StationRecord } from "@/types/stations"
 
-type LeafletLib = typeof import("leaflet")["default"]
+type LeafletLib = typeof import("leaflet")
 
 export type StationPinTone = "green" | "yellow" | "red" | "black"
 

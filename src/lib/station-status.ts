@@ -41,10 +41,6 @@ type SarjSocket = {
   gucKw?: number
 }
 
-type SarjStationResponse = {
-  sockets?: SarjSocket[]
-}
-
 export function sarjTrStationId(epdkId: string): string | null {
   const match = epdkId.match(/(\d+)/)
   return match ? match[1] : null
@@ -125,18 +121,21 @@ function socketKw(socket: SarjSocket): number | undefined {
   return Number.isFinite(value) && value > 0 ? value : undefined
 }
 
-export function parseSarjTrStation(payload: SarjStationResponse | null | undefined): StationStatusPayload {
-  const sockets = Array.isArray(payload?.sockets)
-    ? payload.sockets.map((socket) => {
-        const kw = socketKw(socket)
-        return {
-          id: socket.id ?? null,
-          status: mapAvailabilityStatus(currentSarjAvailability(socket.availability)),
-          kind: socketKind(socket, kw),
-          kw,
-        }
-      })
-    : []
+export function parseSarjTrStation(payload: unknown): StationStatusPayload {
+  const rawSockets =
+    payload && typeof payload === "object" && "sockets" in payload && Array.isArray(payload.sockets)
+      ? payload.sockets
+      : []
+  const sockets = rawSockets.map((item) => {
+    const socket = (item && typeof item === "object" ? item : {}) as SarjSocket
+    const kw = socketKw(socket)
+    return {
+      id: socket.id ?? null,
+      status: mapAvailabilityStatus(currentSarjAvailability(socket.availability)),
+      kind: socketKind(socket, kw),
+      kw,
+    }
+  })
 
   const summary: StationStatusSummary = { free: 0, busy: 0, fault: 0, unknown: 0 }
   for (const socket of sockets) {

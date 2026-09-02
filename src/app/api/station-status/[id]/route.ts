@@ -45,7 +45,7 @@ export async function GET(request: Request) {
       return NextResponse.json(body, { status: 502 })
     }
 
-    const payload = parseSarjTrStation(json as { sockets?: unknown[] })
+    const payload = parseSarjTrStation(json)
     cache.set(cacheKey, { expires: Date.now() + CACHE_TTL_MS, body: payload, status: 200 })
     return NextResponse.json(payload)
   } catch {

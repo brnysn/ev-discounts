@@ -92,7 +92,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="tr">
+    <html lang="tr" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-2397496183137321" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -156,6 +156,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         {children}
       </body>

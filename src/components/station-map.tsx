@@ -49,7 +49,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css"
 const companyList = companies as Company[]
 const RADIUS_KM_OPTIONS = [5, 10, 15, 25] as const
 const DEFAULT_RADIUS_KM = 10
-const LOCATION_PROMPT_KEY = "sarjkampanya.location-prompt"
+const LOCATION_PROMPT_KEY = "sarjkampanya.location-prompt.v2"
 const SHEET_PEEK_PX = 64
 const MAP_PAGE_MENU = [
   { title: "Kampanyalar", url: "/#kampanyalar" },
@@ -69,6 +69,13 @@ function directionsUrl(lat: number, lng: number): string {
 
 function isDesktopMap(): boolean {
   return window.matchMedia("(min-width: 768px)").matches
+}
+
+type LeafletNS = typeof import("leaflet")
+
+async function loadLeaflet(): Promise<LeafletNS> {
+  const mod = (await import("leaflet")) as LeafletNS & { default?: LeafletNS }
+  return mod.default ?? mod
 }
 
 function locationPromptChoice(): "dismissed" | "requested" | null {
@@ -432,7 +439,7 @@ export function StationMap() {
   const markerByIdRef = useRef<Map<string, Marker>>(new Map())
   const occupancyCacheRef = useRef(new Map<string, StationStatusPayload | null>())
   const occupancyInflightRef = useRef(new Set<string>())
-  const leafletRef = useRef<typeof import("leaflet")["default"] | null>(null)
+  const leafletRef = useRef<typeof import("leaflet") | null>(null)
   const snapshotRef = useRef<StationSnapshot | null>(null)
   const bestIdRef = useRef<string | undefined>(undefined)
   const refreshMarkerIconRef = useRef<(id: string) => void>(() => {})
@@ -458,6 +465,7 @@ export function StationMap() {
   const [navOpen, setNavOpen] = useState(false)
   const didFitRef = useRef(false)
   const lastLocateKeyRef = useRef<string | null>(null)
+  const locationRequestIdRef = useRef(0)
 
   useEffect(() => {
     didFitRef.current = false
@@ -579,7 +587,7 @@ export function StationMap() {
     let createdMap: LeafletMap | null = null
 
     async function initMap() {
-      const L = (await import("leaflet")).default
+      const L = await loadLeaflet()
       await import("leaflet.markercluster")
 
       if (cancelled || !mapEl.current) return
@@ -732,7 +740,7 @@ export function StationMap() {
     let cancelled = false
 
     async function redraw() {
-      const L = (await import("leaflet")).default
+      const L = await loadLeaflet()
       const group = clusterRef.current
       if (cancelled || !group) return
       group.clearLayers()
@@ -783,7 +791,7 @@ export function StationMap() {
     let cancelled = false
 
     async function drawCircle() {
-      const L = (await import("leaflet")).default
+      const L = await loadLeaflet()
       const map = mapRef.current
       if (cancelled || !map) return
 
@@ -855,7 +863,7 @@ export function StationMap() {
     return () => {
       cancelled = true
     }
-  }, [activeStation?.id])
+  }, [activeStation])
 
   useEffect(() => {
     const map = mapRef.current
@@ -972,19 +980,36 @@ export function StationMap() {
     setLocateBusy(false)
   }, [])
 
+  const skipLocation = useCallback(() => {
+    locationRequestIdRef.current += 1
+    rememberLocationPrompt("dismissed")
+    setGpsDenied(true)
+    setLocationPromptOpen(false)
+    setLocateBusy(false)
+  }, [])
+
   const requestLocation = useCallback(() => {
     if (!navigator.geolocation) {
       setLocationPromptOpen(false)
       return
     }
+    const requestId = ++locationRequestIdRef.current
     setLocateBusy(true)
     rememberLocationPrompt("requested")
     navigator.geolocation.getCurrentPosition(
-      (position) => applyPosition(position.coords.latitude, position.coords.longitude),
+      (position) => {
+        if (requestId !== locationRequestIdRef.current) return
+        applyPosition(position.coords.latitude, position.coords.longitude)
+      },
       (error) => {
+        if (requestId !== locationRequestIdRef.current) return
         setLocateBusy(false)
-        setLocationPromptOpen(false)
-        if (error.code === error.PERMISSION_DENIED) setGpsDenied(true)
+        if (error.code === error.PERMISSION_DENIED) {
+          setGpsDenied(true)
+          setLocationPromptOpen(false)
+          return
+        }
+        setLocationPromptOpen(true)
       },
       { enableHighAccuracy: true, timeout: 8000 }
     )
@@ -1010,9 +1035,12 @@ export function StationMap() {
       } catch {
         /* Safari / unsupported */
       }
-      if (!cancelled && locationPromptChoice() == null) {
-        setLocationPromptOpen(true)
+      if (cancelled) return
+      if (locationPromptChoice() === "dismissed") {
+        setGpsDenied(true)
+        return
       }
+      setLocationPromptOpen(true)
     }
     void bootLocation()
     return () => {
@@ -1096,8 +1124,11 @@ export function StationMap() {
       <Dialog
         open={locationPromptOpen}
         onOpenChange={(open) => {
+          if (!open && locationPromptOpen && locationPromptChoice() !== "requested") {
+            skipLocation()
+            return
+          }
           setLocationPromptOpen(open)
-          if (!open) rememberLocationPrompt(locationPromptChoice() === "requested" ? "requested" : "dismissed")
         }}
       >
         <DialogContent>
@@ -1111,10 +1142,7 @@ export function StationMap() {
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => {
-                rememberLocationPrompt("dismissed")
-                setLocationPromptOpen(false)
-              }}
+              onClick={skipLocation}
             >
               Şimdi değil
             </Button>
@@ -1185,7 +1213,7 @@ export function StationMap() {
         <div
           ref={sheetRef}
           data-station-sheet
-          className={`absolute inset-x-0 bottom-0 z-[500] flex flex-col overflow-hidden rounded-t-2xl border bg-background shadow-[0_-8px_30px_rgba(0,0,0,0.12)] md:inset-auto md:top-3 md:left-3 md:bottom-auto md:max-h-[calc(100dvh-96px)] md:w-[360px] md:overflow-y-auto md:rounded-lg md:border-0 md:bg-transparent md:shadow-none ${
+          className={`absolute inset-x-0 bottom-0 z-[500] flex flex-col overflow-hidden rounded-t-2xl border bg-background shadow-[0_-8px_30px_rgba(0,0,0,0.12)] md:inset-auto md:top-3 md:left-3 md:bottom-auto md:max-h-[calc(100dvh-96px)] md:w-[360px] md:gap-3 md:overflow-y-auto md:rounded-lg md:border-0 md:bg-transparent md:shadow-none ${
             sheetDragging ? "" : "duration-200 ease-out md:transition-none max-md:transition-[height]"
           }`}
         >
@@ -1254,7 +1282,7 @@ export function StationMap() {
             </Button>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overscroll-contain px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:px-0 md:pb-0">
+          <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overscroll-contain px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:gap-3 md:px-0 md:pb-0">
 
           {filtersOpen && (
             <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
