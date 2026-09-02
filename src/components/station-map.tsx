@@ -8,22 +8,27 @@ import { haversineKm } from "@/lib/geo"
 import { sarjTrStationId, type StationStatusPayload } from "@/lib/station-status"
 import { socketRowsFromStation, speedRowsHtml } from "@/lib/station-sockets"
 import { stationPinDivIcon } from "@/lib/station-pin"
+import { cityCenterFocus } from "@/lib/city-centers"
+import { matchCities, matchStations, type GeocodeHit } from "@/lib/station-search"
 import { SocketSpeedRows } from "@/components/socket-speed-rows"
 import type { Company } from "@/types"
 import type { StationCompanyOffer, StationRecord, StationSnapshot, StationSocketGroup } from "@/types/stations"
 import {
+  ChevronRight,
   Filter,
   Loader2,
   LocateFixed,
   LocateOff,
+  MapPin,
   Menu,
   Navigation,
   Search,
   X,
+  Zap,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react"
+import { startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -159,7 +164,6 @@ function refreshPopupLayout(popup: {
 }
 
 type Filters = {
-  query: string
   city: string
   company: string
   port: "all" | "ac" | "dc"
@@ -171,7 +175,6 @@ type Filters = {
 type UserLocation = { lat: number; lng: number }
 
 const defaultFilters: Filters = {
-  query: "",
   city: "all",
   company: "all",
   port: "all",
@@ -179,6 +182,8 @@ const defaultFilters: Filters = {
   campaignOnly: false,
   minKw: "",
 }
+
+const SEARCH_DEBOUNCE_MS = 250
 
 function escapeHtml(value: string): string {
   return value
@@ -436,6 +441,7 @@ export function StationMap() {
   const clusterRef = useRef<MarkerClusterGroup | null>(null)
   const circleRef = useRef<Circle | null>(null)
   const userMarkerRef = useRef<CircleMarker | null>(null)
+  const placeMarkerRef = useRef<CircleMarker | null>(null)
   const markerByIdRef = useRef<Map<string, Marker>>(new Map())
   const occupancyCacheRef = useRef(new Map<string, StationStatusPayload | null>())
   const occupancyInflightRef = useRef(new Set<string>())
@@ -451,6 +457,11 @@ export function StationMap() {
   const [snapshot, setSnapshot] = useState<StationSnapshot | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [filters, setFilters] = useState<Filters>(defaultFilters)
+  const [searchText, setSearchText] = useState("")
+  const [localQuery, setLocalQuery] = useState("")
+  const [debouncedQuery, setDebouncedQuery] = useState("")
+  const [geocodeHits, setGeocodeHits] = useState<GeocodeHit[]>([])
+  const [geocodeBusy, setGeocodeBusy] = useState(false)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [locateBusy, setLocateBusy] = useState(false)
   const [locationPromptOpen, setLocationPromptOpen] = useState(false)
@@ -497,7 +508,6 @@ export function StationMap() {
 
   const filtered = useMemo(() => {
     if (!snapshot) return []
-    const q = filters.query.trim().toLocaleLowerCase("tr-TR")
     const minKw = Number(filters.minKw) || 0
 
     return snapshot.stations.filter((station) => {
@@ -519,11 +529,6 @@ export function StationMap() {
         return false
       }
       if (filters.campaignOnly && !offer?.ac?.hasCampaign && !offer?.dc?.hasCampaign) return false
-
-      if (q) {
-        const haystack = `${station.name} ${station.brand} ${station.operator} ${station.address}`.toLocaleLowerCase("tr-TR")
-        if (!haystack.includes(q)) return false
-      }
       return true
     })
   }, [snapshot, filters, offers])
@@ -560,6 +565,60 @@ export function StationMap() {
       stationPinDivIcon(leaflet, station, occupancyCacheRef.current.get(id) ?? null, highlightId === id)
     )
   }
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      startTransition(() => setDebouncedQuery(searchText.trim()))
+    }, SEARCH_DEBOUNCE_MS)
+    return () => window.clearTimeout(timeout)
+  }, [searchText])
+
+  useEffect(() => {
+    if (searchText.trim() && !isDesktopMap()) setSheetOpen(true)
+  }, [searchText])
+
+  const searchStations = useMemo(() => {
+    if (!snapshot || !localQuery) return []
+    return matchStations(snapshot.stations, localQuery)
+  }, [snapshot, localQuery])
+
+  const searchCities = useMemo(() => {
+    if (!snapshot || !localQuery) return []
+    return matchCities(snapshot.stations, localQuery)
+  }, [snapshot, localQuery])
+
+  useEffect(() => {
+    if (debouncedQuery.length < 3) {
+      setGeocodeHits([])
+      setGeocodeBusy(false)
+      return
+    }
+    const controller = new AbortController()
+    setGeocodeBusy(true)
+    void fetch(`/api/geocode?q=${encodeURIComponent(debouncedQuery)}`, { signal: controller.signal })
+      .then((response) => (response.ok ? (response.json() as Promise<{ results?: GeocodeHit[] }>) : { results: [] }))
+      .then((data) => {
+        if (!controller.signal.aborted) setGeocodeHits(data.results ?? [])
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return
+        setGeocodeHits([])
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setGeocodeBusy(false)
+      })
+    return () => {
+      controller.abort()
+    }
+  }, [debouncedQuery])
+
+  const searchPlaceHits = useMemo(() => {
+    const citiesLower = new Set(searchCities.map((city) => city.toLocaleLowerCase("tr-TR")))
+    return geocodeHits.filter((hit) => !citiesLower.has(hit.title.toLocaleLowerCase("tr-TR")))
+  }, [geocodeHits, searchCities])
+
+  const hasSearchQuery = Boolean(searchText.trim())
+  const hasSearchResults = searchStations.length > 0 || searchCities.length > 0 || searchPlaceHits.length > 0
 
   useEffect(() => {
     let cancelled = false
@@ -947,18 +1006,62 @@ export function StationMap() {
 
   focusStationMarkerRef.current = focusStationMarker
 
+  const clearPlaceMarker = useCallback(() => {
+    placeMarkerRef.current?.remove()
+    placeMarkerRef.current = null
+  }, [])
+
   const selectStation = useCallback(
     (id: string) => {
+      clearPlaceMarker()
       const previous = selectedIdRef.current
       selectedIdRef.current = id
       setSelectedId(id)
       if (previous && previous !== id) refreshMarkerIconRef.current(previous)
       refreshMarkerIconRef.current(id)
       const marker = markerByIdRef.current.get(id)
-      if (!marker) return
-      focusStationMarker(marker)
+      if (marker) {
+        focusStationMarker(marker)
+        return
+      }
+      const station = snapshotRef.current?.stations.find((item) => item.id === id)
+      const map = mapRef.current
+      if (station && map) {
+        centerLatLngInView(map, station.lat, station.lng, 16, "popup-anchor")
+      }
     },
-    [focusStationMarker]
+    [clearPlaceMarker, focusStationMarker]
+  )
+
+  const focusCity = useCallback((city: string) => {
+    const map = mapRef.current
+    const stations = snapshotRef.current?.stations.filter((station) => station.city === city) ?? []
+    if (!map || !stations.length) return
+    clearPlaceMarker()
+    selectedIdRef.current = null
+    setSelectedId(null)
+    const view = cityCenterFocus(city, stations)
+    centerLatLngInView(map, view.lat, view.lng, view.zoom, "visible-center")
+  }, [clearPlaceMarker])
+
+  const focusPlace = useCallback(
+    (lat: number, lng: number) => {
+      const map = mapRef.current
+      const L = leafletRef.current
+      if (!map || !L) return
+      selectedIdRef.current = null
+      setSelectedId(null)
+      clearPlaceMarker()
+      placeMarkerRef.current = L.circleMarker([lat, lng], {
+        radius: 8,
+        color: "#0f172a",
+        fillColor: "#38bdf8",
+        fillOpacity: 1,
+        weight: 2,
+      }).addTo(map)
+      centerLatLngInView(map, lat, lng, 14, "visible-center")
+    },
+    [clearPlaceMarker]
   )
 
   selectStationRef.current = selectStation
@@ -1252,10 +1355,16 @@ export function StationMap() {
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                value={filters.query}
-                onChange={(event) => setFilters((current) => ({ ...current, query: event.target.value }))}
+                value={searchText}
+                onChange={(event) => {
+                  const value = event.target.value
+                  setSearchText(value)
+                  startTransition(() => setLocalQuery(value.trim()))
+                }}
                 placeholder="İstasyon, marka veya adres"
                 className="bg-background pl-9 shadow-md"
+                autoComplete="off"
+                autoCorrect="off"
               />
             </div>
             <Button
@@ -1283,6 +1392,95 @@ export function StationMap() {
           </div>
 
           <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overscroll-contain px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:gap-3 md:px-0 md:pb-0">
+
+          {hasSearchQuery ? (
+            <div className="overflow-hidden rounded-lg border bg-background shadow-lg">
+              {searchCities.map((city) => (
+                <button
+                  key={`city-${city}`}
+                  type="button"
+                  className="flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                  onClick={() => focusCity(city)}
+                >
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+                    <MapPin className="size-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium text-sky-700">{city}</span>
+                    <span className="block text-xs text-muted-foreground">İl</span>
+                  </span>
+                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                </button>
+              ))}
+              {searchStations.map((station) => {
+                const offer = offers.get(station.id)
+                const title = station.name || station.address || station.brand
+                return (
+                  <button
+                    key={station.id}
+                    type="button"
+                    className="flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                    onClick={() => selectStation(station.id)}
+                  >
+                    {offer?.logo ? (
+                      <Image
+                        src={offer.logo}
+                        alt=""
+                        width={32}
+                        height={32}
+                        className="size-8 shrink-0 rounded-full bg-zinc-950 object-contain p-1"
+                        unoptimized
+                      />
+                    ) : (
+                      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
+                        <Zap className="size-4 fill-white" />
+                      </span>
+                    )}
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm">
+                        <span className="font-medium text-sky-700">{station.brand || offer?.companyName || "İstasyon"}</span>
+                        <span className="text-foreground"> · {title}</span>
+                      </span>
+                    </span>
+                    {station.maxKw > 0 ? (
+                      <span className="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800">
+                        {station.maxKw} kW
+                      </span>
+                    ) : null}
+                    <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                  </button>
+                )
+              })}
+              {searchPlaceHits.map((hit) => (
+                <button
+                  key={`${hit.lat},${hit.lng},${hit.label}`}
+                  type="button"
+                  className="flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                  onClick={() => focusPlace(hit.lat, hit.lng)}
+                >
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+                    <MapPin className="size-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium text-sky-700">{hit.title}</span>
+                    {hit.subtitle ? (
+                      <span className="block truncate text-xs text-muted-foreground">{hit.subtitle}</span>
+                    ) : null}
+                  </span>
+                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                </button>
+              ))}
+              {geocodeBusy && debouncedQuery.length >= 3 ? (
+                <div className="flex items-center gap-2 px-3 py-2 text-xs text-muted-foreground">
+                  <Loader2 className="size-3.5 animate-spin" />
+                  Adres aranıyor
+                </div>
+              ) : null}
+              {!hasSearchResults && !geocodeBusy && localQuery && searchText.trim() === localQuery ? (
+                <p className="px-3 py-2.5 text-sm text-muted-foreground">Eşleşen istasyon veya konum yok.</p>
+              ) : null}
+            </div>
+          ) : null}
 
           {filtersOpen && (
             <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
