@@ -98,13 +98,9 @@ export function DiscountCard({ company, discount, selectedBattery, calculateSavi
       return discountRate > 0
     })
 
-    // If no discounts at all, show a message
+    // Text-only campaigns (bonus, puan, tek günlük indirim) have no kWh price cut.
     if (!hasAcDiscounts && !hasDcDiscounts) {
-      return (
-        <div className="mt-4 text-center text-muted-foreground">
-          Aktif kampanya bulunmamaktadır
-        </div>
-      )
+      return null
     }
     
     return (
