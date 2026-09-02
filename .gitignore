@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# EPDK raw API dumps (timestamped; can be 15MB+)
+.cache/
+
 # vercel
 .vercel
 

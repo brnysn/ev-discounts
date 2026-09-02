@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["leaflet", "leaflet.markercluster"],
+  async redirects() {
+    return [
+      {
+        source: "/harita",
+        destination: "/sarj-haritasi",
+        permanent: true,
+      },
+    ]
+  },
   images: {
     minimumCacheTTL: 2678400,
     formats: ['image/webp'],

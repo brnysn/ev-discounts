@@ -1,0 +1,1405 @@
+"use client"
+
+import { CustomNavbar } from "@/components/custom-navbar"
+import companies from "@/app/data/data.json"
+import { getStationOffer, formatTl } from "@/lib/station-pricing"
+import { pickBestStation, type NearbyPort } from "@/lib/station-best"
+import { haversineKm } from "@/lib/geo"
+import { sarjTrStationId, type StationStatusPayload } from "@/lib/station-status"
+import { socketRowsFromStation, speedRowsHtml } from "@/lib/station-sockets"
+import { stationPinDivIcon } from "@/lib/station-pin"
+import { SocketSpeedRows } from "@/components/socket-speed-rows"
+import type { Company } from "@/types"
+import type { StationCompanyOffer, StationRecord, StationSnapshot, StationSocketGroup } from "@/types/stations"
+import {
+  Filter,
+  Loader2,
+  LocateFixed,
+  LocateOff,
+  Menu,
+  Navigation,
+  Search,
+  X,
+} from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
+import type { Circle, CircleMarker, Map as LeafletMap, Marker, MarkerClusterGroup } from "leaflet"
+import "leaflet/dist/leaflet.css"
+import "leaflet.markercluster/dist/MarkerCluster.css"
+import "leaflet.markercluster/dist/MarkerCluster.Default.css"
+
+const companyList = companies as Company[]
+const RADIUS_KM_OPTIONS = [5, 10, 15, 25] as const
+const DEFAULT_RADIUS_KM = 10
+const LOCATION_PROMPT_KEY = "sarjkampanya.location-prompt"
+const SHEET_PEEK_PX = 64
+const MAP_PAGE_MENU = [
+  { title: "Kampanyalar", url: "/#kampanyalar" },
+  { title: "Fiyatlar", url: "/#fiyatlar" },
+  { title: "Şarj haritası", url: "/sarj-haritasi" },
+  { title: "Blog", url: "/blog" },
+  { title: "SSS", url: "/#sss" },
+] as const
+
+function sheetExpandedPx(): number {
+  return Math.round(Math.min(window.innerHeight * 0.72, window.innerHeight - 88))
+}
+
+function directionsUrl(lat: number, lng: number): string {
+  return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`
+}
+
+function isDesktopMap(): boolean {
+  return window.matchMedia("(min-width: 768px)").matches
+}
+
+function locationPromptChoice(): "dismissed" | "requested" | null {
+  try {
+    const value = localStorage.getItem(LOCATION_PROMPT_KEY)
+    if (value === "dismissed" || value === "requested") return value
+  } catch {
+    /* private mode */
+  }
+  return null
+}
+
+function rememberLocationPrompt(choice: "dismissed" | "requested") {
+  try {
+    localStorage.setItem(LOCATION_PROMPT_KEY, choice)
+  } catch {
+    /* private mode */
+  }
+}
+
+function sheetHeight(): number {
+  return document.querySelector("[data-station-sheet]")?.getBoundingClientRect().height ?? 0
+}
+
+function visibleMapHeight(): number {
+  const map = document.querySelector(".station-map")
+  const mapH = map?.getBoundingClientRect().height ?? window.innerHeight
+  return Math.max(180, mapH - sheetHeight())
+}
+
+function popupBindOptions(): {
+  maxWidth: number
+  minWidth: number
+  maxHeight: number
+  autoPan: boolean
+  keepInView: boolean
+  autoPanPaddingTopLeft: [number, number]
+  autoPanPaddingBottomRight: [number, number]
+} {
+  const desktop = isDesktopMap()
+  const bottomPad = desktop ? 96 : Math.round(sheetHeight()) + 16
+  return {
+    maxWidth: 320,
+    minWidth: 248,
+    maxHeight: desktop ? 420 : Math.min(320, Math.max(200, visibleMapHeight() - 48)),
+    autoPan: desktop,
+    keepInView: false,
+    autoPanPaddingTopLeft: desktop ? [392, 16] : [16, 12],
+    autoPanPaddingBottomRight: [16, bottomPad],
+  }
+}
+
+function centerLatLngInView(
+  map: LeafletMap,
+  lat: number,
+  lng: number,
+  zoom: number,
+  place: "popup-anchor" | "visible-center" = "popup-anchor"
+) {
+  if (isDesktopMap()) {
+    map.setView([lat, lng], zoom, { animate: false })
+    return
+  }
+  const size = map.getSize()
+  const sheet = sheetHeight()
+  const visibleH = Math.max(120, size.y - sheet)
+  const desiredY = place === "visible-center" ? visibleH / 2 : Math.max(80, visibleH - 28)
+  const target = map.project([lat, lng], zoom)
+  target.y += size.y / 2 - desiredY
+  map.setView(map.unproject(target, zoom), zoom, { animate: false })
+}
+
+function refreshPopupLayout(popup: {
+  _updateLayout?: () => void
+  _updatePosition?: () => void
+  _adjustPan?: () => void
+}) {
+  popup._updateLayout?.()
+  popup._updatePosition?.()
+  if (isDesktopMap()) popup._adjustPan?.()
+}
+
+type Filters = {
+  query: string
+  city: string
+  company: string
+  port: "all" | "ac" | "dc"
+  publicOnly: boolean
+  campaignOnly: boolean
+  minKw: string
+}
+
+type UserLocation = { lat: number; lng: number }
+
+const defaultFilters: Filters = {
+  query: "",
+  city: "all",
+  company: "all",
+  port: "all",
+  publicOnly: true,
+  campaignOnly: false,
+  minKw: "",
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;")
+}
+
+function priceLine(label: string, price?: StationCompanyOffer["dc"]): string {
+  if (!price) return ""
+  return `<div class="price-row"><span class="port">${escapeHtml(label)}</span><span class="price"><strong>${formatTl(price.original)} TL/kWh</strong></span></div>`
+}
+
+function portPriceSummary(
+  station: StationRecord,
+  offer: StationCompanyOffer,
+  pick: (price: NonNullable<StationCompanyOffer["dc"]>) => number
+): string {
+  const parts: string[] = []
+  if (station.dc > 0 && offer.dc) parts.push(`DC ${formatTl(pick(offer.dc))}`)
+  if (station.ac > 0 && offer.ac) parts.push(`AC ${formatTl(pick(offer.ac))}`)
+  return parts.join(" · ")
+}
+
+function bankPortPriceHtml(oldPrice: number, newPrice: number, label?: string): string {
+  return `
+    ${label ? `<div class="bank-port">${escapeHtml(label)}</div>` : ""}
+    <div class="bank-old">${formatTl(oldPrice)} TL/kWh</div>
+    <div class="bank-new">${formatTl(newPrice)} TL/kWh</div>`
+}
+
+type DisplayBankDeal = {
+  title: string
+  description: string
+  prices: { label?: string; oldPrice: number; newPrice: number }[]
+}
+
+function displayBankDeals(
+  station: StationRecord,
+  offer: StationCompanyOffer,
+  port?: "ac" | "dc"
+): DisplayBankDeal[] {
+  const byTitle = new Map<string, DisplayBankDeal>()
+  const add = (price: StationCompanyOffer["dc"], label: string, include: boolean) => {
+    if (!include || !price) return
+    for (const deal of price.bankDeals) {
+      const current = byTitle.get(deal.title) ?? {
+        title: deal.title,
+        description: deal.description,
+        prices: [],
+      }
+      current.prices.push({ label, oldPrice: deal.oldPrice, newPrice: deal.newPrice })
+      byTitle.set(deal.title, current)
+    }
+  }
+  if (!port || port === "dc") add(offer.dc, "DC", station.dc > 0)
+  if (!port || port === "ac") add(offer.ac, "AC", station.ac > 0)
+  const deals = [...byTitle.values()]
+  for (const deal of deals) {
+    if (deal.prices.length === 1) deal.prices[0].label = undefined
+  }
+  return deals
+}
+
+function offerDealsHtml(station: StationRecord, offer: StationCompanyOffer): string {
+  const campaignName = offer.dc?.campaignName || offer.ac?.campaignName
+  const bankDeals = displayBankDeals(station, offer)
+  let html = ""
+  if (campaignName) {
+    html += `<div class="deal">Ağ kampanyası: ${escapeHtml(campaignName)}</div>`
+    html += `<div class="deal">${escapeHtml(portPriceSummary(station, offer, (price) => price.networkPrice))} TL/kWh</div>`
+  }
+  if (bankDeals.length) {
+    html += `<div class="bank-deal"><div class="bank-hook">Banka kampanyasıyla daha az ödeyin</div>`
+    for (const deal of bankDeals) {
+      html += `
+        <div class="bank-item">
+          <details>
+            <summary class="bank-title">${escapeHtml(deal.title)}</summary>
+            ${deal.description ? `<p class="bank-desc">${escapeHtml(deal.description)}</p>` : ""}
+          </details>
+          ${deal.prices.map((price) => bankPortPriceHtml(price.oldPrice, price.newPrice, price.label)).join("")}
+        </div>`
+    }
+    html += `</div>`
+  }
+  return html
+}
+
+function BankCampaignDeals({ deals }: { deals: DisplayBankDeal[] }) {
+  if (!deals.length) return null
+  return (
+    <div className="mt-2">
+      <div className="text-xs text-muted-foreground">Banka kampanyasıyla daha az ödeyin</div>
+      {deals.map((deal) => (
+        <div key={deal.title} className="mt-2">
+          <details>
+            <summary className="cursor-pointer list-none text-sm font-semibold underline decoration-slate-400 underline-offset-2 [&::-webkit-details-marker]:hidden">
+              {deal.title}
+            </summary>
+            {deal.description ? (
+              <p className="mt-1.5 text-xs leading-snug text-muted-foreground">{deal.description}</p>
+            ) : null}
+          </details>
+          {deal.prices.map((price) => (
+            <div key={`${deal.title}-${price.label ?? "price"}`} className="mt-1">
+              {price.label ? <div className="text-[11px] font-bold">{price.label}</div> : null}
+              <div className="text-sm text-red-600/50 line-through">{formatTl(price.oldPrice)} TL/kWh</div>
+              <div className="text-base font-bold text-green-600">{formatTl(price.newPrice)} TL/kWh</div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function StationDetailCard({
+  heading,
+  station,
+  offer,
+  occupancy,
+  distanceKm,
+  port,
+  onFocus,
+}: {
+  heading: string
+  station: StationRecord
+  offer: StationCompanyOffer | null
+  occupancy: StationStatusPayload | null
+  distanceKm?: number
+  port?: "ac" | "dc"
+  onFocus?: () => void
+}) {
+  const name = station.name || station.brand
+  const deals = offer ? displayBankDeals(station, offer, port) : []
+  const portLabel = port ? port.toUpperCase() : station.dc > 0 ? "DC" : station.ac > 0 ? "AC" : ""
+  const campaignName = offer?.dc?.campaignName || offer?.ac?.campaignName
+  const priced = port === "ac" ? offer?.ac : port === "dc" ? offer?.dc : offer?.dc ?? offer?.ac
+
+  return (
+    <div className="station-best rounded-lg border bg-background p-3 text-sm shadow-lg">
+      <div className="mb-1 text-xs font-medium text-muted-foreground">{heading}</div>
+      <button type="button" className="mb-2 w-full text-left" onClick={onFocus}>
+        <div className="text-base font-semibold leading-snug">{name}</div>
+        {station.brand && station.brand !== name ? (
+          <div className="text-xs text-muted-foreground">{station.brand}</div>
+        ) : null}
+      </button>
+      <Button
+        className="mb-2 h-10 w-full rounded-xl bg-zinc-950 text-white hover:bg-zinc-800"
+        onClick={() => {
+          window.open(directionsUrl(station.lat, station.lng), "_blank", "noopener,noreferrer")
+        }}
+      >
+        <Navigation className="size-4 fill-white" />
+        Yol tarifi al
+      </Button>
+      <SocketSpeedRows station={station} occupancy={occupancy} />
+      <button type="button" className="mt-2 w-full text-left" onClick={onFocus}>
+        <div className="text-muted-foreground">
+          {distanceKm != null
+            ? `${distanceKm.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} km`
+            : station.address || station.city}
+          {portLabel ? ` · ${portLabel}` : ""}
+          {priced && !deals.length ? (
+            priced.hasCampaign ? (
+              <>
+                {" "}
+                <s>{formatTl(priced.original)}</s> {formatTl(priced.discounted)} TL/kWh
+              </>
+            ) : (
+              <> {formatTl(priced.discounted)} TL/kWh</>
+            )
+          ) : null}
+        </div>
+        {campaignName ? <div className="text-xs font-medium text-green-700">Ağ: {campaignName}</div> : null}
+      </button>
+      {offer ? <BankCampaignDeals deals={deals} /> : null}
+    </div>
+  )
+}
+
+const NAV_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>'
+
+function popupHtml(station: StationRecord, offer: StationCompanyOffer | null): string {
+  const maps = directionsUrl(station.lat, station.lng)
+  const offerBlock = offer
+    ? `
+      <div class="offer">
+        <div class="network">${escapeHtml(offer.companyName)}</div>
+        ${station.dc > 0 ? priceLine("DC", offer.dc) : ""}
+        ${station.ac > 0 ? priceLine("AC", offer.ac) : ""}
+        ${offerDealsHtml(station, offer)}
+      </div>`
+    : ""
+
+  const brandIsNetwork =
+    offer &&
+    station.brand &&
+    station.brand.toLocaleLowerCase("tr-TR") === offer.companyName.toLocaleLowerCase("tr-TR")
+  const brandLine = brandIsNetwork
+    ? station.public
+      ? ""
+      : `<div class="muted">Özel</div>`
+    : `<div class="muted">${escapeHtml(station.brand)}${station.public ? "" : " · Özel"}</div>`
+
+  const groupsAttr = station.groups?.length ? escapeHtml(JSON.stringify(station.groups)) : ""
+
+  return `
+    <div class="station-popup">
+      <strong>${escapeHtml(station.name || station.brand)}</strong>
+      ${brandLine}
+      <button type="button" class="popup-btn" onclick="window.open('${maps}','_blank','noopener,noreferrer')">${NAV_SVG} Yol tarifi al</button>
+      <div class="speed-list" data-status-id="${escapeHtml(station.id)}" data-lat="${station.lat}" data-lng="${station.lng}" data-ac="${station.ac}" data-dc="${station.dc}" data-max-kw="${station.maxKw}" data-groups="${groupsAttr}">
+        ${speedRowsHtml(socketRowsFromStation(station))}
+      </div>
+      ${offerBlock}
+    </div>
+  `
+}
+
+async function fetchStationStatus(
+  stationId: string,
+  lat: number,
+  lng: number
+): Promise<{ data: StationStatusPayload | null; hardFail: boolean }> {
+  const numericId = sarjTrStationId(stationId) ?? "0"
+  try {
+    const response = await fetch(
+      `/api/station-status/${encodeURIComponent(numericId)}?lat=${lat}&lng=${lng}`
+    )
+    if (response.status === 404) return { data: null, hardFail: false }
+    if (!response.ok) return { data: null, hardFail: true }
+    return { data: (await response.json()) as StationStatusPayload, hardFail: false }
+  } catch {
+    return { data: null, hardFail: true }
+  }
+}
+
+export function StationMap() {
+  const mapEl = useRef<HTMLDivElement>(null)
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const sheetDragRef = useRef<{
+    pointerId: number
+    startY: number
+    startH: number
+    startT: number
+    moved: boolean
+  } | null>(null)
+  const mapRef = useRef<LeafletMap | null>(null)
+  const clusterRef = useRef<MarkerClusterGroup | null>(null)
+  const circleRef = useRef<Circle | null>(null)
+  const userMarkerRef = useRef<CircleMarker | null>(null)
+  const markerByIdRef = useRef<Map<string, Marker>>(new Map())
+  const occupancyCacheRef = useRef(new Map<string, StationStatusPayload | null>())
+  const occupancyInflightRef = useRef(new Set<string>())
+  const leafletRef = useRef<typeof import("leaflet")["default"] | null>(null)
+  const snapshotRef = useRef<StationSnapshot | null>(null)
+  const bestIdRef = useRef<string | undefined>(undefined)
+  const refreshMarkerIconRef = useRef<(id: string) => void>(() => {})
+  const lastOpenedBestRef = useRef<string | null>(null)
+  const focusStationMarkerRef = useRef<(marker: Marker) => void>(() => {})
+  const selectStationRef = useRef<(id: string) => void>(() => {})
+  const selectedIdRef = useRef<string | null>(null)
+  const [mapReady, setMapReady] = useState(false)
+  const [snapshot, setSnapshot] = useState<StationSnapshot | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [filters, setFilters] = useState<Filters>(defaultFilters)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [locateBusy, setLocateBusy] = useState(false)
+  const [locationPromptOpen, setLocationPromptOpen] = useState(false)
+  const [gpsDenied, setGpsDenied] = useState(false)
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null)
+  const [radiusKm, setRadiusKm] = useState(DEFAULT_RADIUS_KM)
+  const [nearbyPort, setNearbyPort] = useState<NearbyPort>("dc")
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedOccupancy, setSelectedOccupancy] = useState<StationStatusPayload | null>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
+  const [sheetDragging, setSheetDragging] = useState(false)
+  const [navOpen, setNavOpen] = useState(false)
+  const didFitRef = useRef(false)
+  const lastLocateKeyRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    didFitRef.current = false
+  }, [filters.city])
+
+  const offers = useMemo(() => {
+    const map = new Map<string, StationCompanyOffer | null>()
+    if (!snapshot) return map
+    for (const station of snapshot.stations) {
+      map.set(station.id, getStationOffer(station, companyList))
+    }
+    return map
+  }, [snapshot])
+
+  const cities = useMemo(() => {
+    if (!snapshot) return []
+    return [...new Set(snapshot.stations.map((station) => station.city).filter(Boolean))].sort((a, b) =>
+      a.localeCompare(b, "tr")
+    )
+  }, [snapshot])
+
+  const companiesOnMap = useMemo(() => {
+    const names = new Set<string>()
+    for (const offer of offers.values()) {
+      if (offer) names.add(offer.companyName)
+    }
+    return [...names].sort((a, b) => a.localeCompare(b, "tr"))
+  }, [offers])
+
+  const filtered = useMemo(() => {
+    if (!snapshot) return []
+    const q = filters.query.trim().toLocaleLowerCase("tr-TR")
+    const minKw = Number(filters.minKw) || 0
+
+    return snapshot.stations.filter((station) => {
+      if (filters.publicOnly && !station.public) return false
+      if (filters.city !== "all" && station.city !== filters.city) return false
+      if (filters.port === "ac" && station.ac === 0) return false
+      if (filters.port === "dc" && station.dc === 0) return false
+      if (minKw && station.maxKw < minKw) return false
+
+      const offer = offers.get(station.id) ?? null
+      if (filters.company === "campaigns" && !offer) return false
+      if (filters.company === "other" && offer) return false
+      if (
+        filters.company !== "all" &&
+        filters.company !== "campaigns" &&
+        filters.company !== "other" &&
+        offer?.companyName !== filters.company
+      ) {
+        return false
+      }
+      if (filters.campaignOnly && !offer?.ac?.hasCampaign && !offer?.dc?.hasCampaign) return false
+
+      if (q) {
+        const haystack = `${station.name} ${station.brand} ${station.operator} ${station.address}`.toLocaleLowerCase("tr-TR")
+        if (!haystack.includes(q)) return false
+      }
+      return true
+    })
+  }, [snapshot, filters, offers])
+
+  const bestStation = useMemo(() => {
+    if (!userLocation) return null
+    return pickBestStation(userLocation, radiusKm, filtered, offers, nearbyPort)
+  }, [userLocation, radiusKm, filtered, offers, nearbyPort])
+
+  const activeStation = useMemo(() => {
+    if (selectedId && snapshot) {
+      return snapshot.stations.find((station) => station.id === selectedId) ?? null
+    }
+    return bestStation?.station ?? null
+  }, [selectedId, snapshot, bestStation])
+
+  const activeOffer = activeStation ? (offers.get(activeStation.id) ?? null) : null
+  const activeDistanceKm =
+    activeStation && userLocation ? haversineKm(userLocation, activeStation) : undefined
+  const activeIsBest = Boolean(bestStation && activeStation && bestStation.station.id === activeStation.id)
+  const activePort = activeIsBest ? bestStation?.port : undefined
+  const activeOccupancy = selectedOccupancy
+
+  snapshotRef.current = snapshot
+  bestIdRef.current = bestStation?.station.id
+  selectedIdRef.current = selectedId
+  refreshMarkerIconRef.current = (id: string) => {
+    const leaflet = leafletRef.current
+    const marker = markerByIdRef.current.get(id)
+    const station = snapshotRef.current?.stations.find((item) => item.id === id)
+    if (!leaflet || !marker || !station) return
+    const highlightId = selectedIdRef.current ?? bestIdRef.current
+    marker.setIcon(
+      stationPinDivIcon(leaflet, station, occupancyCacheRef.current.get(id) ?? null, highlightId === id)
+    )
+  }
+
+  useEffect(() => {
+    let cancelled = false
+    const request = fetch("/data/stations.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("İstasyon verisi yüklenemedi")
+        return response.json() as Promise<StationSnapshot>
+      })
+      .then((data) => {
+        if (!cancelled) setSnapshot(data)
+      })
+      .catch((error: Error) => {
+        if (!cancelled) setLoadError(error.message)
+      })
+    void request
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!mapEl.current) return
+
+    let cancelled = false
+    let createdMap: LeafletMap | null = null
+
+    async function initMap() {
+      const L = (await import("leaflet")).default
+      await import("leaflet.markercluster")
+
+      if (cancelled || !mapEl.current) return
+
+      const map = L.map(mapEl.current, {
+        zoomControl: false,
+        attributionControl: true,
+      }).setView([39.2, 35.2], 6)
+      createdMap = map
+      leafletRef.current = L
+      L.control.zoom({ position: "bottomright" }).addTo(map)
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map)
+
+      const cluster = L.markerClusterGroup({
+        chunkedLoading: true,
+        maxClusterRadius: 56,
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false,
+        disableClusteringAtZoom: 15,
+      })
+      map.addLayer(cluster)
+
+      map.on("popupopen", (event) => {
+        const latlng = event.popup.getLatLng()
+        if (latlng && !isDesktopMap()) {
+          centerLatLngInView(
+            event.target as LeafletMap,
+            latlng.lat,
+            latlng.lng,
+            (event.target as LeafletMap).getZoom(),
+            "popup-anchor"
+          )
+        }
+        const popupRoot = event.popup.getElement()
+        const scrolled = popupRoot?.querySelector(".leaflet-popup-content") as HTMLElement | null
+        if (scrolled) scrolled.scrollTop = 0
+        if (popupRoot && popupRoot.dataset.bankToggle !== "1") {
+          popupRoot.dataset.bankToggle = "1"
+          popupRoot.addEventListener(
+            "toggle",
+            (toggleEvent) => {
+              if (!(toggleEvent.target instanceof HTMLDetailsElement)) return
+              const popup = event.popup as import("leaflet").Popup & {
+                _updateLayout?: () => void
+                _updatePosition?: () => void
+                _adjustPan?: () => void
+              }
+              const content = popup.getElement()?.querySelector(".leaflet-popup-content") as HTMLElement | null
+              if (content) {
+                content.style.height = ""
+              }
+              refreshPopupLayout(popup)
+            },
+            true
+          )
+        }
+        const slot = event.popup.getElement()?.querySelector("[data-status-id]") as HTMLElement | null
+        if (!slot || slot.dataset.loaded === "1") return
+        const stationId = slot.dataset.statusId
+        if (!stationId) return
+        slot.dataset.loaded = "1"
+        const lat = Number(slot.dataset.lat)
+        const lng = Number(slot.dataset.lng)
+        void fetchStationStatus(stationId, lat, lng).then(({ data }) => {
+          occupancyCacheRef.current.set(stationId, data)
+          refreshMarkerIconRef.current(stationId)
+          if (!data || !slot.isConnected) return
+          let groups: StationSocketGroup[] = []
+          try {
+            groups = JSON.parse(slot.dataset.groups || "[]") as StationSocketGroup[]
+          } catch {
+            groups = []
+          }
+          slot.innerHTML = speedRowsHtml(
+            socketRowsFromStation(
+              {
+                ac: Number(slot.dataset.ac) || 0,
+                dc: Number(slot.dataset.dc) || 0,
+                maxKw: Number(slot.dataset.maxKw) || 0,
+                groups,
+              },
+              data
+            )
+          )
+          const popup = event.popup as import("leaflet").Popup & {
+            _updateLayout?: () => void
+            _updatePosition?: () => void
+            _adjustPan?: () => void
+          }
+          const content = popup.getElement()?.querySelector(".leaflet-popup-content") as HTMLElement | null
+          if (content) content.style.height = ""
+          refreshPopupLayout(popup)
+        })
+      })
+
+      mapRef.current = map
+      clusterRef.current = cluster
+      setTimeout(() => {
+        if (!cancelled) map.invalidateSize()
+      }, 100)
+      if (!cancelled) setMapReady(true)
+    }
+
+    void initMap()
+
+    return () => {
+      cancelled = true
+      setMapReady(false)
+      createdMap?.remove()
+      mapRef.current = null
+      clusterRef.current = null
+      circleRef.current = null
+      userMarkerRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const map = mapRef.current
+    const root = mapEl.current
+    if (!mapReady || !map || !root) return
+    const syncSize = () => map.invalidateSize()
+    const timeout = window.setTimeout(syncSize, 50)
+    window.addEventListener("resize", syncSize)
+
+    const sheet = document.querySelector("[data-station-sheet]")
+    const syncSheet = () => {
+      const height = isDesktopMap() ? 0 : (sheet?.getBoundingClientRect().height ?? 0)
+      root.style.setProperty("--station-sheet-h", `${Math.round(height)}px`)
+    }
+    syncSheet()
+    const observer = sheet ? new ResizeObserver(syncSheet) : null
+    if (sheet) observer?.observe(sheet)
+
+    return () => {
+      window.clearTimeout(timeout)
+      window.removeEventListener("resize", syncSize)
+      observer?.disconnect()
+    }
+  }, [mapReady, locationPromptOpen, userLocation, filtersOpen])
+
+  useEffect(() => {
+    const cluster = clusterRef.current
+    const map = mapRef.current
+    if (!cluster || !map || !mapReady) return
+
+    let cancelled = false
+
+    async function redraw() {
+      const L = (await import("leaflet")).default
+      const group = clusterRef.current
+      if (cancelled || !group) return
+      group.clearLayers()
+      markerByIdRef.current = new Map()
+
+      const bestId = bestStation?.station.id
+      const layers: import("leaflet").Layer[] = []
+      const highlightId = selectedIdRef.current ?? bestId
+      for (const station of filtered) {
+        const offer = offers.get(station.id) ?? null
+        const highlighted = station.id === highlightId
+        const marker = L.marker([station.lat, station.lng], {
+          icon: stationPinDivIcon(L, station, occupancyCacheRef.current.get(station.id) ?? null, highlighted),
+          zIndexOffset: highlighted ? 800 : 0,
+          riseOnHover: true,
+          title: station.name || station.brand,
+          alt: station.name || station.brand,
+        })
+        const stationId = station.id
+        marker.on("click", () => selectStationRef.current(stationId))
+        marker.bindPopup(popupHtml(station, offer), popupBindOptions())
+        markerByIdRef.current.set(station.id, marker)
+        layers.push(marker)
+      }
+      group.addLayers(layers)
+      const mapInstance = mapRef.current
+      if (mapInstance && layers.length && !didFitRef.current && !userLocation) {
+        didFitRef.current = true
+        mapInstance.fitBounds(group.getBounds(), { padding: [48, 72], maxZoom: 11 })
+        mapInstance.invalidateSize()
+      }
+
+      if (bestId && lastOpenedBestRef.current !== bestId) {
+        lastOpenedBestRef.current = bestId
+        window.setTimeout(() => selectStationRef.current(bestId), 300)
+      }
+    }
+
+    void redraw()
+    return () => {
+      cancelled = true
+    }
+  }, [filtered, offers, mapReady, bestStation?.station.id, userLocation])
+
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return
+
+    let cancelled = false
+
+    async function drawCircle() {
+      const L = (await import("leaflet")).default
+      const map = mapRef.current
+      if (cancelled || !map) return
+
+      if (!userLocation) {
+        circleRef.current?.remove()
+        userMarkerRef.current?.remove()
+        circleRef.current = null
+        userMarkerRef.current = null
+        return
+      }
+
+      const radiusMeters = radiusKm * 1000
+      if (circleRef.current) {
+        circleRef.current.setLatLng(userLocation)
+        circleRef.current.setRadius(radiusMeters)
+      } else {
+        circleRef.current = L.circle(userLocation, {
+          radius: radiusMeters,
+          color: "#2563eb",
+          weight: 2,
+          fillColor: "#2563eb",
+          fillOpacity: 0.14,
+        }).addTo(map)
+      }
+
+      if (userMarkerRef.current) {
+        userMarkerRef.current.setLatLng(userLocation)
+      } else {
+        userMarkerRef.current = L.circleMarker(userLocation, {
+          radius: 7,
+          color: "#1d4ed8",
+          fillColor: "#3b82f6",
+          fillOpacity: 1,
+          weight: 2,
+        }).addTo(map)
+      }
+
+      const locateKey = `${userLocation.lat.toFixed(5)},${userLocation.lng.toFixed(5)}`
+      if (lastLocateKeyRef.current !== locateKey) {
+        lastLocateKeyRef.current = locateKey
+        centerLatLngInView(map, userLocation.lat, userLocation.lng, 16, "visible-center")
+      }
+    }
+
+    void drawCircle()
+    return () => {
+      cancelled = true
+    }
+  }, [mapReady, userLocation, radiusKm])
+
+  useEffect(() => {
+    if (!activeStation) {
+      setSelectedOccupancy(null)
+      return
+    }
+    let cancelled = false
+    const cached = occupancyCacheRef.current.get(activeStation.id)
+    if (cached !== undefined) {
+      setSelectedOccupancy(cached)
+    } else {
+      setSelectedOccupancy(null)
+    }
+    void fetchStationStatus(activeStation.id, activeStation.lat, activeStation.lng).then(({ data }) => {
+      if (cancelled) return
+      occupancyCacheRef.current.set(activeStation.id, data)
+      refreshMarkerIconRef.current(activeStation.id)
+      setSelectedOccupancy(data)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [activeStation?.id])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!mapReady || !map) return
+
+    let cancelled = false
+    let failStreak = 0
+
+    async function drain(ids: string[]) {
+      let index = 0
+      async function worker() {
+        while (index < ids.length && !cancelled && failStreak < 4) {
+          const id = ids[index++]
+          if (!id) continue
+          if (occupancyCacheRef.current.has(id) || occupancyInflightRef.current.has(id)) continue
+          occupancyInflightRef.current.add(id)
+          const marker = markerByIdRef.current.get(id)
+          const latLng = marker?.getLatLng()
+          if (!latLng) {
+            occupancyInflightRef.current.delete(id)
+            continue
+          }
+          const { data, hardFail } = await fetchStationStatus(id, latLng.lat, latLng.lng)
+          occupancyInflightRef.current.delete(id)
+          if (cancelled) return
+          occupancyCacheRef.current.set(id, data)
+          if (data) failStreak = 0
+          else if (hardFail) failStreak += 1
+          refreshMarkerIconRef.current(id)
+        }
+      }
+      await Promise.all([worker(), worker(), worker()])
+    }
+
+    function collect() {
+      if (!map || map.getZoom() < 15) return
+      failStreak = 0
+      const bounds = map.getBounds()
+      const ids: string[] = []
+      for (const [id, marker] of markerByIdRef.current) {
+        if (occupancyCacheRef.current.has(id) || occupancyInflightRef.current.has(id)) continue
+        if (!bounds.contains(marker.getLatLng())) continue
+        ids.push(id)
+        if (ids.length >= 24) break
+      }
+      if (ids.length) void drain(ids)
+    }
+
+    map.on("moveend", collect)
+    map.on("zoomend", collect)
+    const timeout = window.setTimeout(collect, 400)
+    return () => {
+      cancelled = true
+      map.off("moveend", collect)
+      map.off("zoomend", collect)
+      window.clearTimeout(timeout)
+    }
+  }, [mapReady, filtered])
+
+  const focusStationMarker = useCallback((marker: Marker) => {
+    const map = mapRef.current
+    if (!map) return
+    const reveal = () => {
+      const latlng = marker.getLatLng()
+      centerLatLngInView(map, latlng.lat, latlng.lng, Math.max(map.getZoom(), 16), "popup-anchor")
+      window.setTimeout(() => marker.openPopup(), 50)
+    }
+    const cluster = clusterRef.current as
+      | (MarkerClusterGroup & {
+          getVisibleParent?: (current: Marker) => Marker | undefined
+          zoomToShowLayer?: (current: Marker, fn?: () => void) => void
+        })
+      | null
+    const parent = cluster?.getVisibleParent?.(marker)
+    if (cluster?.zoomToShowLayer && parent && parent !== marker) {
+      cluster.zoomToShowLayer(marker, reveal)
+      return
+    }
+    reveal()
+  }, [])
+
+  focusStationMarkerRef.current = focusStationMarker
+
+  const selectStation = useCallback(
+    (id: string) => {
+      const previous = selectedIdRef.current
+      selectedIdRef.current = id
+      setSelectedId(id)
+      if (previous && previous !== id) refreshMarkerIconRef.current(previous)
+      refreshMarkerIconRef.current(id)
+      const marker = markerByIdRef.current.get(id)
+      if (!marker) return
+      focusStationMarker(marker)
+    },
+    [focusStationMarker]
+  )
+
+  selectStationRef.current = selectStation
+
+  const openStationPopup = useCallback(
+    (id: string) => {
+      selectStation(id)
+    },
+    [selectStation]
+  )
+
+  const applyPosition = useCallback((lat: number, lng: number) => {
+    selectedIdRef.current = null
+    setSelectedId(null)
+    setUserLocation({ lat, lng })
+    lastOpenedBestRef.current = null
+    setLocationPromptOpen(false)
+    setGpsDenied(false)
+    setLocateBusy(false)
+  }, [])
+
+  const requestLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationPromptOpen(false)
+      return
+    }
+    setLocateBusy(true)
+    rememberLocationPrompt("requested")
+    navigator.geolocation.getCurrentPosition(
+      (position) => applyPosition(position.coords.latitude, position.coords.longitude),
+      (error) => {
+        setLocateBusy(false)
+        setLocationPromptOpen(false)
+        if (error.code === error.PERMISSION_DENIED) setGpsDenied(true)
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    )
+  }, [applyPosition])
+
+  useEffect(() => {
+    let cancelled = false
+    async function bootLocation() {
+      try {
+        if (navigator.permissions?.query) {
+          const status = await navigator.permissions.query({ name: "geolocation" })
+          if (cancelled) return
+          if (status.state === "granted") {
+            requestLocation()
+            return
+          }
+          if (status.state === "denied") {
+            setGpsDenied(true)
+            setLocationPromptOpen(false)
+            return
+          }
+        }
+      } catch {
+        /* Safari / unsupported */
+      }
+      if (!cancelled && locationPromptChoice() == null) {
+        setLocationPromptOpen(true)
+      }
+    }
+    void bootLocation()
+    return () => {
+      cancelled = true
+    }
+  }, [requestLocation])
+
+  const locate = useCallback(() => {
+    if (userLocation && mapRef.current) {
+      lastLocateKeyRef.current = `${userLocation.lat.toFixed(5)},${userLocation.lng.toFixed(5)}`
+      centerLatLngInView(mapRef.current, userLocation.lat, userLocation.lng, 16, "visible-center")
+      return
+    }
+    requestLocation()
+  }, [userLocation, requestLocation])
+
+  useLayoutEffect(() => {
+    const el = sheetRef.current
+    if (!el) return
+    const apply = () => {
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        el.style.height = ""
+        return
+      }
+      if (sheetDragRef.current) return
+      el.style.height = `${sheetOpen ? sheetExpandedPx() : SHEET_PEEK_PX}px`
+    }
+    apply()
+    window.addEventListener("resize", apply)
+    return () => window.removeEventListener("resize", apply)
+  }, [sheetOpen])
+
+  const onSheetHandlePointerDown = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    if (isDesktopMap()) return
+    event.currentTarget.setPointerCapture(event.pointerId)
+    const startH = sheetRef.current?.getBoundingClientRect().height ?? SHEET_PEEK_PX
+    sheetDragRef.current = {
+      pointerId: event.pointerId,
+      startY: event.clientY,
+      startH,
+      startT: Date.now(),
+      moved: false,
+    }
+    setSheetDragging(true)
+  }, [])
+
+  const onSheetHandlePointerMove = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = sheetDragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+    const dy = drag.startY - event.clientY
+    if (Math.abs(dy) > 6) drag.moved = true
+    const expanded = sheetExpandedPx()
+    const next = Math.max(SHEET_PEEK_PX, Math.min(expanded, drag.startH + dy))
+    if (sheetRef.current) sheetRef.current.style.height = `${Math.round(next)}px`
+  }, [])
+
+  const onSheetHandlePointerEnd = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = sheetDragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+    sheetDragRef.current = null
+    setSheetDragging(false)
+    const dy = drag.startY - event.clientY
+    const dt = Math.max(1, Date.now() - drag.startT)
+    const velocity = dy / dt
+    if (!drag.moved) {
+      setSheetOpen((open) => !open)
+      return
+    }
+    const expanded = sheetExpandedPx()
+    const height = Math.max(SHEET_PEEK_PX, Math.min(expanded, drag.startH + dy))
+    const mid = (SHEET_PEEK_PX + expanded) / 2
+    setSheetOpen(height > mid || velocity > 0.45)
+  }, [])
+
+  return (
+    <div className="flex min-h-[100dvh] flex-col bg-background">
+      <div className="hidden md:block">
+        <CustomNavbar menu={[...MAP_PAGE_MENU]} />
+      </div>
+
+      <Dialog
+        open={locationPromptOpen}
+        onOpenChange={(open) => {
+          setLocationPromptOpen(open)
+          if (!open) rememberLocationPrompt(locationPromptChoice() === "requested" ? "requested" : "dismissed")
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Konumunuzu kullanabilir miyiz?</DialogTitle>
+            <DialogDescription>
+              Size en yakın ve en uygun istasyonu bulmak için bu gerekli. İzin verirseniz çevrenize bir çember çizer,
+              seçtiğiniz çap içindeki en uygun fiyatlı istasyonu gösteririz.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                rememberLocationPrompt("dismissed")
+                setLocationPromptOpen(false)
+              }}
+            >
+              Şimdi değil
+            </Button>
+            <Button onClick={requestLocation} disabled={locateBusy}>
+              {locateBusy ? <Loader2 className="size-4 animate-spin" /> : "Konumumu kullan"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <div className="relative h-[100dvh] min-h-0 flex-1 md:h-[calc(100dvh-72px)]">
+        <div ref={mapEl} className="station-map h-[100dvh] w-full md:h-[calc(100dvh-72px)]" />
+
+        {gpsDenied ? (
+          <button
+            type="button"
+            onClick={requestLocation}
+            className="absolute top-3 right-3 z-[500] flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1.5 text-sm font-medium text-white shadow-md"
+          >
+            <LocateOff className="size-4" />
+            GPS reddedildi
+          </button>
+        ) : null}
+
+        {!snapshot && !loadError && (
+          <div className="absolute inset-0 z-[400] flex items-center justify-center bg-background/60">
+            <Loader2 className="size-8 animate-spin" />
+          </div>
+        )}
+
+        {loadError && (
+          <div className="absolute inset-0 z-[400] flex items-center justify-center p-6">
+            <p className="rounded-md border bg-background px-4 py-3 text-sm">{loadError}</p>
+          </div>
+        )}
+
+        <Sheet
+          open={navOpen}
+          onOpenChange={(open) => {
+            setNavOpen(open)
+            if (open) setSheetOpen(false)
+          }}
+        >
+          <SheetContent side="left" className="w-[280px] p-6 md:hidden">
+            <SheetHeader>
+              <SheetTitle>
+                <Link href="/" className="flex items-center gap-2" onClick={() => setNavOpen(false)}>
+                  <Image src="/images/logo.png" alt="Şarj Kampanya" width={40} height={40} unoptimized />
+                  <span className="text-base">Şarj Kampanya</span>
+                </Link>
+              </SheetTitle>
+            </SheetHeader>
+            <nav className="mt-6 flex flex-col gap-1">
+              {MAP_PAGE_MENU.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.url}
+                  className="rounded-md px-2 py-2.5 text-sm font-medium hover:bg-muted"
+                  onClick={() => setNavOpen(false)}
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
+
+        <div
+          ref={sheetRef}
+          data-station-sheet
+          className={`absolute inset-x-0 bottom-0 z-[500] flex flex-col overflow-hidden rounded-t-2xl border bg-background shadow-[0_-8px_30px_rgba(0,0,0,0.12)] md:inset-auto md:top-3 md:left-3 md:bottom-auto md:max-h-[calc(100dvh-96px)] md:w-[360px] md:overflow-y-auto md:rounded-lg md:border-0 md:bg-transparent md:shadow-none ${
+            sheetDragging ? "" : "duration-200 ease-out md:transition-none max-md:transition-[height]"
+          }`}
+        >
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label={sheetOpen ? "Paneli küçült" : "Paneli büyüt"}
+            aria-expanded={sheetOpen}
+            className="flex cursor-grab touch-none items-center justify-center py-1.5 active:cursor-grabbing md:hidden"
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault()
+                setSheetOpen((open) => !open)
+              }
+            }}
+            onPointerDown={onSheetHandlePointerDown}
+            onPointerMove={onSheetHandlePointerMove}
+            onPointerUp={onSheetHandlePointerEnd}
+            onPointerCancel={onSheetHandlePointerEnd}
+          >
+            <span className="h-1 w-10 rounded-full bg-muted-foreground/35" />
+          </div>
+          <div className="flex gap-2 px-3 pb-1.5 md:p-0">
+            <Button
+              variant="outline"
+              size="icon"
+              className="bg-background shadow-md md:hidden"
+              onClick={() => {
+                setSheetOpen(false)
+                setNavOpen(true)
+              }}
+              aria-label="Menü"
+            >
+              <Menu className="size-4" />
+            </Button>
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={filters.query}
+                onChange={(event) => setFilters((current) => ({ ...current, query: event.target.value }))}
+                placeholder="İstasyon, marka veya adres"
+                className="bg-background pl-9 shadow-md"
+              />
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="bg-background shadow-md"
+              onClick={() => {
+                setFiltersOpen((open) => !open)
+                if (!filtersOpen) setSheetOpen(true)
+              }}
+              aria-label="Filtreler"
+            >
+              {filtersOpen ? <X className="size-4" /> : <Filter className="size-4" />}
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="bg-background shadow-md"
+              onClick={locate}
+              disabled={locateBusy}
+              aria-label="Konumuma git"
+            >
+              {locateBusy ? <Loader2 className="size-4 animate-spin" /> : <LocateFixed className="size-4" />}
+            </Button>
+          </div>
+
+          <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overscroll-contain px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:px-0 md:pb-0">
+
+          {filtersOpen && (
+            <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
+              <div className="grid gap-3">
+                <label className="grid gap-1 text-xs font-medium">
+                  İl
+                  <select
+                    className="h-9 rounded-md border bg-transparent px-2 text-sm"
+                    value={filters.city}
+                    onChange={(event) => setFilters((current) => ({ ...current, city: event.target.value }))}
+                  >
+                    <option value="all">Tümü</option>
+                    {cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="grid gap-1 text-xs font-medium">
+                  Ağ / kampanya
+                  <select
+                    className="h-9 rounded-md border bg-transparent px-2 text-sm"
+                    value={filters.company}
+                    onChange={(event) => setFilters((current) => ({ ...current, company: event.target.value }))}
+                  >
+                    <option value="all">Tüm ağlar</option>
+                    <option value="campaigns">Sitede fiyatı olanlar</option>
+                    {companiesOnMap.map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                    <option value="other">Diğer ağlar</option>
+                  </select>
+                </label>
+                <label className="grid gap-1 text-xs font-medium">
+                  Soket
+                  <select
+                    className="h-9 rounded-md border bg-transparent px-2 text-sm"
+                    value={filters.port}
+                    onChange={(event) =>
+                      setFilters((current) => ({ ...current, port: event.target.value as Filters["port"] }))
+                    }
+                  >
+                    <option value="all">AC + DC</option>
+                    <option value="dc">Yalnız DC</option>
+                    <option value="ac">Yalnız AC</option>
+                  </select>
+                </label>
+                <label className="grid gap-1 text-xs font-medium">
+                  Min. güç (kW)
+                  <Input
+                    inputMode="numeric"
+                    value={filters.minKw}
+                    onChange={(event) => setFilters((current) => ({ ...current, minKw: event.target.value }))}
+                    placeholder="Örn. 150"
+                  />
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <Checkbox
+                    checked={filters.publicOnly}
+                    onCheckedChange={(checked) =>
+                      setFilters((current) => ({ ...current, publicOnly: checked === true }))
+                    }
+                  />
+                  Yalnız halka açık
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <Checkbox
+                    checked={filters.campaignOnly}
+                    onCheckedChange={(checked) =>
+                      setFilters((current) => ({ ...current, campaignOnly: checked === true }))
+                    }
+                  />
+                  Yalnız aktif kampanyalı
+                </label>
+              </div>
+            </div>
+          )}
+
+          {userLocation && (
+            <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
+              <p className="mb-2 text-xs font-medium">Çap</p>
+              <div className="mb-3 flex flex-wrap gap-1">
+                {RADIUS_KM_OPTIONS.map((value) => (
+                  <Button
+                    key={value}
+                    type="button"
+                    size="sm"
+                    variant={radiusKm === value ? "default" : "outline"}
+                    onClick={() => {
+                      lastOpenedBestRef.current = null
+                      setRadiusKm(value)
+                    }}
+                  >
+                    {value} km
+                  </Button>
+                ))}
+              </div>
+              <p className="mb-2 text-xs font-medium">Şarj tipi</p>
+              <div className="flex flex-wrap gap-1">
+                {(
+                  [
+                    ["dc", "DC"],
+                    ["ac", "AC"],
+                    ["both", "Tümü"],
+                  ] as const
+                ).map(([value, label]) => (
+                  <Button
+                    key={value}
+                    type="button"
+                    size="sm"
+                    variant={nearbyPort === value ? "default" : "outline"}
+                    onClick={() => {
+                      lastOpenedBestRef.current = null
+                      setNearbyPort(value)
+                    }}
+                  >
+                    {label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeStation ? (
+            <StationDetailCard
+              heading={activeIsBest ? "En uygun istasyon" : "Seçilen istasyon"}
+              station={activeStation}
+              offer={activeOffer}
+              occupancy={activeOccupancy}
+              distanceKm={activeDistanceKm}
+              port={activePort}
+              onFocus={() => openStationPopup(activeStation.id)}
+            />
+          ) : userLocation ? (
+            <div className="rounded-lg border bg-background p-3 text-sm text-muted-foreground shadow-lg">
+              Bu çapta fiyatı bilinen istasyon yok.
+            </div>
+          ) : null}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

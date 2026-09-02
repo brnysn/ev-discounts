@@ -63,6 +63,7 @@ export function CustomNavbar({
   menu = [
     { title: "Kampanyalar", url: "#kampanyalar" },
     { title: "Fiyatlar", url: "#fiyatlar" },
+    { title: "Şarj haritası", url: "/sarj-haritasi" },
     { title: "Blog", url: "/blog" },
     { title: "SSS", url: "#sss" }
   ],
@@ -129,6 +130,8 @@ export function CustomNavbar({
         const yOffset = -80; // header height plus padding
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
+      } else {
+        window.location.href = `/${menuItem.url}`;
       }
     } else if (!menuItem.url.startsWith('#')) {
       window.location.href = menuItem.url;
@@ -138,6 +141,10 @@ export function CustomNavbar({
   // Check if a menu item is active
   const isActive = (item: MenuItem) => {
     if (item.url === "/blog" && pathname.startsWith("/blog")) {
+      return true;
+    }
+
+    if ((item.url === "/sarj-haritasi" || item.url === "/harita") && pathname.startsWith("/sarj-haritasi")) {
       return true;
     }
     

@@ -8,6 +8,7 @@ export function BlogNavbar() {
       menu={[
         { title: "Kampanyalar", url: "/#kampanyalar" },
         { title: "Fiyatlar", url: "/#fiyatlar" },
+        { title: "Şarj haritası", url: "/sarj-haritasi" },
         { title: "Blog", url: "/blog" },
         { title: "SSS", url: "/#sss" }
       ]}

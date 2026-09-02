@@ -18,9 +18,10 @@ import { CustomNavbar } from "@/components/custom-navbar"
 import { FaqSection } from "@/components/faq-section"
 import { BankCampaigns } from "@/components/BankCampaigns"
 import { TelegramButton } from "@/components/telegram-button"
-
-// Add import for HomeHeadTags
 import { HomeHeadTags } from "@/components/home-head-tags"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
+import { MapPin } from "lucide-react"
 
 export default function Home() {
   const [selectedPowerRange, setSelectedPowerRange] = useState<string>("all")
@@ -187,12 +188,28 @@ export default function Home() {
         menu={[
           { title: "Kampanyalar", url: "#kampanyalar" },
           { title: "Fiyatlar", url: "#fiyatlar" },
+          { title: "Şarj haritası", url: "/sarj-haritasi" },
           { title: "Blog", url: "/blog" },
           { title: "SSS", url: "#sss" }
         ]}
       />
       
       <main className="container mx-auto py-8 px-4">
+        <Link href="/sarj-haritasi" className="mb-8 block">
+          <Card className="transition-shadow hover:shadow-md">
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-5">
+              <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700">
+                <MapPin className="size-6" />
+              </div>
+              <div>
+                <CardTitle className="text-lg sm:text-xl">Size en yakın ve en uygun istasyonu bulun</CardTitle>
+                <CardDescription className="mt-1">
+                  Konumunuza göre kampanyalı kWh fiyatlarını şarj haritasında karşılaştırın.
+                </CardDescription>
+              </div>
+            </CardHeader>
+          </Card>
+        </Link>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <h1 className="text-3xl font-bold">Elektrikli Araç Şarj Kampanyaları</h1>
           <div className="hidden">

@@ -1,0 +1,42 @@
+name: Sync EPDK stations
+
+on:
+  schedule:
+    # Daily 02:20 UTC (05:20 TR). Skip write if the list did not change.
+    - cron: "20 2 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: sync-epdk-stations
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Fetch nationwide EPDK snapshot
+        run: node scripts/sync-epdk-stations.mjs --ci
+
+      - name: Commit stations.json if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/stations.json
+          if git diff --staged --quiet; then
+            echo "No station list changes"
+            exit 0
+          fi
+          git commit -m "chore: refresh EPDK station snapshot"
+          git push

@@ -1,0 +1,159 @@
+{
+  "companies": [
+    {
+      "name": "5 Şarj",
+      "brands": ["5 şarj", "5sarj", "5inci"],
+      "unvanIncludes": ["FULL ELEKTRİKLİ ARAÇLAR ŞARJ"]
+    },
+    {
+      "name": "Aksa Şarj",
+      "brands": ["aksa şarj", "aksa sarj", "aksasarj"],
+      "unvanIncludes": ["AKSA MÜŞTERİ ÇÖZÜMLERİ"]
+    },
+    {
+      "name": "Aos Technology",
+      "brands": ["aostechnology", "aos technology", "aostech"],
+      "unvanIncludes": ["AYHAN TEKNOLOJİ"]
+    },
+    {
+      "name": "Astor",
+      "brands": ["astor", "astor şarj", "astor sarj"],
+      "unvanIncludes": ["ASTOR ENERJİ", "ASTOR ŞARJ"]
+    },
+    {
+      "name": "Beeful",
+      "brands": ["beefull", "beeful"],
+      "unvanIncludes": ["BEEFULL"]
+    },
+    {
+      "name": "Bladeco",
+      "brands": ["bladeco"],
+      "unvanIncludes": ["BLADECO"]
+    },
+    {
+      "name": "ecobox",
+      "brands": ["ecobox", "ecoconnect"],
+      "unvanIncludes": ["FCTR ELEKTRİKLİ"]
+    },
+    {
+      "name": "En Yakıt",
+      "brands": ["en yakıt", "en yakit"],
+      "unvanIncludes": ["EN YAKIT"]
+    },
+    {
+      "name": "Epsis",
+      "brands": ["epsis"],
+      "unvanIncludes": ["FORM ELEKTRİK"]
+    },
+    {
+      "name": "eŞarj",
+      "brands": ["eşarj", "esarj", "e-şarj"],
+      "unvanIncludes": ["EŞARJ ELEKTRİKLİ"]
+    },
+    {
+      "name": "Estasyon",
+      "brands": ["estasyon"],
+      "unvanIncludes": ["İSTASYON ŞARJ HİZMETLERİ"]
+    },
+    {
+      "name": "GelDol",
+      "brands": ["gel dol", "geldol"],
+      "unvanIncludes": ["ER ELEKTRONİK"]
+    },
+    {
+      "name": "Gio EV",
+      "brands": ["gioev", "gio ev"],
+      "unvanIncludes": ["GİOEV"]
+    },
+    {
+      "name": "K Şarj",
+      "brands": ["k şarj", "k sarj", "ksarj"],
+      "unvanIncludes": ["KALYON ELECTRICAL"]
+    },
+    {
+      "name": "Lumicle",
+      "brands": ["lumicle", "lumhouse"],
+      "unvanIncludes": ["LUMHOUSE"]
+    },
+    {
+      "name": "Miggo",
+      "brands": ["miggo"],
+      "unvanIncludes": ["MİGEN ENERJİ"]
+    },
+    {
+      "name": "Multiforce",
+      "brands": ["multiforce", "b-force"],
+      "unvanIncludes": ["MONOKON"]
+    },
+    {
+      "name": "oncharge",
+      "brands": ["oncharge", "incharge"],
+      "unvanIncludes": ["İNCHARGE ELEKTRİKLİ"]
+    },
+    {
+      "name": "Öniz Şarj",
+      "brands": ["önizşarj", "onizsarj", "öniz şarj"],
+      "unvanIncludes": ["ÖNİZ"]
+    },
+    {
+      "name": "Onlife Charge",
+      "brands": ["onlife", "onlife charge"],
+      "unvanIncludes": ["FİLOPORT"]
+    },
+    {
+      "name": "Otojet",
+      "brands": ["otojet"],
+      "unvanIncludes": ["OTOJET ENERJİ"]
+    },
+    {
+      "name": "Ovolt",
+      "brands": ["ovolt"],
+      "unvanIncludes": ["OVOLT ŞARJ"]
+    },
+    {
+      "name": "Rhg Enertürk",
+      "brands": ["enertürk rhg enerji", "rhg enertürk", "enerturk", "enertürk"],
+      "unvanIncludes": ["RHG ENERTÜRK"]
+    },
+    {
+      "name": "Sharz",
+      "brands": ["sharz.net", "sharz"],
+      "unvanIncludes": ["EVS ELEKTRİKLİ ŞARJ"]
+    },
+    {
+      "name": "Shell Recharge",
+      "brands": ["shell", "shell recharge"],
+      "unvanIncludes": ["SHELL & TURCAS", "SHELL VE TURCAS"]
+    },
+    {
+      "name": "Şarj Tak",
+      "brands": ["şarj tak", "sarj tak"],
+      "unvanIncludes": ["ŞARJ TAK"]
+    },
+    {
+      "name": "Trugo",
+      "brands": ["trugo"],
+      "unvanIncludes": ["TRUGO AKILLI"]
+    },
+    {
+      "name": "Voltgo",
+      "brands": ["voltgo"],
+      "unvanIncludes": ["VOLTGO ŞARJ"]
+    },
+    {
+      "name": "Voltrun",
+      "brands": ["voltrun"],
+      "unvanIncludes": ["VOLTRUN ENERJİ"]
+    },
+    {
+      "name": "Wat Mobilite",
+      "brands": ["wat mobilite", "wat"],
+      "unvanIncludes": ["WAT MOBİLİTE"]
+    },
+    {
+      "name": "Zes",
+      "brands": ["zes"],
+      "unvanIncludes": ["ZES DİJİTAL"]
+    }
+  ]
+}

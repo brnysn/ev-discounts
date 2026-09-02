@@ -96,7 +96,11 @@ const defaultFaqItems: FaqItem[] = [
     question: "Yakınımdaki şarj istasyonlarını görebilir miyim?",
     answer: (
       <p>
-        Evet. Filtreleme bölümünde konumunuzu seçerek veya şehir bazlı arama yaparak bölgenizdeki şarj istasyonlarını ve kampanyaları kolayca görüntüleyebilirsiniz.
+        Evet.{" "}
+        <a href="/sarj-haritasi" className="underline">
+          Şarj haritası
+        </a>{" "}
+        üzerinden Türkiye’deki EPDK kayıtlı istasyonları, kampanyalı ağları ve kWh fiyatlarıyla birlikte görebilirsiniz.
       </p>
     ),
   },
