@@ -23,4 +23,4 @@ export function TelegramButton() {
       </div>
     </Link>
   )
-} 
+}

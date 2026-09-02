@@ -66,8 +66,12 @@ export function BankCampaigns() {
     return status === "current";
   });
 
+  if (activeCampaigns.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto mt-12 mb-8 border-t pt-12">
       <div className="mb-8 pt-4">
         <h2 className="text-2xl font-bold mb-2">Aktif Kampanyalar</h2>
       </div>

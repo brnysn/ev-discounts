@@ -14,12 +14,8 @@
         ],
         "dc": [
           {
-            "kwh": "< 180",
-            "price": 10.99
-          },
-          {
-            "kwh": "180 >",
-            "price": 13.99
+            "kwh": "",
+            "price": 15.9
           }
         ]
       }
@@ -58,17 +54,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.49
+            "price": 9.9
           }
         ],
         "dc": [
           {
-            "kwh": "< 100",
-            "price": 9.99
-          },
-          {
-            "kwh": "100 >",
-            "price": 10.99
+            "kwh": "",
+            "price": 11.99
           }
         ]
       }
@@ -85,17 +77,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.99
+            "price": 10.9
           }
         ],
         "dc": [
           {
-            "kwh": "< 50",
-            "price": 10.99
-          },
-          {
-            "kwh": "50 >",
-            "price": 11.99
+            "kwh": "",
+            "price": 14.9
           }
         ]
       }
@@ -120,13 +108,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 6.49
+            "price": 9.89
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 8.99
+            "price": 13.99
           }
         ]
       }
@@ -143,17 +131,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.99
+            "price": 9.9
           }
         ],
         "dc": [
           {
-            "kwh": "< 60",
-            "price": 10.99
-          },
-          {
-            "kwh": "60 >",
-            "price": 12.99
+            "kwh": "",
+            "price": 13.99
           }
         ]
       }
@@ -307,13 +291,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 5.9
+            "price": 8.98
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 7.43
+            "price": 11.98
           }
         ]
       }
@@ -329,18 +313,14 @@
       {
         "ac": [
           {
-            "kwh": "< 20",
-            "price": 6
-          },
-          {
-            "kwh": "20 >",
-            "price": 6.5
+            "kwh": "",
+            "price": 9.29
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 8.5
+            "price": 11.9
           }
         ]
       }
@@ -357,13 +337,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 11.8
+            "price": 14.9
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 11.8
+            "price": 14.9
           }
         ]
       }
@@ -401,17 +381,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.5
+            "price": 9.9
           }
         ],
         "dc": [
           {
-            "kwh": "< 30",
-            "price": 9.5
-          },
-          {
-            "kwh": "30 >",
-            "price": 11.5
+            "kwh": "",
+            "price": 12.5
           }
         ]
       }
@@ -464,17 +440,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.9
+            "price": 9.9
           }
         ],
         "dc": [
           {
-            "kwh": "< 90",
-            "price": 10.9
-          },
-          {
-            "kwh": "90 >",
-            "price": 12.9
+            "kwh": "",
+            "price": 14.9
           }
         ]
       }
@@ -490,14 +462,18 @@
       {
         "ac": [
           {
-            "kwh": "",
-            "price": 8.63
+            "kwh": "AC-21",
+            "price": 8.22
+          },
+          {
+            "kwh": "AC-22",
+            "price": 9.9
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 11.44
+            "price": 13.9
           }
         ]
       }
@@ -508,8 +484,7 @@
         "starts_at": "2025-06-05 00:00:00",
         "ends_at": "2025-06-09 23:59:00",
         "text": "Ziraat Bankası veya Paraf Doğal Kartları ile %10 iade kazanabilirsiniz.",
-        "discounted_prices": 
-        {
+        "discounted_prices": {
           "ac": [
             {
               "kwh": "",
@@ -536,13 +511,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.59
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 10.99
+            "price": 12.99
           }
         ]
       }
@@ -559,13 +534,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 7.77
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 9.99
+            "price": 13.73
           }
         ]
       }
@@ -582,17 +557,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 7.49
+            "price": 9.15
           }
         ],
         "dc": [
           {
-            "kwh": "< 80",
-            "price": 8.5
-          },
-          {
-            "kwh": "80 >",
-            "price": 8.9
+            "kwh": "",
+            "price": 11.65
           }
         ]
       }
@@ -634,13 +605,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.49
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 10.79
+            "price": 13.49
           }
         ]
       }
@@ -657,13 +628,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 7.5
+            "price": 9.5
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 8.9
+            "price": 12.5
           }
         ]
       }
@@ -674,35 +645,19 @@
     "name": "Multiforce",
     "logo": "/images/chargers/multiforce.png",
     "phone": "",
-    "website": "https://multiforce.com.tr/price.html",
+    "website": "https://multiforce.com.tr/fiyatlar",
     "prices": [
       {
         "ac": [
           {
-            "kwh": "AC",
-            "price": 6.5
-          },
-          {
-            "kwh": "AC-2",
-            "price": 5.76
-          },
-          {
-            "kwh": "AC-3",
-            "price": 5.99
+            "kwh": "",
+            "price": 10.5
           }
         ],
         "dc": [
           {
-            "kwh": "DC",
-            "price": 8.9
-          },
-          {
-            "kwh": "DC-2",
-            "price": 10.9
-          },
-          {
-            "kwh": "DC-3",
-            "price": 8.39
+            "kwh": "",
+            "price": 13.49
           }
         ]
       }
@@ -727,13 +682,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.99
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 10.99
+            "price": 13.5
           }
         ]
       }
@@ -785,13 +740,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.28
+            "price": 9.28
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 9.98
+            "price": 12.48
           }
         ]
       }
@@ -823,17 +778,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 6.49
+            "price": 9.99
           }
         ],
         "dc": [
           {
-            "kwh": "< 60",
-            "price": 9.49
-          },
-          {
-            "kwh": "60 >",
-            "price": 10.49
+            "kwh": "",
+            "price": 12.99
           }
         ]
       }
@@ -849,18 +800,18 @@
       {
         "ac": [
           {
-            "kwh": "< 11",
-            "price": 8.99
-          },
-          {
-            "kwh": "11 >",
-            "price": 9.49
+            "kwh": "",
+            "price": 10.99
           }
         ],
         "dc": [
           {
-            "kwh": "40 >",
-            "price": 11.99
+            "kwh": "DC",
+            "price": 15.49
+          },
+          {
+            "kwh": "DC-2",
+            "price": 12.4
           }
         ]
       }
@@ -885,17 +836,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.49
+            "price": 9.99
           }
         ],
         "dc": [
           {
-            "kwh": "< 60",
-            "price": 9.49
-          },
-          {
-            "kwh": "60 >",
-            "price": 10.99
+            "kwh": "",
+            "price": 11.99
           }
         ]
       }
@@ -936,14 +883,18 @@
       {
         "ac": [
           {
-            "kwh": "",
-            "price": 8.4
+            "kwh": "AC-1",
+            "price": 10.99
+          },
+          {
+            "kwh": "AC-2",
+            "price": 8.25
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 10.6
+            "price": 13.5
           }
         ]
       }
@@ -975,17 +926,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 7.99
+            "price": 9.49
           }
         ],
         "dc": [
           {
-            "kwh": "< 60",
-            "price": 8.99
-          },
-          {
-            "kwh": "60 >",
-            "price": 9.99
+            "kwh": "",
+            "price": 11.99
           }
         ]
       }
@@ -1056,12 +1003,12 @@
         ],
         "dc": [
           {
-            "kwh": "< 60",
-            "price": 13.5
+            "kwh": "",
+            "price": 12.99
           },
           {
-            "kwh": "60 >",
-            "price": 14.99
+            "kwh": "",
+            "price": 15.99
           }
         ]
       }
@@ -1072,19 +1019,19 @@
     "name": "Şarj Tak",
     "logo": "/images/chargers/sarj-tak.webp",
     "phone": "",
-    "website": "https://sarjtak.com/elektrikli-arac-sarj-ucretleri/",
+    "website": "https://sarjtak.com/tariff-schedule",
     "prices": [
       {
         "ac": [
           {
             "kwh": "",
-            "price": 7.9
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 9.99
+            "price": 13.99
           }
         ]
       }
@@ -1109,17 +1056,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.49
+            "price": 9.95
           }
         ],
         "dc": [
           {
-            "kwh": "< 150",
-            "price": 10.6
-          },
-          {
-            "kwh": "150 >",
-            "price": 11.82
+            "kwh": "",
+            "price": 14.98
           }
         ]
       }
@@ -1130,7 +1073,9 @@
         "starts_at": "2025-03-29 00:00:00",
         "ends_at": "2025-04-01 23:59:00",
         "text": "Yalnızca Trumore üzerinden başlatılan şarjlarda TOGG kullanıcılarına özeldir.",
-        "cars": ["Togg"],
+        "cars": [
+          "Togg"
+        ],
         "discount_rate": 100
       },
       {
@@ -1138,7 +1083,9 @@
         "starts_at": "2025-06-04 00:00:00",
         "ends_at": "2025-06-15 23:59:00",
         "text": "Trumore üzerinden ön satın alım yapılan şarj kullanım kuponudur. TOGG kullanıcılarına özeldir.",
-        "cars": ["Togg"],
+        "cars": [
+          "Togg"
+        ],
         "discount_rate": 50
       }
     ]
@@ -1153,13 +1100,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 6.99
+            "price": 9.5
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 9.75
+            "price": 12.4
           }
         ]
       }
@@ -1183,22 +1130,14 @@
       {
         "ac": [
           {
-            "kwh": "AC-1",
-            "price": 8.29
-          },
-          {
-            "kwh": "AC-2",
-            "price": 9.29
+            "kwh": "",
+            "price": 10.9
           }
         ],
         "dc": [
           {
-            "kwh": "< 100",
-            "price": 10.49
-          },
-          {
-            "kwh": "100 >",
-            "price": 12.49
+            "kwh": "",
+            "price": 13.9
           }
         ]
       }
@@ -1335,13 +1274,13 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.99
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "",
-            "price": 10.89
+            "price": 10.99
           }
         ]
       }
@@ -1419,17 +1358,17 @@
         "ac": [
           {
             "kwh": "",
-            "price": 8.99
+            "price": 9.99
           }
         ],
         "dc": [
           {
             "kwh": "< 180",
-            "price": 10.99
+            "price": 12.99
           },
           {
             "kwh": "180 >",
-            "price": 12.99
+            "price": 16.49
           }
         ]
       }

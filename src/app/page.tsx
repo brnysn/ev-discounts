@@ -36,6 +36,10 @@ export default function Home() {
   const pricesRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
   
+  const hasStationCampaigns = (data as Company[]).some((company) =>
+    company.discounts.some((discount) => new Date() <= new Date(discount.ends_at))
+  );
+
   const { sortDiscounts } = useDiscountCalculator({
     discounts: filteredDiscounts,
     chargingPort: activeChargingPort,
@@ -191,54 +195,58 @@ export default function Home() {
       <main className="container mx-auto py-8 px-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <h1 className="text-3xl font-bold">Elektrikli Araç Şarj Kampanyaları</h1>
-          <TelegramButton />
+          <div className="hidden">
+            <TelegramButton />
+          </div>
         </div>
         {/* <div className="flex items-center justify-between">
           <p className="text-muted-foreground">
             Elektrikli araç şarj istasyonlarının kampanyalarını karşılaştırabileceğiniz güncel ve tarafsız bir platform. Fiyatlar, şarj hızları, istasyon tipleri ve daha fazlasını kolayca filtreleyin. Bu sayede en uygun şarj hizmetine hızlıca ulaşın.
           </p>
         </div> */}
-        {filteredDiscounts.length > 0 && (
+        {hasStationCampaigns && filteredDiscounts.length > 0 && (
           <div className="min-h-[200px] pt-4">
             <Timeline discounts={filteredDiscounts} />
           </div>
         )}
         
-        <div className="mb-8 pt-4" ref={campaignsRef} id="kampanyalar">
-          <h2 className="text-2xl font-bold mb-2">Şarj İstasyonu Kampanyaları</h2>
-        </div>
+        {hasStationCampaigns && (
+          <>
+            <div className="mb-8 pt-4" ref={campaignsRef} id="kampanyalar">
+              <h2 className="text-2xl font-bold mb-2">Şarj İstasyonu Kampanyaları</h2>
+            </div>
 
-        <DiscountFilters
-          onChange={applyFilters}
-          selectedBattery={selectedBattery}
-          onBatteryChange={handleBatteryChange}
-        />
+            <DiscountFilters
+              onChange={applyFilters}
+              selectedBattery={selectedBattery}
+              onBatteryChange={handleBatteryChange}
+            />
          
-        {filteredDiscounts.length === 0 ? (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-medium mb-2">Seçtiğiniz kriterlere uygun kampanya bulunamadı</h3>
-            <p className="text-muted-foreground">
-              Seçtiğiniz kriterlere uygun kampanya şu anda bulunamadı. Filtrelerinizi genişleterek yeni kampanyaları keşfedebilirsiniz. Elektrikli araç sahipleri için en uygun şarj tarifelerini bulmak için buradayız.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]">
-            {filteredDiscounts.map((discount, index) => (
-              <DiscountCard
-                key={`${discount.company.name}-${index}`}
-                company={discount.company}
-                discount={discount}
-                selectedBattery={selectedBattery}
-                calculateSavings={calculateSavings}
-              />
-            ))}
-          </div>
+            {filteredDiscounts.length === 0 ? (
+              <div className="text-center py-12">
+                <h3 className="text-xl font-medium mb-2">Seçtiğiniz kriterlere uygun kampanya bulunamadı</h3>
+                <p className="text-muted-foreground">
+                  Seçtiğiniz kriterlere uygun kampanya şu anda bulunamadı. Filtrelerinizi genişleterek yeni kampanyaları keşfedebilirsiniz. Elektrikli araç sahipleri için en uygun şarj tarifelerini bulmak için buradayız.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]">
+                {filteredDiscounts.map((discount, index) => (
+                  <DiscountCard
+                    key={`${discount.company.name}-${index}`}
+                    company={discount.company}
+                    discount={discount}
+                    selectedBattery={selectedBattery}
+                    calculateSavings={calculateSavings}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {/* Bank Campaigns Section */}
-        <div className="mt-12 mb-8 border-t pt-12">
-          <BankCampaigns />
-        </div>
+        <BankCampaigns />
 
         {/* Blog Section */}
         <div className="mt-16 mb-8">
