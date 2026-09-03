@@ -18,7 +18,7 @@ export function normalizeSearch(value: string): string {
 export function stationMatchesQuery(station: StationRecord, needle: string): boolean {
   if (!needle) return false
   const haystack =
-    `${station.name} ${station.brand} ${station.operator} ${station.address} ${station.city}`.toLocaleLowerCase(
+    `${station.name} ${station.brand} ${station.operator} ${station.address} ${station.city} ${station.district ?? ""}`.toLocaleLowerCase(
       "tr-TR"
     )
   return haystack.includes(needle)
@@ -40,12 +40,13 @@ function stationScore(station: StationRecord, needle: string): number {
   const brand = (station.brand || "").toLocaleLowerCase("tr-TR")
   const name = (station.name || "").toLocaleLowerCase("tr-TR")
   const city = (station.city || "").toLocaleLowerCase("tr-TR")
+  const district = (station.district || "").toLocaleLowerCase("tr-TR")
   if (brand === needle) return 0
   if (brand.startsWith(needle)) return 1
   if (brand.includes(needle)) return 2
   if (name.startsWith(needle)) return 3
   if (name.includes(needle)) return 4
-  if (city === needle || city.startsWith(needle)) return 5
+  if (city === needle || city.startsWith(needle) || district === needle || district.startsWith(needle)) return 5
   return 6
 }
 
@@ -57,7 +58,10 @@ export function matchCities(stations: StationRecord[], query: string, limit = SE
   for (const station of stations) {
     const city = station.city?.trim()
     if (!city || seen.has(city)) continue
-    if (!city.toLocaleLowerCase("tr-TR").includes(needle)) continue
+    const district = (station.district ?? "").toLocaleLowerCase("tr-TR")
+    const cityHit = city.toLocaleLowerCase("tr-TR").includes(needle)
+    const districtHit = Boolean(district) && district !== "merkez" && district.includes(needle)
+    if (!cityHit && !districtHit) continue
     seen.add(city)
     hits.push(city)
     if (hits.length >= limit) break

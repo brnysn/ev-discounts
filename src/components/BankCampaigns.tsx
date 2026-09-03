@@ -17,6 +17,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+function campaignDetailsHref(url: string | undefined) {
+  const value = url?.trim() ?? ""
+  if (!value) return ""
+  try {
+    const host = new URL(value).hostname.replace(/^www\./, "")
+    if (host === "chargetr.com" || host === "kartavantaj.com") return ""
+  } catch {
+    return ""
+  }
+  return value
+}
+
 export function BankCampaigns() {
   // Function to get company data by ID
   const getCompanyById = (id: string) => {
@@ -78,6 +90,7 @@ export function BankCampaigns() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {activeCampaigns.map((item, index) => {
           const status = getCampaignStatus(item.campaign.startDate, item.campaign.endDate);
+          const detailsHref = campaignDetailsHref(item.campaign.links.details);
           
           return (
             <Card key={index} className="flex flex-col">
@@ -89,6 +102,7 @@ export function BankCampaigns() {
                       alt={item.company.name}
                       fill
                       className="object-contain"
+                      unoptimized
                     />
                   </div>
                   <div className="flex gap-2">
@@ -175,11 +189,13 @@ export function BankCampaigns() {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                <Button asChild variant="outline">
-                  <a href={item.campaign.links.details} target="_blank" rel="noopener noreferrer">
-                    Detaylar
-                  </a>
-                </Button>
+                {detailsHref ? (
+                  <Button asChild variant="outline">
+                    <a href={detailsHref} target="_blank" rel="noopener noreferrer">
+                      Detaylar
+                    </a>
+                  </Button>
+                ) : null}
               </CardFooter>
             </Card>
           );

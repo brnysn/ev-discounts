@@ -13,6 +13,7 @@ export interface StationRecord {
   operator: string
   address: string
   city: string
+  district?: string
   public: boolean
   green: boolean
   ac: number
@@ -40,11 +41,13 @@ export interface OperatorMapFile {
 
 export interface StationBankDeal {
   name: string
+  logo: string
   title: string
   description: string
   percent: number
   oldPrice: number
   newPrice: number
+  detailsUrl?: string
 }
 
 export interface StationPortPrice {

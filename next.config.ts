@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["leaflet", "leaflet.markercluster"],
+  transpilePackages: ["leaflet", "leaflet.markercluster", "@animated-color-icons/lucide-react"],
   async redirects() {
     return [
       {

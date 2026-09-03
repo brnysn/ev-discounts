@@ -16,10 +16,12 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -28,6 +30,46 @@ jobs:
 
       - name: Fetch nationwide EPDK snapshot
         run: node scripts/sync-epdk-stations.mjs --ci
+
+      - name: Validate station snapshot shape
+        run: |
+          node --input-type=module <<'EOF'
+          import { readFileSync, existsSync } from "node:fs"
+
+          if (!existsSync("scripts/data/epdk-places.json")) {
+            throw new Error("missing scripts/data/epdk-places.json overlay")
+          }
+
+          const snap = JSON.parse(readFileSync("public/data/stations.json", "utf8"))
+          if (!snap?.updatedAt || !snap.source || !snap.sourceLabel) {
+            throw new Error("snapshot missing updatedAt/source/sourceLabel")
+          }
+          if (!["epdk", "ibb-epdk"].includes(snap.source)) {
+            throw new Error(`unexpected source: ${snap.source}`)
+          }
+          if (!Array.isArray(snap.stations) || !snap.stations.length) {
+            throw new Error("snapshot has no stations")
+          }
+
+          const required = [
+            "id", "name", "lat", "lng", "brand", "operator",
+            "address", "city", "public", "green", "ac", "dc", "maxKw",
+          ]
+          const sample = snap.stations[0]
+          for (const key of required) {
+            if (!(key in sample)) throw new Error(`station missing ${key}`)
+          }
+
+          const withDistrict = snap.stations.filter((s) => s.district).length
+          const withGroups = snap.stations.filter((s) => Array.isArray(s.groups) && s.groups.length).length
+          const cities = new Set(snap.stations.map((s) => s.city).filter(Boolean))
+          if (!withDistrict) throw new Error("no district fields; parser/overlay did not run")
+          if (!withGroups) throw new Error("no socket groups on stations")
+
+          console.log(
+            `ok ${snap.stations.length} stations · ${cities.size} il · ${withDistrict} ilçeli · ${withGroups} groups · ${snap.source}`
+          )
+          EOF
 
       - name: Commit stations.json if changed
         run: |
@@ -39,4 +81,5 @@ jobs:
             exit 0
           fi
           git commit -m "chore: refresh EPDK station snapshot"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

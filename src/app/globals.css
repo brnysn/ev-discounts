@@ -76,6 +76,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --scrollbar-size: 10px;
+  --scrollbar-thumb: color-mix(in oklab, var(--foreground) 22%, transparent);
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--foreground) 40%, transparent);
 }
 
 .dark {
@@ -110,6 +113,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --scrollbar-thumb: color-mix(in oklab, var(--foreground) 32%, transparent);
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--foreground) 52%, transparent);
 }
 
 @layer base {
@@ -119,6 +124,59 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Firefox only. Chrome treats scrollbar-width as an override and
+   then ignores ::-webkit-scrollbar, which yields the default grey bar. */
+@supports (-moz-appearance: none) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track-piece,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:active {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+[data-radix-scroll-area-viewport] {
+  scrollbar-width: none;
+}
+
+[data-radix-scroll-area-viewport]::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+[data-radix-scroll-area-viewport] > div {
+  display: block !important;
+  min-width: 0 !important;
 }
 
 /* Add to the end of the file */
@@ -226,6 +284,23 @@ img[loading="lazy"] {
   border-radius: 12px;
 }
 
+.station-map .leaflet-popup-close-button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  color: #64748b;
+}
+
+.station-map .leaflet-popup-close-button:hover {
+  color: #0f172a;
+  background: transparent !important;
+}
+
 .station-map .leaflet-popup-content {
   margin: 12px 14px 14px;
   min-width: 248px;
@@ -251,10 +326,12 @@ img[loading="lazy"] {
   margin: 4px 0;
 }
 
-.station-popup .offer {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #e2e8f0;
+.station-popup .brand-logo {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin: 4px 0;
 }
 
 .station-popup .popup-btn {
@@ -275,11 +352,28 @@ img[loading="lazy"] {
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
+  overflow: visible;
 }
 
 .station-popup .popup-btn:hover {
   background: #1e293b;
   color: #fff;
+}
+
+.station-popup .popup-btn svg {
+  flex-shrink: 0;
+  transform-origin: center;
+  transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.station-popup .popup-btn:hover svg {
+  transform: translate(4px, -5px) rotate(-12deg);
+}
+
+.al-icon-wrapper:hover .animated-lucide-icon-navigation {
+  transform-origin: center;
+  transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translate(4px, -5px) rotate(-12deg);
 }
 
 .speed-list {
@@ -419,19 +513,58 @@ img[loading="lazy"] {
 
 .station-popup .bank-title {
   display: block;
-  cursor: pointer;
   color: #0f172a;
   font-size: 13px;
   font-weight: 600;
   line-height: 1.35;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  list-style: none;
   white-space: normal;
 }
 
-.station-popup .bank-title::-webkit-details-marker {
+.station-popup .bank-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.station-popup .bank-row::-webkit-details-marker,
+.station-popup .bank-row::marker {
   display: none;
+  content: "";
+}
+
+.station-popup .bank-logo {
+  display: block;
+  width: 80px;
+  height: 32px;
+  object-fit: contain;
+  object-position: left center;
+  flex-shrink: 0;
+}
+
+.station-popup .bank-prices {
+  text-align: right;
+}
+
+.station-popup .bank-link {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.station-popup .bank-link:hover {
+  background: #1e293b;
+  color: #fff;
 }
 
 .station-popup .bank-body {
@@ -502,4 +635,81 @@ img[loading="lazy"] {
 .station-best .st-fault {
   color: #dc2626;
   font-weight: 600;
+}
+
+.dc-range {
+  position: relative;
+  height: 24px;
+}
+
+.dc-range-track,
+.dc-range-fill {
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 99px;
+}
+
+.dc-range-track {
+  inset-inline: 0;
+  background: #e2e8f0;
+}
+
+.dc-range-fill {
+  background: #0f172a;
+}
+
+.dc-range input[type="range"] {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.dc-range input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+  border: none;
+}
+
+.dc-range input[type="range"]::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 2px solid #fff;
+  border-radius: 99px;
+  background: #0f172a;
+  box-shadow: 0 0 0 1px #0f172a;
+  cursor: pointer;
+}
+
+.dc-range input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: transparent;
+  border: none;
+}
+
+.dc-range input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-radius: 99px;
+  background: #0f172a;
+  box-shadow: 0 0 0 1px #0f172a;
+  cursor: pointer;
+}
+
+.dc-range input[type="range"]:last-of-type {
+  z-index: 2;
 }

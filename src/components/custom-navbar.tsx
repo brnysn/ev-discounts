@@ -2,11 +2,13 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Menu } from "lucide-react"
+import { Menu } from "@animated-color-icons/lucide-react"
+import { AnimatedUiIcon } from "@/components/animated-ui-icon"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
 import { Button } from "@/components/ui/button"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -256,11 +258,11 @@ export function CustomNavbar({
             </Link>
             <Sheet>
               <SheetTrigger asChild className="mr-2">
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
+                <Button variant="outline" size="icon" className="al-icon-wrapper" aria-label="Menü">
+                  <AnimatedUiIcon icon={Menu} />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
+              <SheetContent className="flex flex-col overflow-hidden">
                 <SheetHeader>
                   <SheetTitle>
                     <Link href={logo.url} className="flex items-center gap-2">
@@ -276,7 +278,8 @@ export function CustomNavbar({
                     </Link>
                   </SheetTitle>
                 </SheetHeader>
-                <div className="my-6 flex flex-col gap-6">
+                <ScrollArea type="auto" className="min-h-0 flex-1">
+                <div className="my-6 flex flex-col gap-6 pr-2">
                   <Accordion
                     type="single"
                     collapsible
@@ -285,6 +288,7 @@ export function CustomNavbar({
                     {menu.map((item) => renderMobileMenuItem(item, handleNavClick, isActive(item)))}
                   </Accordion>
                 </div>
+                </ScrollArea>
               </SheetContent>
             </Sheet>
           </div>

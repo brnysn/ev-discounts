@@ -5,7 +5,7 @@ import type { Company, PriceGroup } from "@/types"
 import type { StationBankDeal, StationCompanyOffer, StationPortPrice, StationRecord } from "@/types/stations"
 
 type BankCampaignEntry = {
-  company: { name: string }
+  company: { name: string; logo: string }
   campaign: {
     title: string
     description: string
@@ -14,10 +14,23 @@ type BankCampaignEntry = {
     combinable: boolean
     compatibleWith: string[]
     calculateCombinedPrice?: { type: string; value: number }
+    links?: { details?: string }
   }
 }
 
 const bankCampaigns = bankCampaignsFile as BankCampaignEntry[]
+
+function campaignDetailsUrl(url?: string): string | undefined {
+  const value = url?.trim() ?? ""
+  if (!value) return undefined
+  try {
+    const host = new URL(value).hostname.replace(/^www\./, "")
+    if (host === "chargetr.com" || host === "kartavantaj.com") return undefined
+  } catch {
+    return undefined
+  }
+  return value
+}
 
 function lowestListPrice(prices: PriceGroup, port: "ac" | "dc"): number | undefined {
   const list = prices[port]
@@ -44,11 +57,13 @@ function matchingBankDeals(slug: string, listPrice: number, networkPrice: number
     if (newPrice >= oldPrice) continue
     deals.push({
       name: item.company.name,
+      logo: item.company.logo,
       title: item.campaign.title,
       description: item.campaign.description,
       percent,
       oldPrice,
       newPrice,
+      detailsUrl: campaignDetailsUrl(item.campaign.links?.details),
     })
   }
 

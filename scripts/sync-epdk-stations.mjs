@@ -16,6 +16,10 @@
  *   node scripts/sync-epdk-stations.mjs --wait-minutes=62
  *   node scripts/sync-epdk-stations.mjs --fallback-ibb
  *   node scripts/sync-epdk-stations.mjs --ci
+ *   node scripts/sync-epdk-stations.mjs --reparse
+ *
+ * Official il/ilçe overlay (scripts/data/epdk-places.json) is matched by
+ * istasyon_no / station.id. Overlay `id` and `hizmet_sekli` are ignored.
  */
 
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs"
@@ -26,6 +30,7 @@ import { fileURLToPath } from "node:url"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, "..")
 const outPath = join(root, "public/data/stations.json")
+const placesPath = join(__dirname, "data/epdk-places.json")
 const cacheDir = join(root, ".cache/epdk")
 
 const EPDK_URL = "https://apigateway.epdk.gov.tr/sarjIstasyonlari"
@@ -94,28 +99,243 @@ class QuotaError extends Error {
   }
 }
 
+const PROVINCE_TITLE = Object.fromEntries(PROVINCES.map((name) => [name, titleProvince(name)]))
+
+/** Provincial capitals for stations whose address has no parseable il. */
+const PROVINCE_CENTERS = [
+  ["Adana", 37.0, 35.3213],
+  ["Adıyaman", 37.7648, 38.2786],
+  ["Afyonkarahisar", 38.7569, 30.5387],
+  ["Ağrı", 39.7191, 43.0503],
+  ["Aksaray", 38.3686, 34.0369],
+  ["Amasya", 40.6534, 35.833],
+  ["Ankara", 39.9334, 32.8597],
+  ["Antalya", 36.8841, 30.7056],
+  ["Ardahan", 41.1105, 42.7022],
+  ["Artvin", 41.1828, 41.8183],
+  ["Aydın", 37.8444, 27.8458],
+  ["Balıkesir", 39.6484, 27.8826],
+  ["Bartın", 41.6344, 32.3375],
+  ["Batman", 37.8812, 41.1351],
+  ["Bayburt", 40.2552, 40.2249],
+  ["Bilecik", 40.1426, 29.9793],
+  ["Bingöl", 38.8855, 40.498],
+  ["Bitlis", 38.4006, 42.109],
+  ["Bolu", 40.7392, 31.6089],
+  ["Burdur", 37.7183, 30.2828],
+  ["Bursa", 40.193, 29.0742],
+  ["Çanakkale", 40.1553, 26.4142],
+  ["Çankırı", 40.6013, 33.6134],
+  ["Çorum", 40.5499, 34.9537],
+  ["Denizli", 37.7765, 29.0864],
+  ["Diyarbakır", 37.91, 40.2306],
+  ["Düzce", 40.8438, 31.1565],
+  ["Edirne", 41.6771, 26.5557],
+  ["Elazığ", 38.6748, 39.2225],
+  ["Erzincan", 39.75, 39.4914],
+  ["Erzurum", 39.9055, 41.2658],
+  ["Eskişehir", 39.7767, 30.5206],
+  ["Gaziantep", 37.0662, 37.3833],
+  ["Giresun", 40.9128, 38.3895],
+  ["Gümüşhane", 40.4603, 39.4814],
+  ["Hakkari", 37.5744, 43.7408],
+  ["Hatay", 36.2023, 36.1613],
+  ["Isparta", 37.7648, 30.5566],
+  ["Iğdır", 39.92, 44.044],
+  ["İstanbul", 41.0082, 28.9784],
+  ["İzmir", 38.4192, 27.1287],
+  ["Kahramanmaraş", 37.5858, 36.9371],
+  ["Karabük", 41.2061, 32.6204],
+  ["Karaman", 37.181, 33.2222],
+  ["Kars", 40.6013, 43.0975],
+  ["Kastamonu", 41.3766, 33.7765],
+  ["Kayseri", 38.7312, 35.4787],
+  ["Kırıkkale", 39.8468, 33.5153],
+  ["Kırklareli", 41.7355, 27.2256],
+  ["Kırşehir", 39.1461, 34.1595],
+  ["Kilis", 36.7184, 37.1212],
+  ["Kocaeli", 40.7654, 29.9408],
+  ["Konya", 37.8714, 32.4846],
+  ["Kütahya", 39.4192, 29.9857],
+  ["Malatya", 38.3552, 38.3095],
+  ["Manisa", 38.6191, 27.4289],
+  ["Mardin", 37.3212, 40.7245],
+  ["Mersin", 36.8121, 34.6415],
+  ["Muğla", 37.2153, 28.3636],
+  ["Muş", 38.7348, 41.491],
+  ["Nevşehir", 38.6247, 34.7141],
+  ["Niğde", 37.9667, 34.6793],
+  ["Ordu", 40.9862, 37.8797],
+  ["Osmaniye", 37.0746, 36.2464],
+  ["Rize", 41.0201, 40.5234],
+  ["Sakarya", 40.7889, 30.406],
+  ["Samsun", 41.2867, 36.33],
+  ["Siirt", 37.9274, 41.9403],
+  ["Sinop", 42.0267, 35.1511],
+  ["Sivas", 39.7477, 37.0179],
+  ["Şanlıurfa", 37.1674, 38.7955],
+  ["Şırnak", 37.5184, 42.4537],
+  ["Tekirdağ", 40.9781, 27.5117],
+  ["Tokat", 40.3235, 36.5522],
+  ["Trabzon", 41.0053, 39.725],
+  ["Tunceli", 39.1061, 39.5481],
+  ["Uşak", 38.6742, 29.4058],
+  ["Van", 38.5012, 43.373],
+  ["Yalova", 40.655, 29.2769],
+  ["Yozgat", 39.8181, 34.8147],
+  ["Zonguldak", 41.4564, 31.7987],
+]
+
 function titleProvince(name) {
   return name
     .toLocaleLowerCase("tr-TR")
     .replace(/(^|[\s-])(\S)/g, (_, sep, ch) => sep + ch.toLocaleUpperCase("tr-TR"))
 }
 
-function parseCity(address) {
-  if (!address) return ""
-  const lastSegment = address.split("/").pop()?.trim() ?? ""
-  const lastUpper = lastSegment.toLocaleUpperCase("tr-TR")
+function stripCadastral(address) {
+  return String(address ?? "")
+    .replace(/\(\s*Ada\s*:[\s\S]*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+function matchProvinceToken(segment) {
+  const upper = String(segment ?? "").trim().toLocaleUpperCase("tr-TR")
+  if (!upper) return ""
   for (const province of PROVINCES) {
-    if (lastUpper === province || lastUpper.startsWith(`${province} `) || lastUpper.endsWith(` ${province}`)) {
-      return titleProvince(province)
+    if (
+      upper === province ||
+      upper.startsWith(`${province} `) ||
+      upper.startsWith(`${province}/`) ||
+      upper.startsWith(`${province}.`)
+    ) {
+      return PROVINCE_TITLE[province]
     }
   }
-  const upper = address.toLocaleUpperCase("tr-TR")
-  for (const province of PROVINCES) {
-    if (new RegExp(`(?:^|[\\s/,])${province}(?:$|[\\s/,])`).test(upper) && lastUpper.includes(province)) {
-      return titleProvince(province)
+  return ""
+}
+
+function splitProvince(address) {
+  const cleaned = stripCadastral(address)
+  const lastSlash = cleaned.lastIndexOf("/")
+  if (lastSlash >= 0) {
+    const city = matchProvinceToken(cleaned.slice(lastSlash + 1))
+    if (city) return { city, before: cleaned.slice(0, lastSlash).trim() }
+  }
+  const tokens = cleaned.split(/\s+/).filter(Boolean)
+  const city = matchProvinceToken(tokens.at(-1) ?? "")
+  if (city) return { city, before: tokens.slice(0, -1).join(" ") }
+  return { city: "", before: cleaned }
+}
+
+function lastDistrictName(text) {
+  const source = String(text ?? "")
+
+  const mahalle = source.match(
+    /^([A-ZÇĞİÖŞÜa-zçğıöşü0-9]+(?:\s+[A-ZÇĞİÖŞÜa-zçğıöşü0-9]+){0,3})\s+Mahallesi/i
+  )
+
+  let value = source
+    .replace(/\bNo:\s*[\w./-]+/gi, " ")
+    .replace(
+      /(^|[\s/.,])(?:Mahallesi|Mahalle|Mah\.?|Caddesi|Cadde|Cad\.?|Sokağı|Sokak|Sok\.?|Bulvarı|Bulvar|Mevkii|Mevki|Kümeevleri|Küme\s+Evleri|Organize\s+Sanayi(?:\s+Bölgesi)?|Bayırı|Yolu)(?=[\s/.,]|$)/gi,
+      " "
+    )
+    .replace(/[/(),.]+/g, " ")
+    .replace(/\b\d+[A-Za-zÇĞİÖŞÜçğıöşü]?\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+
+  const skip = new Set([
+    "osb",
+    "sitesi",
+    "site",
+    "köyü",
+    "koyu",
+    "beldesi",
+    "mah",
+    "sokağı",
+    "sokak",
+    "caddesi",
+    "cadde",
+    "mahallesi",
+    "bayırı",
+    "yolu",
+    "bulvarı",
+    "mevkii",
+  ])
+  const tokens = value.split(" ").filter((token) => {
+    const key = token.toLocaleLowerCase("tr-TR")
+    return token.length > 1 && !/^\d/.test(token) && !skip.has(key)
+  })
+  const fromTokens = tokens.length ? titleProvince(tokens.at(-1)) : ""
+  return { fromTokens, mahalle: mahalle ? titleProvince(mahalle[1].replace(/\s+Osb$/i, "").trim()) : "" }
+}
+
+const STREET_OR_JUNK = new Set([
+  "sokağı",
+  "sokak",
+  "caddesi",
+  "cadde",
+  "mahallesi",
+  "bayırı",
+  "yolu",
+  "bulvarı",
+  "mevkii",
+])
+
+const PROVINCE_LOWER = new Set(Object.values(PROVINCE_TITLE).map((name) => name.toLocaleLowerCase("tr-TR")))
+
+function isJunkDistrict(name, city) {
+  if (!name) return true
+  const parts = name.split(/\s+/).filter(Boolean)
+  for (const part of parts) {
+    const key = part.toLocaleLowerCase("tr-TR")
+    if (STREET_OR_JUNK.has(key)) return true
+  }
+  const key = name.toLocaleLowerCase("tr-TR")
+  if (PROVINCE_LOWER.has(key) && name.toLocaleLowerCase("tr-TR") !== city.toLocaleLowerCase("tr-TR")) return true
+  return false
+}
+
+function pickDistrict(before, city, fromSlash) {
+  const { fromTokens, mahalle } = lastDistrictName(before)
+  if (fromSlash && !isJunkDistrict(fromTokens, city)) return fromTokens
+  if (!isJunkDistrict(fromTokens, city)) return fromTokens
+  if (!isJunkDistrict(mahalle, city)) return mahalle
+  return ""
+}
+
+function parsePlace(address, lat, lng) {
+  const { city: parsedCity, before } = splitProvince(address)
+  const city =
+    parsedCity || (Number.isFinite(lat) && Number.isFinite(lng) ? nearestProvince(lat, lng) : "")
+  const district = pickDistrict(before, city, Boolean(parsedCity))
+  return { city, district }
+}
+
+function haversineKm(from, to) {
+  const radius = 6371
+  const dLat = ((to.lat - from.lat) * Math.PI) / 180
+  const dLng = ((to.lng - from.lng) * Math.PI) / 180
+  const lat1 = (from.lat * Math.PI) / 180
+  const lat2 = (to.lat * Math.PI) / 180
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2
+  return 2 * radius * Math.asin(Math.min(1, Math.sqrt(h)))
+}
+
+function nearestProvince(lat, lng) {
+  let best = ""
+  let bestKm = Number.POSITIVE_INFINITY
+  for (const [name, plat, plng] of PROVINCE_CENTERS) {
+    const km = haversineKm({ lat, lng }, { lat: plat, lng: plng })
+    if (km < bestKm) {
+      bestKm = km
+      best = name
     }
   }
-  return lastSegment
+  return best
 }
 
 function firstNumber(...values) {
@@ -243,7 +463,7 @@ function toStationFromEpdk(row) {
   const sockets = parseSockets(row.soketler)
   const address = String(row.adres ?? "")
 
-  return {
+  return withPlaces({
     id: String(row.sarjIstasyonuNo ?? row.istasyonNo ?? ""),
     name: String(row.sarjIstasyonuAdi ?? row.ad ?? ""),
     lat,
@@ -251,14 +471,13 @@ function toStationFromEpdk(row) {
     brand: String(row.marka ?? row.markaAdi ?? ""),
     operator: String(row.sarjAgiIsletmecisiUnvan ?? ""),
     address,
-    city: parseCity(address),
     public: isPublic(row.hizmetSekli),
     green: isGreen(row.yesilSarjIstasyonuMu),
     ac: sockets.ac,
     dc: sockets.dc,
     maxKw: sockets.maxKw,
     ...(sockets.groups.length ? { groups: sockets.groups } : {}),
-  }
+  })
 }
 
 function snapshotFromRows(rows, sourceLabel) {
@@ -444,22 +663,23 @@ async function fetchIbbFallback() {
     const groups = sockets.groups instanceof Map ? [...sockets.groups.values()] : []
     const address = String(props.ADRES ?? "")
 
-    stations.push({
-      id,
-      name: String(props.AD ?? ""),
-      lat,
-      lng,
-      brand: String(props.MARKA_TESCIL_BELGESI ?? ""),
-      operator: String(props.AGIL_ISLETMECISI_UNVAN ?? ""),
-      address,
-      city: parseCity(address),
-      public: isPublic(props.HIZMET_SEKLI),
-      green: false,
-      ac: sockets.ac,
-      dc: sockets.dc,
-      maxKw: sockets.maxKw,
-      ...(groups.length ? { groups } : {}),
-    })
+    stations.push(
+      withPlaces({
+        id,
+        name: String(props.AD ?? ""),
+        lat,
+        lng,
+        brand: String(props.MARKA_TESCIL_BELGESI ?? ""),
+        operator: String(props.AGIL_ISLETMECISI_UNVAN ?? ""),
+        address,
+        public: isPublic(props.HIZMET_SEKLI),
+        green: false,
+        ac: sockets.ac,
+        dc: sockets.dc,
+        maxKw: sockets.maxKw,
+        ...(groups.length ? { groups } : {}),
+      })
+    )
   }
 
   return {
@@ -483,8 +703,78 @@ function stationsFingerprint(stations) {
       station.public,
       station.address,
       station.name,
+      station.city,
+      station.district ?? "",
     ])
   )
+}
+
+function placeFields(address, lat, lng) {
+  const { city, district } = parsePlace(address, lat, lng)
+  return district ? { city, district } : { city }
+}
+
+let placesById = null
+
+function loadPlaces() {
+  if (placesById) return placesById
+  placesById = new Map()
+  try {
+    const raw = JSON.parse(readFileSync(placesPath, "utf8"))
+    const entries = Array.isArray(raw)
+      ? raw.map((row) => [String(row.istasyon_no ?? ""), row])
+      : Object.entries(raw)
+    for (const [id, row] of entries) {
+      if (!id || !row || typeof row !== "object") continue
+      placesById.set(id, row)
+    }
+  } catch {
+    /* overlay is optional */
+  }
+  return placesById
+}
+
+function namesEqual(a, b) {
+  return titleProvince(a).toLocaleLowerCase("tr-TR") === titleProvince(b).toLocaleLowerCase("tr-TR")
+}
+
+function applyOfficialPlace(station, places = loadPlaces()) {
+  const place = places.get(station.id)
+  if (!place) return station
+
+  const officialCity = titleProvince(place.il ?? place.city ?? "")
+  if (!officialCity) return station
+
+  const addressCity = splitProvince(station.address).city
+  if (addressCity && !namesEqual(officialCity, addressCity)) return station
+
+  const officialDistrict = titleProvince(place.ilce ?? place.district ?? "")
+  const officialAddress = stripCadastral(place.adres ?? place.address ?? "")
+  const next = { ...station, city: officialCity }
+  if (officialAddress) next.address = officialAddress
+
+  const keepSpecificDistrict =
+    officialDistrict.toLocaleLowerCase("tr-TR") === "merkez" &&
+    next.district &&
+    next.district.toLocaleLowerCase("tr-TR") !== "merkez"
+  if (officialDistrict && !keepSpecificDistrict) next.district = officialDistrict
+  if (!next.district) delete next.district
+  return next
+}
+
+function withPlaces(station) {
+  const parsed = { ...station, ...placeFields(station.address, station.lat, station.lng) }
+  if (!parsed.district) delete parsed.district
+  return applyOfficialPlace(parsed)
+}
+
+function reparseSnapshot(snapshot) {
+  const stations = snapshot.stations.map((station) => withPlaces(station))
+  return {
+    ...snapshot,
+    updatedAt: new Date().toISOString(),
+    stations,
+  }
 }
 
 function writeSnapshot(snapshot) {
@@ -501,8 +791,12 @@ function writeSnapshot(snapshot) {
   writeFileSync(outPath, JSON.stringify(snapshot))
   const mb = (Buffer.byteLength(JSON.stringify(snapshot)) / 1024 / 1024).toFixed(2)
   const cities = new Set(snapshot.stations.map((station) => station.city).filter(Boolean))
+  const districts = snapshot.stations.filter((station) => station.district).length
+  const overlayHits = snapshot.stations.filter((station) => loadPlaces().has(station.id)).length
   console.log(`Wrote ${snapshot.stations.length} stations (${mb} MB) to ${outPath}`)
-  console.log(`Cities: ${cities.size} · Source: ${snapshot.sourceLabel}`)
+  console.log(
+    `İl: ${cities.size} · ilçeli kayıt: ${districts} · resmi eşleşme: ${overlayHits} · Source: ${snapshot.sourceLabel}`
+  )
 }
 
 async function fetchNationwideEpdk({ alreadyWaited = false, ci = false } = {}) {
@@ -536,6 +830,12 @@ async function fetchNationwideEpdk({ alreadyWaited = false, ci = false } = {}) {
 }
 
 async function main() {
+  if (process.argv.includes("--reparse")) {
+    const previous = JSON.parse(readFileSync(outPath, "utf8"))
+    writeSnapshot(reparseSnapshot(previous))
+    return
+  }
+
   const fromFile = argValue("--from-file")
   if (fromFile) {
     writeSnapshot(snapshotFromSavedFile(fromFile))

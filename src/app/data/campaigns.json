@@ -26,14 +26,14 @@
       ],
       "categories": ["EV Charging", "Bank Card"],
       "links": {
-        "details": "https://kartavantaj.com/kampanya/en-yakit-elektrikli-sarj-istasyonu-harcamalariniza-600-tl-indirim-40611"
+        "details": "https://www.vakifkart.com.tr/kampanyalar/en-yakit-elektrikli-sarj-istasyonu-harcamalariniza-600-tl-indirim-40611"
       }
     }
   },
   {
     "company": {
       "name": "Garanti BBVA Bonus",
-      "logo": "/images/companies/bonus.svg",
+      "logo": "/images/companies/bonus.png",
       "type": "bank"
     },
     "campaign": {
@@ -65,7 +65,7 @@
   {
     "company": {
       "name": "Garanti BBVA Bonus",
-      "logo": "/images/companies/bonus.svg",
+      "logo": "/images/companies/bonus.png",
       "type": "bank"
     },
     "campaign": {
@@ -120,7 +120,7 @@
       ],
       "categories": ["EV Charging", "Bank Card", "Worldpuan"],
       "links": {
-        "details": "https://chargetr.com/sarj-kampanyalari"
+        "details": ""
       }
     }
   },
@@ -194,7 +194,7 @@
       ],
       "categories": ["EV Charging", "Bank Card", "ParafPara"],
       "links": {
-        "details": "https://chargetr.com/sarj-kampanyalari"
+        "details": "https://www.paraf.com.tr/tr/kampanyalar/akaryakit/elektrikli-arac-sarj-istasyonu-harcamalariniza-400-tl-parafpara.html"
       }
     }
   },
@@ -225,6 +225,68 @@
       "categories": ["EV Charging", "Bank Card"],
       "links": {
         "details": "https://www.paraf.com.tr/tr/parafi-taniyin/elektrikli-arac-sarj-istasyonu-indirimi.html"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "ON",
+      "logo": "/images/companies/on.svg",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Elektrikli Araç Şarjında %20 İade",
+      "description": "1-30 Eylül 2026 tarihleri arasında ON Kredi Kartı ile elektrikli araç şarj istasyonlarında yapacağınız harcamaların %20'si, toplamda 500 TL'ye kadar nakit iade edilir.",
+      "startDate": "2026-09-01",
+      "endDate": "2026-09-30",
+      "combinable": true,
+      "compatibleWith": ["all"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 20
+      },
+      "conditions": [
+        "İlk harcamadan önce ON Dijital'den 'Hemen Katıl' tıklanmalıdır.",
+        "Kampanya yalnızca ON Dijital müşterileri içindir.",
+        "Elektrikli araç şarj sektöründeki harcamaların %20'si, en fazla 500 TL iade edilir.",
+        "Ödeme fiziki veya sanal ON Kredi Kartı ile yapılmalıdır.",
+        "Cüzdan bakiyesi yüklemeleri ve cüzdan ödemeleri kampanya dışındadır.",
+        "Nakit iade 5 iş gününde açık statülü karta yansıtılır."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://on.com.tr/on-kredi-karti-elektrikli-arac-sarj-kampanyasi"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "Kuveyt Türk",
+      "logo": "/images/companies/kuveytturk.svg",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Elektrikli Araç Şarjında 750 TL'ye Varan İndirim",
+      "description": "1-30 Eylül 2026 tarihleri arasında Kuveyt Türk bireysel kredi kartlarınızla elektrikli araç şarj istasyonlarında tek seferde 300 TL ve üzeri harcamaya %10, toplamda 750 TL indirim.",
+      "startDate": "2026-09-01",
+      "endDate": "2026-09-30",
+      "combinable": false,
+      "compatibleWith": ["all"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 10
+      },
+      "conditions": [
+        "Katılım gerekmez; elektrikli araç şarj istasyonunda harcama yeterlidir.",
+        "Tek seferde 300 TL ve üzeri harcamaya %10 indirim uygulanır.",
+        "Müşteri bazında en fazla 750 TL indirim kazanılabilir.",
+        "Sağlam Kart, Miles & Smiles, Özel Bankacılık World Elite, ek ve sanal kartlar dahildir.",
+        "Kampanya 50.000 müşteri ile sınırlıdır.",
+        "Kampanya başka kampanyalarla birleştirilemez."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.kuveytturk.com.tr/kampanyalar/kendim-icin/kart-kampanyalari/elektrikli-arac-sarjiniza-ozel-750-tlye-varan-indirim"
       }
     }
   }

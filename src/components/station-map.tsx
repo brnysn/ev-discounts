@@ -3,7 +3,7 @@
 import { CustomNavbar } from "@/components/custom-navbar"
 import companies from "@/app/data/data.json"
 import { getStationOffer, formatTl } from "@/lib/station-pricing"
-import { pickBestStation, type NearbyPort } from "@/lib/station-best"
+import { pickBestStation, dcKwBoundsFromStations, type NearbyPort } from "@/lib/station-best"
 import { haversineKm } from "@/lib/geo"
 import { sarjTrStationId, type StationStatusPayload } from "@/lib/station-status"
 import { socketRowsFromStation, speedRowsHtml } from "@/lib/station-sockets"
@@ -13,23 +13,14 @@ import { matchCities, matchStations, type GeocodeHit } from "@/lib/station-searc
 import { SocketSpeedRows } from "@/components/socket-speed-rows"
 import type { Company } from "@/types"
 import type { StationCompanyOffer, StationRecord, StationSnapshot, StationSocketGroup } from "@/types/stations"
-import {
-  ChevronRight,
-  Filter,
-  Loader2,
-  LocateFixed,
-  LocateOff,
-  MapPin,
-  Menu,
-  Navigation,
-  Search,
-  X,
-  Zap,
-} from "lucide-react"
+import { ChevronRight, Filter, LocateFixed, LocateOff, MapPin, Menu, Navigation, Search, X, Zap } from "@animated-color-icons/lucide-react"
+import { AnimatedUiIcon } from "@/components/animated-ui-icon"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react"
+import { Fragment, startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react"
 import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -54,6 +45,8 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css"
 const companyList = companies as Company[]
 const RADIUS_KM_OPTIONS = [5, 10, 15, 25] as const
 const DEFAULT_RADIUS_KM = 10
+const DC_KW_STEP = 10
+const DC_KW_DEFAULT_MIN = 150
 const LOCATION_PROMPT_KEY = "sarjkampanya.location-prompt.v2"
 const SHEET_PEEK_PX = 64
 const MAP_PAGE_MENU = [
@@ -174,6 +167,97 @@ type Filters = {
 
 type UserLocation = { lat: number; lng: number }
 
+function formatDistanceKm(km: number): string {
+  return `${km.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} km`
+}
+
+function applyDistanceLine(line: HTMLElement, origin: UserLocation | null) {
+  if (!origin) {
+    line.hidden = true
+    line.textContent = ""
+    return
+  }
+  const lat = Number(line.dataset.lat)
+  const lng = Number(line.dataset.lng)
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    line.hidden = true
+    line.textContent = ""
+    return
+  }
+  line.textContent = formatDistanceKm(haversineKm(origin, { lat, lng }))
+  line.hidden = false
+}
+
+function fillPopupDistance(root: ParentNode | null | undefined, origin: UserLocation | null) {
+  const line = root?.querySelector(".distance-line")
+  if (line instanceof HTMLElement) applyDistanceLine(line, origin)
+}
+
+function defaultDcKwRange(bounds: { min: number; max: number }): [number, number] {
+  const high = bounds.max
+  const low = Math.min(Math.max(DC_KW_DEFAULT_MIN, bounds.min), high)
+  return [low, high]
+}
+
+function DualRangeSlider({
+  min,
+  max,
+  step,
+  value,
+  onChange,
+  label,
+}: {
+  min: number
+  max: number
+  step: number
+  value: [number, number]
+  onChange: (value: [number, number]) => void
+  label: string
+}) {
+  const span = max - min || 1
+  const left = ((value[0] - min) / span) * 100
+  const right = ((value[1] - min) / span) * 100
+
+  return (
+    <div className="mt-3">
+      <div className="mb-1 flex items-center justify-between gap-2 text-xs">
+        <span className="font-medium">{label}</span>
+        <span className="tabular-nums text-muted-foreground">
+          {value[0]}–{value[1]} kW
+        </span>
+      </div>
+      <div className="dc-range">
+        <div className="dc-range-track" />
+        <div className="dc-range-fill" style={{ left: `${left}%`, width: `${Math.max(0, right - left)}%` }} />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value[0]}
+          aria-label="Minimum DC şarj hızı"
+          onChange={(event) => {
+            const next = Number(event.target.value)
+            onChange([Math.min(next, value[1]), value[1]])
+          }}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value[1]}
+          aria-label="Maksimum DC şarj hızı"
+          onChange={(event) => {
+            const next = Number(event.target.value)
+            onChange([value[0], Math.max(next, value[0])])
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
 const defaultFilters: Filters = {
   city: "all",
   company: "all",
@@ -220,6 +304,9 @@ function bankPortPriceHtml(oldPrice: number, newPrice: number, label?: string): 
 type DisplayBankDeal = {
   title: string
   description: string
+  name: string
+  logo: string
+  detailsUrl?: string
   prices: { label?: string; oldPrice: number; newPrice: number }[]
 }
 
@@ -235,6 +322,9 @@ function displayBankDeals(
       const current = byTitle.get(deal.title) ?? {
         title: deal.title,
         description: deal.description,
+        name: deal.name,
+        logo: deal.logo,
+        detailsUrl: deal.detailsUrl,
         prices: [],
       }
       current.prices.push({ label, oldPrice: deal.oldPrice, newPrice: deal.newPrice })
@@ -250,56 +340,153 @@ function displayBankDeals(
   return deals
 }
 
-function offerDealsHtml(station: StationRecord, offer: StationCompanyOffer): string {
+function listPriceHtml(station: StationRecord, offer: StationCompanyOffer): string {
+  return `${station.dc > 0 ? priceLine("DC", offer.dc) : ""}${station.ac > 0 ? priceLine("AC", offer.ac) : ""}`
+}
+
+function networkCampaignHtml(station: StationRecord, offer: StationCompanyOffer): string {
   const campaignName = offer.dc?.campaignName || offer.ac?.campaignName
+  if (!campaignName) return ""
+  return `<div class="deal">Ağ kampanyası: ${escapeHtml(campaignName)}</div><div class="deal">${escapeHtml(portPriceSummary(station, offer, (price) => price.networkPrice))} TL/kWh</div>`
+}
+
+function bankPricesHtml(prices: DisplayBankDeal["prices"]): string {
+  return prices.map((price) => bankPortPriceHtml(price.oldPrice, price.newPrice, price.label)).join("")
+}
+
+function bankLogoHtml(deal: DisplayBankDeal): string {
+  if (deal.logo) {
+    return `<img class="bank-logo" src="${escapeHtml(deal.logo)}" alt="${escapeHtml(deal.name)}" width="80" height="32">`
+  }
+  return `<span class="muted">${escapeHtml(deal.name)}</span>`
+}
+
+function bankCampaignsHtml(station: StationRecord, offer: StationCompanyOffer): string {
   const bankDeals = displayBankDeals(station, offer)
-  let html = ""
-  if (campaignName) {
-    html += `<div class="deal">Ağ kampanyası: ${escapeHtml(campaignName)}</div>`
-    html += `<div class="deal">${escapeHtml(portPriceSummary(station, offer, (price) => price.networkPrice))} TL/kWh</div>`
-  }
-  if (bankDeals.length) {
-    html += `<div class="bank-deal"><div class="bank-hook">Banka kampanyasıyla daha az ödeyin</div>`
-    for (const deal of bankDeals) {
-      html += `
-        <div class="bank-item">
-          <details>
-            <summary class="bank-title">${escapeHtml(deal.title)}</summary>
+  if (!bankDeals.length) return ""
+  let html = `<div class="bank-deal"><div class="bank-hook">Banka kampanyasıyla daha az ödeyin</div>`
+  for (const deal of bankDeals) {
+    html += `
+        <details class="bank-item">
+          <summary class="bank-row">
+            ${bankLogoHtml(deal)}
+            <div class="bank-prices">${bankPricesHtml(deal.prices)}</div>
+          </summary>
+          <div class="bank-body">
+            <div class="bank-title">${escapeHtml(deal.title)}</div>
             ${deal.description ? `<p class="bank-desc">${escapeHtml(deal.description)}</p>` : ""}
-          </details>
-          ${deal.prices.map((price) => bankPortPriceHtml(price.oldPrice, price.newPrice, price.label)).join("")}
-        </div>`
-    }
-    html += `</div>`
+            ${deal.detailsUrl ? `<a class="bank-link" href="${escapeHtml(deal.detailsUrl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Kampanya detayı</a>` : ""}
+          </div>
+        </details>`
   }
+  html += `</div>`
   return html
+}
+
+function brandBlockHtml(station: StationRecord, offer: StationCompanyOffer | null): string {
+  if (offer?.logo) {
+    const logo = `<img class="brand-logo" src="${escapeHtml(offer.logo)}" alt="" width="32" height="32">`
+    return station.public ? logo : `${logo}<div class="muted">Özel</div>`
+  }
+  const brand = station.brand || offer?.companyName || ""
+  if (!brand) {
+    return station.public ? "" : `<div class="muted">Özel</div>`
+  }
+  return `<div class="muted">${escapeHtml(brand)}${station.public ? "" : " · Özel"}</div>`
 }
 
 function BankCampaignDeals({ deals }: { deals: DisplayBankDeal[] }) {
   if (!deals.length) return null
   return (
-    <div className="mt-2">
-      <div className="text-xs text-muted-foreground">Banka kampanyasıyla daha az ödeyin</div>
+    <div className="bank-deal">
+      <div className="bank-hook">Banka kampanyasıyla daha az ödeyin</div>
       {deals.map((deal) => (
-        <div key={deal.title} className="mt-2">
-          <details>
-            <summary className="cursor-pointer list-none text-sm font-semibold underline decoration-slate-400 underline-offset-2 [&::-webkit-details-marker]:hidden">
-              {deal.title}
-            </summary>
-            {deal.description ? (
-              <p className="mt-1.5 text-xs leading-snug text-muted-foreground">{deal.description}</p>
-            ) : null}
-          </details>
-          {deal.prices.map((price) => (
-            <div key={`${deal.title}-${price.label ?? "price"}`} className="mt-1">
-              {price.label ? <div className="text-[11px] font-bold">{price.label}</div> : null}
-              <div className="text-sm text-red-600/50 line-through">{formatTl(price.oldPrice)} TL/kWh</div>
-              <div className="text-base font-bold text-green-600">{formatTl(price.newPrice)} TL/kWh</div>
+        <details key={deal.title} className="bank-item">
+          <summary className="bank-row">
+            {deal.logo ? (
+              <Image src={deal.logo} alt={deal.name} width={80} height={32} className="bank-logo" unoptimized />
+            ) : (
+              <span className="muted">{deal.name}</span>
+            )}
+            <div className="bank-prices">
+              {deal.prices.map((price) => (
+                <Fragment key={`${deal.title}-${price.label ?? "price"}`}>
+                  {price.label ? <div className="bank-port">{price.label}</div> : null}
+                  <div className="bank-old">{formatTl(price.oldPrice)} TL/kWh</div>
+                  <div className="bank-new">{formatTl(price.newPrice)} TL/kWh</div>
+                </Fragment>
+              ))}
             </div>
-          ))}
-        </div>
+          </summary>
+          <div className="bank-body">
+            <div className="bank-title">{deal.title}</div>
+            {deal.description ? <p className="bank-desc">{deal.description}</p> : null}
+            {deal.detailsUrl ? (
+              <a
+                className="bank-link"
+                href={deal.detailsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(event) => event.stopPropagation()}
+              >
+                Kampanya detayı
+              </a>
+            ) : null}
+          </div>
+        </details>
       ))}
     </div>
+  )
+}
+
+function BrandMark({ station, offer }: { station: StationRecord; offer: StationCompanyOffer | null }) {
+  if (offer?.logo) {
+    return (
+      <>
+        <Image src={offer.logo} alt="" width={32} height={32} className="brand-logo" unoptimized />
+        {!station.public ? <div className="muted">Özel</div> : null}
+      </>
+    )
+  }
+  const brand = station.brand || offer?.companyName
+  if (!brand) {
+    return station.public ? null : <div className="muted">Özel</div>
+  }
+  return (
+    <div className="muted">
+      {brand}
+      {station.public ? "" : " · Özel"}
+    </div>
+  )
+}
+
+function PriceRows({ station, offer }: { station: StationRecord; offer: StationCompanyOffer }) {
+  const campaignName = offer.dc?.campaignName || offer.ac?.campaignName
+  return (
+    <>
+      {station.dc > 0 && offer.dc ? (
+        <div className="price-row">
+          <span className="port">DC</span>
+          <span className="price">
+            <strong>{formatTl(offer.dc.original)} TL/kWh</strong>
+          </span>
+        </div>
+      ) : null}
+      {station.ac > 0 && offer.ac ? (
+        <div className="price-row">
+          <span className="port">AC</span>
+          <span className="price">
+            <strong>{formatTl(offer.ac.original)} TL/kWh</strong>
+          </span>
+        </div>
+      ) : null}
+      {campaignName ? (
+        <>
+          <div className="deal">Ağ kampanyası: {campaignName}</div>
+          <div className="deal">{portPriceSummary(station, offer, (price) => price.networkPrice)} TL/kWh</div>
+        </>
+      ) : null}
+    </>
   )
 }
 
@@ -309,7 +496,6 @@ function StationDetailCard({
   offer,
   occupancy,
   distanceKm,
-  port,
   onFocus,
 }: {
   heading: string
@@ -317,94 +503,59 @@ function StationDetailCard({
   offer: StationCompanyOffer | null
   occupancy: StationStatusPayload | null
   distanceKm?: number
-  port?: "ac" | "dc"
   onFocus?: () => void
 }) {
   const name = station.name || station.brand
-  const deals = offer ? displayBankDeals(station, offer, port) : []
-  const portLabel = port ? port.toUpperCase() : station.dc > 0 ? "DC" : station.ac > 0 ? "AC" : ""
-  const campaignName = offer?.dc?.campaignName || offer?.ac?.campaignName
-  const priced = port === "ac" ? offer?.ac : port === "dc" ? offer?.dc : offer?.dc ?? offer?.ac
+  const deals = offer ? displayBankDeals(station, offer) : []
 
   return (
     <div className="station-best rounded-lg border bg-background p-3 text-sm shadow-lg">
       <div className="mb-1 text-xs font-medium text-muted-foreground">{heading}</div>
-      <button type="button" className="mb-2 w-full text-left" onClick={onFocus}>
-        <div className="text-base font-semibold leading-snug">{name}</div>
-        {station.brand && station.brand !== name ? (
-          <div className="text-xs text-muted-foreground">{station.brand}</div>
-        ) : null}
-      </button>
-      <Button
-        className="mb-2 h-10 w-full rounded-xl bg-zinc-950 text-white hover:bg-zinc-800"
-        onClick={() => {
-          window.open(directionsUrl(station.lat, station.lng), "_blank", "noopener,noreferrer")
-        }}
-      >
-        <Navigation className="size-4 fill-white" />
-        Yol tarifi al
-      </Button>
-      <SocketSpeedRows station={station} occupancy={occupancy} />
-      <button type="button" className="mt-2 w-full text-left" onClick={onFocus}>
-        <div className="text-muted-foreground">
-          {distanceKm != null
-            ? `${distanceKm.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} km`
-            : station.address || station.city}
-          {portLabel ? ` · ${portLabel}` : ""}
-          {priced && !deals.length ? (
-            priced.hasCampaign ? (
-              <>
-                {" "}
-                <s>{formatTl(priced.original)}</s> {formatTl(priced.discounted)} TL/kWh
-              </>
-            ) : (
-              <> {formatTl(priced.discounted)} TL/kWh</>
-            )
-          ) : null}
-        </div>
-        {campaignName ? <div className="text-xs font-medium text-green-700">Ağ: {campaignName}</div> : null}
-      </button>
-      {offer ? <BankCampaignDeals deals={deals} /> : null}
+      <div className="station-popup">
+        <button type="button" className="w-full text-left" onClick={onFocus}>
+          <strong>{name}</strong>
+        </button>
+        <BrandMark station={station} offer={offer} />
+        <SocketSpeedRows station={station} occupancy={occupancy} />
+        {offer ? <PriceRows station={station} offer={offer} /> : null}
+        {distanceKm != null ? <div className="muted">{formatDistanceKm(distanceKm)}</div> : null}
+        <button
+          type="button"
+          className="popup-btn al-icon-wrapper"
+          onClick={() => {
+            window.open(directionsUrl(station.lat, station.lng), "_blank", "noopener,noreferrer")
+          }}
+        >
+          <AnimatedUiIcon icon={Navigation} />
+          Yol tarifi al
+        </button>
+        <BankCampaignDeals deals={deals} />
+      </div>
     </div>
   )
 }
 
+const CLOSE_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-lucide-icon animated-lucide-icon-x" aria-hidden="true"><path d="M18 6 6 18" class="al-primary al-anim-scale-pop al-delay-0"/><path d="m6 6 12 12" class="al-secondary al-anim-scale-pop al-delay-1"/></svg>'
+
 const NAV_SVG =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>'
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-lucide-icon animated-lucide-icon-navigation" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11" class="al-primary al-anim-rocket-lift al-delay-0"/></svg>'
 
 function popupHtml(station: StationRecord, offer: StationCompanyOffer | null): string {
   const maps = directionsUrl(station.lat, station.lng)
-  const offerBlock = offer
-    ? `
-      <div class="offer">
-        <div class="network">${escapeHtml(offer.companyName)}</div>
-        ${station.dc > 0 ? priceLine("DC", offer.dc) : ""}
-        ${station.ac > 0 ? priceLine("AC", offer.ac) : ""}
-        ${offerDealsHtml(station, offer)}
-      </div>`
-    : ""
-
-  const brandIsNetwork =
-    offer &&
-    station.brand &&
-    station.brand.toLocaleLowerCase("tr-TR") === offer.companyName.toLocaleLowerCase("tr-TR")
-  const brandLine = brandIsNetwork
-    ? station.public
-      ? ""
-      : `<div class="muted">Özel</div>`
-    : `<div class="muted">${escapeHtml(station.brand)}${station.public ? "" : " · Özel"}</div>`
-
   const groupsAttr = station.groups?.length ? escapeHtml(JSON.stringify(station.groups)) : ""
 
   return `
     <div class="station-popup">
       <strong>${escapeHtml(station.name || station.brand)}</strong>
-      ${brandLine}
-      <button type="button" class="popup-btn" onclick="window.open('${maps}','_blank','noopener,noreferrer')">${NAV_SVG} Yol tarifi al</button>
+      ${brandBlockHtml(station, offer)}
       <div class="speed-list" data-status-id="${escapeHtml(station.id)}" data-lat="${station.lat}" data-lng="${station.lng}" data-ac="${station.ac}" data-dc="${station.dc}" data-max-kw="${station.maxKw}" data-groups="${groupsAttr}">
         ${speedRowsHtml(socketRowsFromStation(station))}
       </div>
-      ${offerBlock}
+      ${offer ? `${listPriceHtml(station, offer)}${networkCampaignHtml(station, offer)}` : ""}
+      <div class="muted distance-line" hidden data-lat="${station.lat}" data-lng="${station.lng}"></div>
+      <button type="button" class="popup-btn al-icon-wrapper" onclick="window.open('${maps}','_blank','noopener,noreferrer')">${NAV_SVG} Yol tarifi al</button>
+      ${offer ? bankCampaignsHtml(station, offer) : ""}
     </div>
   `
 }
@@ -448,8 +599,8 @@ export function StationMap() {
   const leafletRef = useRef<typeof import("leaflet") | null>(null)
   const snapshotRef = useRef<StationSnapshot | null>(null)
   const bestIdRef = useRef<string | undefined>(undefined)
+  const highlightedIdRef = useRef<string | undefined>(undefined)
   const refreshMarkerIconRef = useRef<(id: string) => void>(() => {})
-  const lastOpenedBestRef = useRef<string | null>(null)
   const focusStationMarkerRef = useRef<(marker: Marker) => void>(() => {})
   const selectStationRef = useRef<(id: string) => void>(() => {})
   const selectedIdRef = useRef<string | null>(null)
@@ -467,10 +618,13 @@ export function StationMap() {
   const [locationPromptOpen, setLocationPromptOpen] = useState(false)
   const [gpsDenied, setGpsDenied] = useState(false)
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null)
+  const userLocationRef = useRef<UserLocation | null>(null)
+  userLocationRef.current = userLocation
   const [radiusKm, setRadiusKm] = useState(DEFAULT_RADIUS_KM)
   const [nearbyPort, setNearbyPort] = useState<NearbyPort>("dc")
+  const [dcKwRange, setDcKwRange] = useState<[number, number] | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [selectedOccupancy, setSelectedOccupancy] = useState<StationStatusPayload | null>(null)
+  const [bestOccupancy, setBestOccupancy] = useState<StationStatusPayload | null>(null)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [sheetDragging, setSheetDragging] = useState(false)
   const [navOpen, setNavOpen] = useState(false)
@@ -533,24 +687,31 @@ export function StationMap() {
     })
   }, [snapshot, filters, offers])
 
+  const dcKwBounds = useMemo(
+    () => dcKwBoundsFromStations(snapshot?.stations ?? []),
+    [snapshot]
+  )
+  const effectiveDcKwRange = useMemo(() => {
+    const [low, high] = dcKwRange ?? defaultDcKwRange(dcKwBounds)
+    const min = Math.min(Math.max(low, dcKwBounds.min), dcKwBounds.max)
+    const max = Math.min(Math.max(high, min), dcKwBounds.max)
+    return [min, max] as [number, number]
+  }, [dcKwRange, dcKwBounds])
+
   const bestStation = useMemo(() => {
     if (!userLocation) return null
-    return pickBestStation(userLocation, radiusKm, filtered, offers, nearbyPort)
-  }, [userLocation, radiusKm, filtered, offers, nearbyPort])
+    return pickBestStation(
+      userLocation,
+      radiusKm,
+      filtered,
+      offers,
+      nearbyPort,
+      nearbyPort === "dc" ? { min: effectiveDcKwRange[0], max: effectiveDcKwRange[1] } : null
+    )
+  }, [userLocation, radiusKm, filtered, offers, nearbyPort, effectiveDcKwRange])
 
-  const activeStation = useMemo(() => {
-    if (selectedId && snapshot) {
-      return snapshot.stations.find((station) => station.id === selectedId) ?? null
-    }
-    return bestStation?.station ?? null
-  }, [selectedId, snapshot, bestStation])
-
-  const activeOffer = activeStation ? (offers.get(activeStation.id) ?? null) : null
-  const activeDistanceKm =
-    activeStation && userLocation ? haversineKm(userLocation, activeStation) : undefined
-  const activeIsBest = Boolean(bestStation && activeStation && bestStation.station.id === activeStation.id)
-  const activePort = activeIsBest ? bestStation?.port : undefined
-  const activeOccupancy = selectedOccupancy
+  const bestOffer = bestStation?.offer ?? null
+  const bestDistanceKm = bestStation?.distanceKm
 
   snapshotRef.current = snapshot
   bestIdRef.current = bestStation?.station.id
@@ -560,10 +721,12 @@ export function StationMap() {
     const marker = markerByIdRef.current.get(id)
     const station = snapshotRef.current?.stations.find((item) => item.id === id)
     if (!leaflet || !marker || !station) return
-    const highlightId = selectedIdRef.current ?? bestIdRef.current
+    const highlightId = bestIdRef.current
+    const highlighted = highlightId === id
     marker.setIcon(
-      stationPinDivIcon(leaflet, station, occupancyCacheRef.current.get(id) ?? null, highlightId === id)
+      stationPinDivIcon(leaflet, station, occupancyCacheRef.current.get(id) ?? null, highlighted)
     )
+    marker.setZIndexOffset(highlighted ? 800 : 0)
   }
 
   useEffect(() => {
@@ -685,8 +848,16 @@ export function StationMap() {
           )
         }
         const popupRoot = event.popup.getElement()
+        const closeBtn = popupRoot?.querySelector(".leaflet-popup-close-button")
+        if (closeBtn instanceof HTMLElement && closeBtn.dataset.animated !== "1") {
+          closeBtn.dataset.animated = "1"
+          closeBtn.classList.add("al-icon-wrapper")
+          closeBtn.innerHTML = CLOSE_SVG
+        }
         const scrolled = popupRoot?.querySelector(".leaflet-popup-content") as HTMLElement | null
         if (scrolled) scrolled.scrollTop = 0
+        fillPopupDistance(popupRoot, userLocationRef.current)
+        if (popupRoot) refreshPopupLayout(event.popup)
         if (popupRoot && popupRoot.dataset.bankToggle !== "1") {
           popupRoot.dataset.bankToggle = "1"
           popupRoot.addEventListener(
@@ -805,12 +976,11 @@ export function StationMap() {
       group.clearLayers()
       markerByIdRef.current = new Map()
 
-      const bestId = bestStation?.station.id
+      const bestId = bestIdRef.current
       const layers: import("leaflet").Layer[] = []
-      const highlightId = selectedIdRef.current ?? bestId
       for (const station of filtered) {
         const offer = offers.get(station.id) ?? null
-        const highlighted = station.id === highlightId
+        const highlighted = station.id === bestId
         const marker = L.marker([station.lat, station.lng], {
           icon: stationPinDivIcon(L, station, occupancyCacheRef.current.get(station.id) ?? null, highlighted),
           zIndexOffset: highlighted ? 800 : 0,
@@ -831,18 +1001,22 @@ export function StationMap() {
         mapInstance.fitBounds(group.getBounds(), { padding: [48, 72], maxZoom: 11 })
         mapInstance.invalidateSize()
       }
-
-      if (bestId && lastOpenedBestRef.current !== bestId) {
-        lastOpenedBestRef.current = bestId
-        window.setTimeout(() => selectStationRef.current(bestId), 300)
-      }
     }
 
     void redraw()
     return () => {
       cancelled = true
     }
-  }, [filtered, offers, mapReady, bestStation?.station.id, userLocation])
+  }, [filtered, offers, mapReady, userLocation])
+
+  useEffect(() => {
+    const next = bestStation?.station.id
+    const prev = highlightedIdRef.current
+    if (prev === next) return
+    if (prev) refreshMarkerIconRef.current(prev)
+    if (next) refreshMarkerIconRef.current(next)
+    highlightedIdRef.current = next
+  }, [bestStation?.station.id])
 
   useEffect(() => {
     if (!mapReady || !mapRef.current) return
@@ -902,27 +1076,40 @@ export function StationMap() {
   }, [mapReady, userLocation, radiusKm])
 
   useEffect(() => {
-    if (!activeStation) {
-      setSelectedOccupancy(null)
+    const root = mapEl.current
+    if (!root) return
+    for (const node of root.querySelectorAll(".distance-line")) {
+      if (node instanceof HTMLElement) applyDistanceLine(node, userLocation)
+    }
+    for (const marker of markerByIdRef.current.values()) {
+      if (!marker.isPopupOpen()) continue
+      const popup = marker.getPopup()
+      if (popup) refreshPopupLayout(popup)
+    }
+  }, [userLocation])
+
+  useEffect(() => {
+    if (!bestStation) {
+      setBestOccupancy(null)
       return
     }
     let cancelled = false
-    const cached = occupancyCacheRef.current.get(activeStation.id)
+    const cached = occupancyCacheRef.current.get(bestStation.station.id)
     if (cached !== undefined) {
-      setSelectedOccupancy(cached)
+      setBestOccupancy(cached)
     } else {
-      setSelectedOccupancy(null)
+      setBestOccupancy(null)
     }
-    void fetchStationStatus(activeStation.id, activeStation.lat, activeStation.lng).then(({ data }) => {
+    void fetchStationStatus(bestStation.station.id, bestStation.station.lat, bestStation.station.lng).then(({ data }) => {
       if (cancelled) return
-      occupancyCacheRef.current.set(activeStation.id, data)
-      refreshMarkerIconRef.current(activeStation.id)
-      setSelectedOccupancy(data)
+      occupancyCacheRef.current.set(bestStation.station.id, data)
+      refreshMarkerIconRef.current(bestStation.station.id)
+      setBestOccupancy(data)
     })
     return () => {
       cancelled = true
     }
-  }, [activeStation])
+  }, [bestStation])
 
   useEffect(() => {
     const map = mapRef.current
@@ -1077,7 +1264,6 @@ export function StationMap() {
     selectedIdRef.current = null
     setSelectedId(null)
     setUserLocation({ lat, lng })
-    lastOpenedBestRef.current = null
     setLocationPromptOpen(false)
     setGpsDenied(false)
     setLocateBusy(false)
@@ -1263,9 +1449,9 @@ export function StationMap() {
           <button
             type="button"
             onClick={requestLocation}
-            className="absolute top-3 right-3 z-[500] flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1.5 text-sm font-medium text-white shadow-md"
+            className="al-icon-wrapper absolute top-3 right-3 z-[500] flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1.5 text-sm font-medium text-white shadow-md"
           >
-            <LocateOff className="size-4" />
+            <AnimatedUiIcon icon={LocateOff} />
             GPS reddedildi
           </button>
         ) : null}
@@ -1316,7 +1502,7 @@ export function StationMap() {
         <div
           ref={sheetRef}
           data-station-sheet
-          className={`absolute inset-x-0 bottom-0 z-[500] flex flex-col overflow-hidden rounded-t-2xl border bg-background shadow-[0_-8px_30px_rgba(0,0,0,0.12)] md:inset-auto md:top-3 md:left-3 md:bottom-auto md:max-h-[calc(100dvh-96px)] md:w-[360px] md:gap-3 md:overflow-y-auto md:rounded-lg md:border-0 md:bg-transparent md:shadow-none ${
+          className={`absolute inset-x-0 bottom-0 z-[500] grid grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-t-2xl border bg-background shadow-[0_-8px_30px_rgba(0,0,0,0.12)] md:inset-auto md:top-3 md:left-3 md:bottom-auto md:max-h-[calc(100dvh-96px)] md:w-[360px] md:gap-3 md:overflow-hidden md:rounded-lg md:border-0 md:bg-transparent md:shadow-none ${
             sheetDragging ? "" : "duration-200 ease-out md:transition-none max-md:transition-[height]"
           }`}
         >
@@ -1343,17 +1529,20 @@ export function StationMap() {
             <Button
               variant="outline"
               size="icon"
-              className="bg-background shadow-md md:hidden"
+              className="al-icon-wrapper bg-background shadow-md md:hidden"
               onClick={() => {
                 setSheetOpen(false)
                 setNavOpen(true)
               }}
               aria-label="Menü"
             >
-              <Menu className="size-4" />
+              <AnimatedUiIcon icon={Menu} />
             </Button>
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+            <div className="al-icon-wrapper relative flex-1">
+              <AnimatedUiIcon
+                icon={Search}
+                className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+              />
               <Input
                 value={searchText}
                 onChange={(event) => {
@@ -1370,28 +1559,33 @@ export function StationMap() {
             <Button
               variant="outline"
               size="icon"
-              className="bg-background shadow-md"
+              className="al-icon-wrapper bg-background shadow-md"
               onClick={() => {
                 setFiltersOpen((open) => !open)
                 if (!filtersOpen) setSheetOpen(true)
               }}
               aria-label="Filtreler"
             >
-              {filtersOpen ? <X className="size-4" /> : <Filter className="size-4" />}
+              {filtersOpen ? <AnimatedUiIcon icon={X} /> : <AnimatedUiIcon icon={Filter} />}
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="bg-background shadow-md"
+              className="al-icon-wrapper bg-background shadow-md"
               onClick={locate}
               disabled={locateBusy}
               aria-label="Konumuma git"
             >
-              {locateBusy ? <Loader2 className="size-4 animate-spin" /> : <LocateFixed className="size-4" />}
+              {locateBusy ? <Loader2 className="size-4 animate-spin" /> : <AnimatedUiIcon icon={LocateFixed} />}
             </Button>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overscroll-contain px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:gap-3 md:px-0 md:pb-0">
+          <ScrollArea
+            type="auto"
+            className="min-h-0"
+            viewportClassName="h-full max-h-none md:h-auto md:max-h-[calc(100dvh-152px)]"
+          >
+          <div className="flex flex-col gap-2 overscroll-contain px-3 pb-[max(12px,env(safe-area-inset-bottom))] md:gap-3 md:px-0.5 md:pb-0.5">
 
           {hasSearchQuery ? (
             <div className="overflow-hidden rounded-lg border bg-background shadow-lg">
@@ -1399,17 +1593,17 @@ export function StationMap() {
                 <button
                   key={`city-${city}`}
                   type="button"
-                  className="flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                  className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                   onClick={() => focusCity(city)}
                 >
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700">
-                    <MapPin className="size-4" />
+                    <AnimatedUiIcon icon={MapPin} />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium text-sky-700">{city}</span>
                     <span className="block text-xs text-muted-foreground">İl</span>
                   </span>
-                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                  <AnimatedUiIcon icon={ChevronRight} className="shrink-0 text-muted-foreground" />
                 </button>
               ))}
               {searchStations.map((station) => {
@@ -1419,7 +1613,7 @@ export function StationMap() {
                   <button
                     key={station.id}
                     type="button"
-                    className="flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                    className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                     onClick={() => selectStation(station.id)}
                   >
                     {offer?.logo ? (
@@ -1428,12 +1622,12 @@ export function StationMap() {
                         alt=""
                         width={32}
                         height={32}
-                        className="size-8 shrink-0 rounded-full bg-zinc-950 object-contain p-1"
+                        className="size-8 shrink-0 object-contain"
                         unoptimized
                       />
                     ) : (
                       <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
-                        <Zap className="size-4 fill-white" />
+                        <AnimatedUiIcon icon={Zap} />
                       </span>
                     )}
                     <span className="min-w-0 flex-1">
@@ -1447,7 +1641,7 @@ export function StationMap() {
                         {station.maxKw} kW
                       </span>
                     ) : null}
-                    <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                    <AnimatedUiIcon icon={ChevronRight} className="shrink-0 text-muted-foreground" />
                   </button>
                 )
               })}
@@ -1455,11 +1649,11 @@ export function StationMap() {
                 <button
                   key={`${hit.lat},${hit.lng},${hit.label}`}
                   type="button"
-                  className="flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                  className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                   onClick={() => focusPlace(hit.lat, hit.lng)}
                 >
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700">
-                    <MapPin className="size-4" />
+                    <AnimatedUiIcon icon={MapPin} />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium text-sky-700">{hit.title}</span>
@@ -1467,7 +1661,7 @@ export function StationMap() {
                       <span className="block truncate text-xs text-muted-foreground">{hit.subtitle}</span>
                     ) : null}
                   </span>
-                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                  <AnimatedUiIcon icon={ChevronRight} className="shrink-0 text-muted-foreground" />
                 </button>
               ))}
               {geocodeBusy && debouncedQuery.length >= 3 ? (
@@ -1572,10 +1766,7 @@ export function StationMap() {
                     type="button"
                     size="sm"
                     variant={radiusKm === value ? "default" : "outline"}
-                    onClick={() => {
-                      lastOpenedBestRef.current = null
-                      setRadiusKm(value)
-                    }}
+                    onClick={() => setRadiusKm(value)}
                   >
                     {value} km
                   </Button>
@@ -1595,27 +1786,33 @@ export function StationMap() {
                     type="button"
                     size="sm"
                     variant={nearbyPort === value ? "default" : "outline"}
-                    onClick={() => {
-                      lastOpenedBestRef.current = null
-                      setNearbyPort(value)
-                    }}
+                    onClick={() => setNearbyPort(value)}
                   >
                     {label}
                   </Button>
                 ))}
               </div>
+              {nearbyPort === "dc" ? (
+                <DualRangeSlider
+                  min={dcKwBounds.min}
+                  max={dcKwBounds.max}
+                  step={DC_KW_STEP}
+                  value={effectiveDcKwRange}
+                  onChange={setDcKwRange}
+                  label="DC şarj hızı"
+                />
+              ) : null}
             </div>
           )}
 
-          {activeStation ? (
+          {bestStation ? (
             <StationDetailCard
-              heading={activeIsBest ? "En uygun istasyon" : "Seçilen istasyon"}
-              station={activeStation}
-              offer={activeOffer}
-              occupancy={activeOccupancy}
-              distanceKm={activeDistanceKm}
-              port={activePort}
-              onFocus={() => openStationPopup(activeStation.id)}
+              heading="En uygun istasyon"
+              station={bestStation.station}
+              offer={bestOffer}
+              occupancy={bestOccupancy}
+              distanceKm={bestDistanceKm}
+              onFocus={() => openStationPopup(bestStation.station.id)}
             />
           ) : userLocation ? (
             <div className="rounded-lg border bg-background p-3 text-sm text-muted-foreground shadow-lg">
@@ -1624,6 +1821,7 @@ export function StationMap() {
           ) : null}
 
           </div>
+          </ScrollArea>
         </div>
       </div>
     </div>
