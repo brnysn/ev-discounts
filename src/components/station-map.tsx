@@ -146,14 +146,15 @@ function centerLatLngInView(
   map.setView(map.unproject(target, zoom), zoom, { animate: false })
 }
 
-function refreshPopupLayout(popup: {
-  _updateLayout?: () => void
-  _updatePosition?: () => void
-  _adjustPan?: () => void
-}) {
-  popup._updateLayout?.()
-  popup._updatePosition?.()
-  if (isDesktopMap()) popup._adjustPan?.()
+function refreshPopupLayout(popup: import("leaflet").Popup) {
+  const layout = popup as import("leaflet").Popup & {
+    _updateLayout?: () => void
+    _updatePosition?: () => void
+    _adjustPan?: () => void
+  }
+  layout._updateLayout?.()
+  layout._updatePosition?.()
+  if (isDesktopMap()) layout._adjustPan?.()
 }
 
 type Filters = {
@@ -166,6 +167,7 @@ type Filters = {
 }
 
 type UserLocation = { lat: number; lng: number }
+type MapOrigin = UserLocation & { source: "gps" | "search" }
 
 function formatDistanceKm(km: number): string {
   return `${km.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} km`
@@ -591,7 +593,8 @@ export function StationMap() {
   const mapRef = useRef<LeafletMap | null>(null)
   const clusterRef = useRef<MarkerClusterGroup | null>(null)
   const circleRef = useRef<Circle | null>(null)
-  const userMarkerRef = useRef<CircleMarker | null>(null)
+  const userMarkerRef = useRef<Marker | null>(null)
+  const originDragRef = useRef(false)
   const placeMarkerRef = useRef<CircleMarker | null>(null)
   const markerByIdRef = useRef<Map<string, Marker>>(new Map())
   const occupancyCacheRef = useRef(new Map<string, StationStatusPayload | null>())
@@ -618,8 +621,9 @@ export function StationMap() {
   const [locationPromptOpen, setLocationPromptOpen] = useState(false)
   const [gpsDenied, setGpsDenied] = useState(false)
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null)
-  const userLocationRef = useRef<UserLocation | null>(null)
-  userLocationRef.current = userLocation
+  const [origin, setOrigin] = useState<MapOrigin | null>(null)
+  const originRef = useRef<MapOrigin | null>(null)
+  originRef.current = origin
   const [radiusKm, setRadiusKm] = useState(DEFAULT_RADIUS_KM)
   const [nearbyPort, setNearbyPort] = useState<NearbyPort>("dc")
   const [dcKwRange, setDcKwRange] = useState<[number, number] | null>(null)
@@ -699,16 +703,16 @@ export function StationMap() {
   }, [dcKwRange, dcKwBounds])
 
   const bestStation = useMemo(() => {
-    if (!userLocation) return null
+    if (!origin) return null
     return pickBestStation(
-      userLocation,
+      origin,
       radiusKm,
       filtered,
       offers,
       nearbyPort,
       nearbyPort === "dc" ? { min: effectiveDcKwRange[0], max: effectiveDcKwRange[1] } : null
     )
-  }, [userLocation, radiusKm, filtered, offers, nearbyPort, effectiveDcKwRange])
+  }, [origin, radiusKm, filtered, offers, nearbyPort, effectiveDcKwRange])
 
   const bestOffer = bestStation?.offer ?? null
   const bestDistanceKm = bestStation?.distanceKm
@@ -856,7 +860,7 @@ export function StationMap() {
         }
         const scrolled = popupRoot?.querySelector(".leaflet-popup-content") as HTMLElement | null
         if (scrolled) scrolled.scrollTop = 0
-        fillPopupDistance(popupRoot, userLocationRef.current)
+        fillPopupDistance(popupRoot, originRef.current)
         if (popupRoot) refreshPopupLayout(event.popup)
         if (popupRoot && popupRoot.dataset.bankToggle !== "1") {
           popupRoot.dataset.bankToggle = "1"
@@ -960,7 +964,7 @@ export function StationMap() {
       window.removeEventListener("resize", syncSize)
       observer?.disconnect()
     }
-  }, [mapReady, locationPromptOpen, userLocation, filtersOpen])
+  }, [mapReady, locationPromptOpen, origin, filtersOpen])
 
   useEffect(() => {
     const cluster = clusterRef.current
@@ -996,7 +1000,7 @@ export function StationMap() {
       }
       group.addLayers(layers)
       const mapInstance = mapRef.current
-      if (mapInstance && layers.length && !didFitRef.current && !userLocation) {
+      if (mapInstance && layers.length && !didFitRef.current && !origin) {
         didFitRef.current = true
         mapInstance.fitBounds(group.getBounds(), { padding: [48, 72], maxZoom: 11 })
         mapInstance.invalidateSize()
@@ -1007,7 +1011,7 @@ export function StationMap() {
     return () => {
       cancelled = true
     }
-  }, [filtered, offers, mapReady, userLocation])
+  }, [filtered, offers, mapReady, origin])
 
   useEffect(() => {
     const next = bestStation?.station.id
@@ -1028,7 +1032,7 @@ export function StationMap() {
       const map = mapRef.current
       if (cancelled || !map) return
 
-      if (!userLocation) {
+      if (!origin) {
         circleRef.current?.remove()
         userMarkerRef.current?.remove()
         circleRef.current = null
@@ -1038,10 +1042,10 @@ export function StationMap() {
 
       const radiusMeters = radiusKm * 1000
       if (circleRef.current) {
-        circleRef.current.setLatLng(userLocation)
+        if (!originDragRef.current) circleRef.current.setLatLng(origin)
         circleRef.current.setRadius(radiusMeters)
       } else {
-        circleRef.current = L.circle(userLocation, {
+        circleRef.current = L.circle(origin, {
           radius: radiusMeters,
           color: "#2563eb",
           weight: 2,
@@ -1050,22 +1054,53 @@ export function StationMap() {
         }).addTo(map)
       }
 
-      if (userMarkerRef.current) {
-        userMarkerRef.current.setLatLng(userLocation)
-      } else {
-        userMarkerRef.current = L.circleMarker(userLocation, {
-          radius: 7,
-          color: "#1d4ed8",
-          fillColor: "#3b82f6",
-          fillOpacity: 1,
-          weight: 2,
-        }).addTo(map)
+      if (!map.getPane("originPane")) {
+        const pane = map.createPane("originPane")
+        pane.style.zIndex = "625"
       }
 
-      const locateKey = `${userLocation.lat.toFixed(5)},${userLocation.lng.toFixed(5)}`
-      if (lastLocateKeyRef.current !== locateKey) {
-        lastLocateKeyRef.current = locateKey
-        centerLatLngInView(map, userLocation.lat, userLocation.lng, 16, "visible-center")
+      if (userMarkerRef.current) {
+        if (!originDragRef.current) userMarkerRef.current.setLatLng(origin)
+      } else {
+        const marker = L.marker(origin, {
+          draggable: true,
+          autoPan: false,
+          keyboard: false,
+          zIndexOffset: 2000,
+          pane: "originPane",
+          title: "Sürükleyerek merkez değiştir",
+          alt: "Arama merkezi",
+          icon: L.divIcon({
+            className: "origin-handle",
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            html: '<span class="origin-handle-dot" aria-hidden="true"></span>',
+          }),
+        })
+        marker.on("dragstart", () => {
+          originDragRef.current = true
+        })
+        marker.on("drag", () => {
+          circleRef.current?.setLatLng(marker.getLatLng())
+        })
+        marker.on("dragend", () => {
+          const { lat, lng } = marker.getLatLng()
+          originDragRef.current = false
+          setOrigin({ lat, lng, source: "search" })
+        })
+        marker.addTo(map)
+        const handle = marker.getElement()
+        handle?.setAttribute("role", "button")
+        handle?.setAttribute("aria-label", "Arama merkezini sürükle")
+        userMarkerRef.current = marker
+      }
+
+      if (origin.source === "gps") {
+        const locateKey = `${origin.lat.toFixed(5)},${origin.lng.toFixed(5)}`
+        if (lastLocateKeyRef.current !== locateKey) {
+          lastLocateKeyRef.current = locateKey
+          centerLatLngInView(map, origin.lat, origin.lng, 16, "visible-center")
+        }
       }
     }
 
@@ -1073,20 +1108,20 @@ export function StationMap() {
     return () => {
       cancelled = true
     }
-  }, [mapReady, userLocation, radiusKm])
+  }, [mapReady, origin, radiusKm])
 
   useEffect(() => {
     const root = mapEl.current
     if (!root) return
     for (const node of root.querySelectorAll(".distance-line")) {
-      if (node instanceof HTMLElement) applyDistanceLine(node, userLocation)
+      if (node instanceof HTMLElement) applyDistanceLine(node, origin)
     }
     for (const marker of markerByIdRef.current.values()) {
       if (!marker.isPopupOpen()) continue
       const popup = marker.getPopup()
       if (popup) refreshPopupLayout(popup)
     }
-  }, [userLocation])
+  }, [origin])
 
   useEffect(() => {
     if (!bestStation) {
@@ -1198,26 +1233,42 @@ export function StationMap() {
     placeMarkerRef.current = null
   }, [])
 
+  const clearSearchQuery = useCallback(() => {
+    setSearchText("")
+    setLocalQuery("")
+    setDebouncedQuery("")
+    setGeocodeHits([])
+  }, [])
+
+  const setSearchOrigin = useCallback((lat: number, lng: number) => {
+    setOrigin({ lat, lng, source: "search" })
+    if (!isDesktopMap()) setSheetOpen(true)
+  }, [])
+
   const selectStation = useCallback(
-    (id: string) => {
+    (id: string, fromSearch = false) => {
       clearPlaceMarker()
       const previous = selectedIdRef.current
       selectedIdRef.current = id
       setSelectedId(id)
       if (previous && previous !== id) refreshMarkerIconRef.current(previous)
       refreshMarkerIconRef.current(id)
+      const station = snapshotRef.current?.stations.find((item) => item.id === id)
+      if (fromSearch && station) {
+        setSearchOrigin(station.lat, station.lng)
+        clearSearchQuery()
+      }
       const marker = markerByIdRef.current.get(id)
       if (marker) {
         focusStationMarker(marker)
         return
       }
-      const station = snapshotRef.current?.stations.find((item) => item.id === id)
       const map = mapRef.current
       if (station && map) {
         centerLatLngInView(map, station.lat, station.lng, 16, "popup-anchor")
       }
     },
-    [clearPlaceMarker, focusStationMarker]
+    [clearPlaceMarker, clearSearchQuery, focusStationMarker, setSearchOrigin]
   )
 
   const focusCity = useCallback((city: string) => {
@@ -1228,27 +1279,23 @@ export function StationMap() {
     selectedIdRef.current = null
     setSelectedId(null)
     const view = cityCenterFocus(city, stations)
+    setSearchOrigin(view.lat, view.lng)
+    clearSearchQuery()
     centerLatLngInView(map, view.lat, view.lng, view.zoom, "visible-center")
-  }, [clearPlaceMarker])
+  }, [clearPlaceMarker, clearSearchQuery, setSearchOrigin])
 
   const focusPlace = useCallback(
     (lat: number, lng: number) => {
       const map = mapRef.current
-      const L = leafletRef.current
-      if (!map || !L) return
+      if (!map) return
       selectedIdRef.current = null
       setSelectedId(null)
       clearPlaceMarker()
-      placeMarkerRef.current = L.circleMarker([lat, lng], {
-        radius: 8,
-        color: "#0f172a",
-        fillColor: "#38bdf8",
-        fillOpacity: 1,
-        weight: 2,
-      }).addTo(map)
+      setSearchOrigin(lat, lng)
+      clearSearchQuery()
       centerLatLngInView(map, lat, lng, 14, "visible-center")
     },
-    [clearPlaceMarker]
+    [clearPlaceMarker, clearSearchQuery, setSearchOrigin]
   )
 
   selectStationRef.current = selectStation
@@ -1260,10 +1307,14 @@ export function StationMap() {
     [selectStation]
   )
 
-  const applyPosition = useCallback((lat: number, lng: number) => {
+  const applyPosition = useCallback((lat: number, lng: number, forceOrigin = false) => {
     selectedIdRef.current = null
     setSelectedId(null)
     setUserLocation({ lat, lng })
+    setOrigin((current) => {
+      if (!forceOrigin && current?.source === "search") return current
+      return { lat, lng, source: "gps" }
+    })
     setLocationPromptOpen(false)
     setGpsDenied(false)
     setLocateBusy(false)
@@ -1277,7 +1328,7 @@ export function StationMap() {
     setLocateBusy(false)
   }, [])
 
-  const requestLocation = useCallback(() => {
+  const requestLocation = useCallback((forceOrigin = false) => {
     if (!navigator.geolocation) {
       setLocationPromptOpen(false)
       return
@@ -1288,7 +1339,7 @@ export function StationMap() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         if (requestId !== locationRequestIdRef.current) return
-        applyPosition(position.coords.latitude, position.coords.longitude)
+        applyPosition(position.coords.latitude, position.coords.longitude, forceOrigin)
       },
       (error) => {
         if (requestId !== locationRequestIdRef.current) return
@@ -1340,10 +1391,11 @@ export function StationMap() {
   const locate = useCallback(() => {
     if (userLocation && mapRef.current) {
       lastLocateKeyRef.current = `${userLocation.lat.toFixed(5)},${userLocation.lng.toFixed(5)}`
+      setOrigin({ lat: userLocation.lat, lng: userLocation.lng, source: "gps" })
       centerLatLngInView(mapRef.current, userLocation.lat, userLocation.lng, 16, "visible-center")
       return
     }
-    requestLocation()
+    requestLocation(true)
   }, [userLocation, requestLocation])
 
   useLayoutEffect(() => {
@@ -1435,7 +1487,7 @@ export function StationMap() {
             >
               Şimdi değil
             </Button>
-            <Button onClick={requestLocation} disabled={locateBusy}>
+            <Button onClick={() => requestLocation(true)} disabled={locateBusy}>
               {locateBusy ? <Loader2 className="size-4 animate-spin" /> : "Konumumu kullan"}
             </Button>
           </DialogFooter>
@@ -1448,7 +1500,7 @@ export function StationMap() {
         {gpsDenied ? (
           <button
             type="button"
-            onClick={requestLocation}
+            onClick={() => requestLocation(true)}
             className="al-icon-wrapper absolute top-3 right-3 z-[500] flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1.5 text-sm font-medium text-white shadow-md"
           >
             <AnimatedUiIcon icon={LocateOff} />
@@ -1614,7 +1666,7 @@ export function StationMap() {
                     key={station.id}
                     type="button"
                     className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
-                    onClick={() => selectStation(station.id)}
+                    onClick={() => selectStation(station.id, true)}
                   >
                     {offer?.logo ? (
                       <Image
@@ -1756,7 +1808,7 @@ export function StationMap() {
             </div>
           )}
 
-          {userLocation && (
+          {origin && (
             <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
               <p className="mb-2 text-xs font-medium">Çap</p>
               <div className="mb-3 flex flex-wrap gap-1">
@@ -1814,7 +1866,7 @@ export function StationMap() {
               distanceKm={bestDistanceKm}
               onFocus={() => openStationPopup(bestStation.station.id)}
             />
-          ) : userLocation ? (
+          ) : origin ? (
             <div className="rounded-lg border bg-background p-3 text-sm text-muted-foreground shadow-lg">
               Bu çapta fiyatı bilinen istasyon yok.
             </div>

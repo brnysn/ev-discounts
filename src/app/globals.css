@@ -243,6 +243,29 @@ img[loading="lazy"] {
   background: #e2e8f0;
 }
 
+.station-map .origin-handle {
+  background: none !important;
+  border: none !important;
+  cursor: grab;
+}
+
+.station-map .origin-handle.leaflet-marker-draggable:active,
+.station-map .origin-handle.leaflet-drag-target {
+  cursor: grabbing;
+}
+
+.station-map .origin-handle-dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  margin: 4px;
+  border-radius: 999px;
+  background: #3b82f6;
+  border: 2px solid #1d4ed8;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 22%), 0 1px 4px rgb(15 23 42 / 28%);
+  pointer-events: none;
+}
+
 @media (max-width: 767px) {
   [data-station-sheet] {
     height: 64px;
