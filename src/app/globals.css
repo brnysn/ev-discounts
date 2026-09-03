@@ -247,22 +247,23 @@ img[loading="lazy"] {
   background: none !important;
   border: none !important;
   cursor: grab;
+  touch-action: none;
+  pointer-events: auto !important;
 }
 
-.station-map .origin-handle.leaflet-marker-draggable:active,
-.station-map .origin-handle.leaflet-drag-target {
+.station-map .origin-handle.is-dragging {
   cursor: grabbing;
 }
 
 .station-map .origin-handle-dot {
   display: block;
-  width: 14px;
-  height: 14px;
-  margin: 4px;
+  width: 18px;
+  height: 18px;
+  margin: 15px;
   border-radius: 999px;
   background: #3b82f6;
-  border: 2px solid #1d4ed8;
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 22%), 0 1px 4px rgb(15 23 42 / 28%);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #1d4ed8, 0 1px 6px rgb(15 23 42 / 35%);
   pointer-events: none;
 }
 

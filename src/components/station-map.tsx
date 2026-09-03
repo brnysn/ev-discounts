@@ -57,6 +57,15 @@ const MAP_PAGE_MENU = [
   { title: "SSS", url: "/#sss" },
 ] as const
 
+function originHandleIcon(L: LeafletNS) {
+  return L.divIcon({
+    className: "origin-handle",
+    iconSize: [48, 48],
+    iconAnchor: [24, 24],
+    html: '<span class="origin-handle-dot" aria-hidden="true"></span>',
+  })
+}
+
 function sheetExpandedPx(): number {
   return Math.round(Math.min(window.innerHeight * 0.72, window.innerHeight - 88))
 }
@@ -595,6 +604,7 @@ export function StationMap() {
   const circleRef = useRef<Circle | null>(null)
   const userMarkerRef = useRef<Marker | null>(null)
   const originDragRef = useRef(false)
+  const commitOriginDragRef = useRef<(lat: number, lng: number) => void>(() => {})
   const placeMarkerRef = useRef<CircleMarker | null>(null)
   const markerByIdRef = useRef<Map<string, Marker>>(new Map())
   const occupancyCacheRef = useRef(new Map<string, StationStatusPayload | null>())
@@ -624,6 +634,9 @@ export function StationMap() {
   const [origin, setOrigin] = useState<MapOrigin | null>(null)
   const originRef = useRef<MapOrigin | null>(null)
   originRef.current = origin
+  commitOriginDragRef.current = (lat, lng) => {
+    setOrigin({ lat, lng, source: "search" })
+  }
   const [radiusKm, setRadiusKm] = useState(DEFAULT_RADIUS_KM)
   const [nearbyPort, setNearbyPort] = useState<NearbyPort>("dc")
   const [dcKwRange, setDcKwRange] = useState<[number, number] | null>(null)
@@ -1022,6 +1035,105 @@ export function StationMap() {
     highlightedIdRef.current = next
   }, [bestStation?.station.id])
 
+  const bindOriginHandleDrag = useCallback((L: LeafletNS, map: LeafletMap, marker: Marker, attempt = 0) => {
+    const el = marker.getElement()
+    if (!el) {
+      if (attempt < 20) requestAnimationFrame(() => bindOriginHandleDrag(L, map, marker, attempt + 1))
+      return
+    }
+    el.setAttribute("role", "button")
+    el.setAttribute("aria-label", "Arama merkezini sürükle")
+    if (el.dataset.originDrag === "1") return
+    el.dataset.originDrag = "1"
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+
+    const moveToClient = (clientX: number, clientY: number) => {
+      const latlng = map.mouseEventToLatLng({ clientX, clientY } as MouseEvent)
+      marker.setLatLng(latlng)
+      circleRef.current?.setLatLng(latlng)
+    }
+
+    const stopDrag = (pointerId?: number) => {
+      if (!originDragRef.current) return
+      originDragRef.current = false
+      el.classList.remove("is-dragging")
+      map.dragging.enable()
+      map.touchZoom?.enable()
+      map.doubleClickZoom?.enable()
+      window.removeEventListener("pointermove", onPointerMove)
+      window.removeEventListener("pointerup", onPointerUp)
+      window.removeEventListener("pointercancel", onPointerUp)
+      window.removeEventListener("mousemove", onMouseMove)
+      window.removeEventListener("mouseup", onMouseUp)
+      if (pointerId != null) {
+        try {
+          if (el.hasPointerCapture(pointerId)) el.releasePointerCapture(pointerId)
+        } catch {
+          /* ignore */
+        }
+      }
+      const { lat, lng } = marker.getLatLng()
+      commitOriginDragRef.current(lat, lng)
+    }
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!originDragRef.current) return
+      event.preventDefault()
+      moveToClient(event.clientX, event.clientY)
+    }
+
+    const onPointerUp = (event: PointerEvent) => {
+      stopDrag(event.pointerId)
+    }
+
+    const onMouseMove = (event: MouseEvent) => {
+      if (!originDragRef.current) return
+      event.preventDefault()
+      moveToClient(event.clientX, event.clientY)
+    }
+
+    const onMouseUp = () => {
+      stopDrag()
+    }
+
+    const beginDrag = (clientX: number, clientY: number, event: Event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      originDragRef.current = true
+      map.dragging.disable()
+      map.touchZoom?.disable()
+      map.doubleClickZoom?.disable()
+      el.classList.add("is-dragging")
+      moveToClient(clientX, clientY)
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return
+      beginDrag(event.clientX, event.clientY, event)
+      window.addEventListener("pointermove", onPointerMove, { passive: false })
+      window.addEventListener("pointerup", onPointerUp)
+      window.addEventListener("pointercancel", onPointerUp)
+      window.addEventListener("mousemove", onMouseMove)
+      window.addEventListener("mouseup", onMouseUp)
+      try {
+        el.setPointerCapture(event.pointerId)
+      } catch {
+        /* already captured */
+      }
+    }
+
+    const onMouseDown = (event: MouseEvent) => {
+      if (event.button !== 0 || originDragRef.current) return
+      beginDrag(event.clientX, event.clientY, event)
+      window.addEventListener("mousemove", onMouseMove)
+      window.addEventListener("mouseup", onMouseUp)
+    }
+
+    el.addEventListener("pointerdown", onPointerDown, { capture: true })
+    el.addEventListener("mousedown", onMouseDown, { capture: true })
+  }, [])
+
   useEffect(() => {
     if (!mapReady || !mapRef.current) return
 
@@ -1051,47 +1163,41 @@ export function StationMap() {
           weight: 2,
           fillColor: "#2563eb",
           fillOpacity: 0.14,
+          interactive: false,
+          bubblingMouseEvents: false,
         }).addTo(map)
       }
+      const circlePath = (circleRef.current as Circle & { _path?: SVGElement })._path
+      if (circlePath) circlePath.style.pointerEvents = "none"
 
-      if (!map.getPane("originPane")) {
-        const pane = map.createPane("originPane")
-        pane.style.zIndex = "625"
-      }
+      const existing = userMarkerRef.current
+      const canReuse =
+        existing &&
+        map.hasLayer(existing) &&
+        existing.getElement() instanceof HTMLElement
 
-      if (userMarkerRef.current) {
-        if (!originDragRef.current) userMarkerRef.current.setLatLng(origin)
+      if (canReuse) {
+        if (!originDragRef.current) existing.setLatLng(origin)
+        if (existing.getElement() && existing.getElement()!.offsetWidth < 40) {
+          existing.setIcon(originHandleIcon(L))
+          existing.getElement()!.dataset.originDrag = ""
+        }
+        bindOriginHandleDrag(L, map, existing)
       } else {
+        existing?.remove()
         const marker = L.marker(origin, {
-          draggable: true,
+          draggable: false,
           autoPan: false,
           keyboard: false,
-          zIndexOffset: 2000,
-          pane: "originPane",
+          interactive: true,
+          bubblingMouseEvents: false,
+          zIndexOffset: 10000,
           title: "Sürükleyerek merkez değiştir",
           alt: "Arama merkezi",
-          icon: L.divIcon({
-            className: "origin-handle",
-            iconSize: [22, 22],
-            iconAnchor: [11, 11],
-            html: '<span class="origin-handle-dot" aria-hidden="true"></span>',
-          }),
-        })
-        marker.on("dragstart", () => {
-          originDragRef.current = true
-        })
-        marker.on("drag", () => {
-          circleRef.current?.setLatLng(marker.getLatLng())
-        })
-        marker.on("dragend", () => {
-          const { lat, lng } = marker.getLatLng()
-          originDragRef.current = false
-          setOrigin({ lat, lng, source: "search" })
+          icon: originHandleIcon(L),
         })
         marker.addTo(map)
-        const handle = marker.getElement()
-        handle?.setAttribute("role", "button")
-        handle?.setAttribute("aria-label", "Arama merkezini sürükle")
+        bindOriginHandleDrag(L, map, marker)
         userMarkerRef.current = marker
       }
 
@@ -1108,7 +1214,7 @@ export function StationMap() {
     return () => {
       cancelled = true
     }
-  }, [mapReady, origin, radiusKm])
+  }, [mapReady, origin, radiusKm, bindOriginHandleDrag])
 
   useEffect(() => {
     const root = mapEl.current
