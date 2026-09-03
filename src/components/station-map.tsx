@@ -52,7 +52,7 @@ const SHEET_PEEK_PX = 64
 const MAP_PAGE_MENU = [
   { title: "Kampanyalar", url: "/#kampanyalar" },
   { title: "Fiyatlar", url: "/#fiyatlar" },
-  { title: "Şarj haritası", url: "/sarj-haritasi" },
+  { title: "Şarj Haritası", url: "/sarj-haritasi" },
   { title: "Blog", url: "/blog" },
   { title: "SSS", url: "/#sss" },
 ] as const

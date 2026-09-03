@@ -65,7 +65,7 @@ export function CustomNavbar({
   menu = [
     { title: "Kampanyalar", url: "#kampanyalar" },
     { title: "Fiyatlar", url: "#fiyatlar" },
-    { title: "Şarj haritası", url: "/sarj-haritasi" },
+    { title: "Şarj Haritası", url: "/sarj-haritasi" },
     { title: "Blog", url: "/blog" },
     { title: "SSS", url: "#sss" }
   ],
