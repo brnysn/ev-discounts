@@ -19,6 +19,18 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  async headers() {
+    const logoCache = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=31536000, immutable",
+      },
+    ]
+    return [
+      { source: "/images/chargers/:path*", headers: logoCache },
+      { source: "/images/companies/:path*", headers: logoCache },
+    ]
+  },
   images: {
     minimumCacheTTL: 2678400,
     formats: ['image/webp'],

@@ -10,7 +10,7 @@ import Filters, {
   AnimateChangeInHeight
 } from "@/components/ui/filters"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { 
   Popover, 
   PopoverContent, 
@@ -254,20 +254,16 @@ export function DiscountFilters({ onChange, selectedBattery, onBatteryChange }: 
               }
             }}
           >
-            <PopoverTrigger asChild>
-              <Button
-                variant="ghost"
-                role="combobox"
-                aria-expanded={open}
-                size="sm"
-                className={cn(
-                  "transition group h-6 text-xs items-center rounded-sm flex gap-1.5",
-                  filters.length > 0 && "w-6"
-                )}
-              >
-                <ListFilter className="size-3 shrink-0 transition-all text-muted-foreground group-hover:text-primary" />
-                {!filters.length && "Filtrele"}
-              </Button>
+            <PopoverTrigger
+              role="combobox"
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "sm" }),
+                "transition group h-6 text-xs items-center rounded-sm flex gap-1.5",
+                filters.length > 0 && "w-6"
+              )}
+            >
+              <ListFilter className="size-3 shrink-0 transition-all text-muted-foreground group-hover:text-primary" />
+              {!filters.length && "Filtrele"}
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
               <AnimateChangeInHeight>

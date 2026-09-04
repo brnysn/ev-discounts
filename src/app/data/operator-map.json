@@ -1,9 +1,24 @@
 {
   "companies": [
     {
+      "name": "360 Enerji",
+      "brands": ["360° enerji", "360 enerji", "360enerji"],
+      "unvanIncludes": ["360 ENERJİ ANONİM ŞİRKETİ"]
+    },
+    {
       "name": "5 Şarj",
       "brands": ["5 şarj", "5sarj", "5inci"],
       "unvanIncludes": ["FULL ELEKTRİKLİ ARAÇLAR ŞARJ"]
+    },
+    {
+      "name": "Acropol",
+      "brands": ["acropol", "acropol şarj", "acropolsarj"],
+      "unvanIncludes": ["GREENLEAF YENİLENEBİLİR ENERJİ"]
+    },
+    {
+      "name": "ADZE Charge",
+      "brands": ["adze", "adze charge", "adzecharge"],
+      "unvanIncludes": ["ALFAMET ENERJİ"]
     },
     {
       "name": "Aksa Şarj",
@@ -16,9 +31,24 @@
       "unvanIncludes": ["AYHAN TEKNOLOJİ"]
     },
     {
+      "name": "Arcona",
+      "brands": ["aarcona", "arcona"],
+      "unvanIncludes": ["ARCONA TEKNOLOJİ"]
+    },
+    {
+      "name": "Asplus Şarj",
+      "brands": ["asplus", "as plus", "asplus şarj", "asplussarj"],
+      "unvanIncludes": ["ASPLUS ŞARJ İSTASYONLARI"]
+    },
+    {
       "name": "Astor",
       "brands": ["astor", "astor şarj", "astor sarj"],
       "unvanIncludes": ["ASTOR ENERJİ", "ASTOR ŞARJ"]
+    },
+    {
+      "name": "B-Force",
+      "brands": ["b-force", "bforce", "b force"],
+      "unvanIncludes": ["BAŞER OTOMOTİV"]
     },
     {
       "name": "Beeful",
@@ -31,9 +61,54 @@
       "unvanIncludes": ["BLADECO"]
     },
     {
+      "name": "Carbonage",
+      "brands": ["carbonage"],
+      "unvanIncludes": ["SPUR ENERJİ YATIRIMLARI"]
+    },
+    {
+      "name": "Çelikler Enerji",
+      "brands": ["çelikler enerji", "celikler enerji", "çelikler", "celiklerenerji"],
+      "unvanIncludes": ["ÇELİKLER GLOBAL ENERJİ ŞARJ"]
+    },
+    {
+      "name": "CV Charging",
+      "brands": ["charging vehicles cv", "cv charging", "charging vehicles", "cvcharging"],
+      "unvanIncludes": ["CW ENERJİ MÜHENDİSLİK"]
+    },
+    {
+      "name": "D-Charge",
+      "brands": ["d-charge", "dcharge", "d charge"],
+      "unvanIncludes": ["DOĞUŞ ŞARJ SİSTEMLERİ"]
+    },
+    {
+      "name": "Doğuş Dijital Enerji",
+      "brands": ["dgdoğuşgıda", "dgdogusgida", "doğuş dijital", "dogus dijital"],
+      "unvanIncludes": ["DOĞUŞ DİJİTAL ENERJİ"]
+    },
+    {
+      "name": "E Power",
+      "brands": ["e-power", "epower", "e power"],
+      "unvanIncludes": ["PETROL OFİSİ ANONİM ŞİRKETİ"]
+    },
+    {
+      "name": "E4 Şarj",
+      "brands": ["e4 şarj", "e4 sarj", "e4şarj", "e4sarj"],
+      "unvanIncludes": ["TT VENTURES PROJE GELİŞTİRME"]
+    },
+    {
       "name": "ecobox",
-      "brands": ["ecobox", "ecoconnect"],
-      "unvanIncludes": ["FCTR ELEKTRİKLİ"]
+      "brands": ["ecobox"],
+      "unvanIncludes": ["ATAY GÜÇ VE ENERJİ"]
+    },
+    {
+      "name": "Efish",
+      "brands": ["efish", "e fish", "efish şarj"],
+      "unvanIncludes": ["ARTAŞ ENERJİ"]
+    },
+    {
+      "name": "EKA Enerji",
+      "brands": ["eka enerji", "ekaenerji", "eka"],
+      "unvanIncludes": ["EKA ENERJİ VE TEKNOLOJİ"]
     },
     {
       "name": "En Yakıt",
@@ -46,6 +121,11 @@
       "unvanIncludes": ["FORM ELEKTRİK"]
     },
     {
+      "name": "ERC Charge",
+      "brands": ["erc sistem", "erc şarj", "erc charge"],
+      "unvanIncludes": ["ERC SİSTEM ELEKTRİK MAKİNA"]
+    },
+    {
       "name": "eŞarj",
       "brands": ["eşarj", "esarj", "e-şarj"],
       "unvanIncludes": ["EŞARJ ELEKTRİKLİ"]
@@ -56,9 +136,34 @@
       "unvanIncludes": ["İSTASYON ŞARJ HİZMETLERİ"]
     },
     {
+      "name": "EVbee",
+      "brands": ["evbee", "ev bee", "ev-bee"],
+      "unvanIncludes": ["EVBEE ELEKTRİKLİ ARAÇ VE ŞARJ SİSTEMLERİ"]
+    },
+    {
+      "name": "EVC Charge",
+      "brands": ["evc charge", "evccharge", "evc"],
+      "unvanIncludes": ["EVCİL YATIRIM MÜHENDİSLİK"]
+    },
+    {
+      "name": "FastGo",
+      "brands": ["fast-go", "fastgo", "fast go"],
+      "unvanIncludes": ["YENİ MODEL YAPAY ZEKA VE ROBOTİK"]
+    },
+    {
+      "name": "FZY Enerji",
+      "brands": ["fzyenergy", "fzy energy", "fzy enerji"],
+      "unvanIncludes": ["FZY ENERJİ ŞARJ SİSTEMLERİ"]
+    },
+    {
       "name": "GelDol",
       "brands": ["gel dol", "geldol"],
       "unvanIncludes": ["ER ELEKTRONİK"]
+    },
+    {
+      "name": "Geta Charge",
+      "brands": ["getacharge", "geta charge", "geta"],
+      "unvanIncludes": ["PROŞARJ ARAÇ ŞARJ SİSTEMLERİ"]
     },
     {
       "name": "Gio EV",
@@ -66,9 +171,29 @@
       "unvanIncludes": ["GİOEV"]
     },
     {
+      "name": "Green Science",
+      "brands": ["green science", "greenscience"],
+      "unvanIncludes": ["ZEY ENERJİ"]
+    },
+    {
+      "name": "Inter Energy",
+      "brands": ["interdata", "inter energy", "interenergy"],
+      "unvanIncludes": ["INTERDATA VERİ MERKEZİ"]
+    },
+    {
+      "name": "İ-Şarj",
+      "brands": ["i-şarj", "işarj", "i şarj", "isarj", "ispirli şarj"],
+      "unvanIncludes": ["İSPİRLİ ŞARJ HİZMETLERİ"]
+    },
+    {
       "name": "K Şarj",
       "brands": ["k şarj", "k sarj", "ksarj"],
       "unvanIncludes": ["KALYON ELECTRICAL"]
+    },
+    {
+      "name": "KES Şarj",
+      "brands": ["kes", "kes şarj", "kes sarj", "kessarj"],
+      "unvanIncludes": ["KLR ENERJİ SİSTEMLERİ"]
     },
     {
       "name": "Lumicle",
@@ -76,18 +201,63 @@
       "unvanIncludes": ["LUMHOUSE"]
     },
     {
+      "name": "Magicline",
+      "brands": ["magic line", "magicline", "magicline şarj"],
+      "unvanIncludes": ["MAGİCLİNE ENERJİ SİSTEMLERİ"]
+    },
+    {
+      "name": "Mehmetçik Enerji",
+      "brands": ["mehmetçik enerji grubu", "mehmetcik enerji grubu", "mehmetçik enerji", "meg şarj"],
+      "unvanIncludes": ["MEHMETÇİK ENERJİ GRUBU"]
+    },
+    {
       "name": "Miggo",
       "brands": ["miggo"],
       "unvanIncludes": ["MİGEN ENERJİ"]
     },
     {
+      "name": "Minus Energy",
+      "brands": ["minus energy", "minusenergy", "mınus energy"],
+      "unvanIncludes": ["MINUS ENERGY ENERJİ"]
+    },
+    {
+      "name": "Mithra Pod",
+      "brands": ["mithra pod", "mithrapod"],
+      "unvanIncludes": ["MİTHRA POD"]
+    },
+    {
       "name": "Multiforce",
-      "brands": ["multiforce", "b-force"],
-      "unvanIncludes": ["MONOKON"]
+      "brands": ["multiforce", "multi force"],
+      "unvanIncludes": []
+    },
+    {
+      "name": "Monokon EV",
+      "brands": ["monokon elektrik", "monokon", "monokonev", "monokon ev"],
+      "unvanIncludes": ["MONOKON ELEKTRİK"]
+    },
+    {
+      "name": "MyCharge",
+      "brands": ["mycharge", "my charge"],
+      "unvanIncludes": ["MANAS İPLİK SANAYİ"]
+    },
+    {
+      "name": "Neva Şarj",
+      "brands": ["neva şarj", "neva sarj", "nevasarj", "neva"],
+      "unvanIncludes": ["NEVA İÇ VE DIŞ TİCARET"]
+    },
+    {
+      "name": "Obişarj",
+      "brands": ["obişarj", "obisarj", "obi şarj"],
+      "unvanIncludes": ["OBİŞARJ ELEKTRİKLİ ARAÇ"]
     },
     {
       "name": "oncharge",
-      "brands": ["oncharge", "incharge"],
+      "brands": ["oncharge"],
+      "unvanIncludes": []
+    },
+    {
+      "name": "Incharge",
+      "brands": ["incharge", "incharge electric vehicle charging systems"],
       "unvanIncludes": ["İNCHARGE ELEKTRİKLİ"]
     },
     {
@@ -106,14 +276,79 @@
       "unvanIncludes": ["OTOJET ENERJİ"]
     },
     {
+      "name": "Otopriz",
+      "brands": ["otopriz", "oto priz"],
+      "unvanIncludes": ["DİCLE KÖK ENERJİ YATIRIM"]
+    },
+    {
+      "name": "Otowatt",
+      "brands": ["otowatt", "oto watt", "otowatt şarj"],
+      "unvanIncludes": ["AYDEM PLUS ENERJİ"]
+    },
+    {
       "name": "Ovolt",
       "brands": ["ovolt"],
       "unvanIncludes": ["OVOLT ŞARJ"]
     },
     {
+      "name": "Pleco",
+      "brands": ["pleco", "pleco advertise.charge.", "pleco advertise charge"],
+      "unvanIncludes": ["ÖZKA ENERJİ YATIRIMLARI"]
+    },
+    {
+      "name": "Plug&Drive",
+      "brands": ["plug&drive", "plug & drive", "plugdrive", "pgd enerji"],
+      "unvanIncludes": ["PGD ENERJİ YATIRIMLARI"]
+    },
+    {
+      "name": "Porty",
+      "brands": ["porty", "porty şarj"],
+      "unvanIncludes": ["PORTY SMART TECH"]
+    },
+    {
+      "name": "Power Elektronik",
+      "brands": ["power elektronik", "power ev şarj", "power elektronik sanayi ve ticaret limited şirketi"],
+      "unvanIncludes": ["POWER ELEKTRONİK"]
+    },
+    {
+      "name": "Powerşarj",
+      "brands": ["powerşarj", "power şarj", "powersarj"],
+      "unvanIncludes": ["WHITE ROSE MOTOR"]
+    },
+    {
+      "name": "Promaster Şarj",
+      "brands": ["promaster", "promaster şarj", "promastersarj"],
+      "unvanIncludes": ["PROMASTER"]
+    },
+    {
       "name": "Rhg Enertürk",
       "brands": ["enertürk rhg enerji", "rhg enertürk", "enerturk", "enertürk"],
       "unvanIncludes": ["RHG ENERTÜRK"]
+    },
+    {
+      "name": "Rönesans ChargeR",
+      "brands": ["rönesans charger", "ronesans charger", "rönesanscharger"],
+      "unvanIncludes": ["RÖNESANS ŞARJ İSTASYON"]
+    },
+    {
+      "name": "RS Şarj",
+      "brands": ["rsşarj", "rs şarj", "rssarj", "rs sarj"],
+      "unvanIncludes": ["2M ELEKTRİKLİ ARAÇ ŞARJ AĞI"]
+    },
+    {
+      "name": "Şarj Tak",
+      "brands": ["şarj tak", "sarj tak"],
+      "unvanIncludes": ["ŞARJ TAK"]
+    },
+    {
+      "name": "Şarjon",
+      "brands": ["şarjon", "sarjon", "şarj on"],
+      "unvanIncludes": ["ŞARJON YENİLENEBİLİR ENERJİ"]
+    },
+    {
+      "name": "SepaşCharge",
+      "brands": ["sepaş akıllı çözümler anonim şirketi", "sepaş akıllı çözümler", "sepascharge", "sepaş charge", "sepas charge"],
+      "unvanIncludes": ["SEPAŞ AKILLI ÇÖZÜMLER"]
     },
     {
       "name": "Sharz",
@@ -126,14 +361,69 @@
       "unvanIncludes": ["SHELL & TURCAS", "SHELL VE TURCAS"]
     },
     {
-      "name": "Şarj Tak",
-      "brands": ["şarj tak", "sarj tak"],
-      "unvanIncludes": ["ŞARJ TAK"]
+      "name": "Sky World",
+      "brands": ["sky world solar enerji", "sky world", "skyworld", "sky world oto şarj"],
+      "unvanIncludes": ["SKY WORLD SOLAR ENERJİ"]
+    },
+    {
+      "name": "Solarşarj",
+      "brands": ["solarşarj", "solarsarj", "solar şarj"],
+      "unvanIncludes": ["SOLAR ARAÇ ŞARJ HİZMETLERİ"]
+    },
+    {
+      "name": "Solinved",
+      "brands": ["solinved", "solinved charge"],
+      "unvanIncludes": ["SOLİNVED GÜNEŞ VE BATARYA"]
+    },
+    {
+      "name": "Toger",
+      "brands": ["toger", "toger şarj"],
+      "unvanIncludes": ["MİONTİ ENERJİ"]
+    },
+    {
+      "name": "Tora Şarj",
+      "brands": ["tora", "tora şarj", "torasarj"],
+      "unvanIncludes": ["TORA TEKNİK HİZMETLER İŞLETME"]
+    },
+    {
+      "name": "TR Charge",
+      "brands": ["tr charge", "trcharge", "oğultürk pano", "ogulturk pano", "otp oğultürk"],
+      "unvanIncludes": ["OTP OĞULTÜRK PANO"]
+    },
+    {
+      "name": "Tripy",
+      "brands": ["tripy"],
+      "unvanIncludes": ["TRİPY MOBİLİTY"]
     },
     {
       "name": "Trugo",
       "brands": ["trugo"],
       "unvanIncludes": ["TRUGO AKILLI"]
+    },
+    {
+      "name": "Tunçmatik Charge",
+      "brands": ["tunçmatik", "tuncmatik", "tunçmatik charge"],
+      "unvanIncludes": ["TUNÇMATİK ŞARJ TEKNOLOJİLERİ"]
+    },
+    {
+      "name": "TÜVTURK",
+      "brands": ["tüvturk", "tuvturk"],
+      "unvanIncludes": ["TÜVTURK KUZEY TAŞIT MUAYENE"]
+    },
+    {
+      "name": "U-Şarj",
+      "brands": ["u-şarj", "u şarj", "usarj", "u-sarj"],
+      "unvanIncludes": ["TCDD TEKNİK MÜHENDİSLİK"]
+    },
+    {
+      "name": "Varr",
+      "brands": ["varr tm", "varr", "varr şarj"],
+      "unvanIncludes": ["DESA ENERJİ ELEKTRİK ÜRETİM"]
+    },
+    {
+      "name": "Vilampo",
+      "brands": ["vilampo"],
+      "unvanIncludes": ["VİTALEN ENERJİ"]
     },
     {
       "name": "Voltgo",
@@ -146,9 +436,24 @@
       "unvanIncludes": ["VOLTRUN ENERJİ"]
     },
     {
+      "name": "Vzx Şarj",
+      "brands": ["vizyoneks", "vzx", "vzx şarj"],
+      "unvanIncludes": ["VİZYONEKS BİLGİ TEKNOLOJİLERİ"]
+    },
+    {
       "name": "Wat Mobilite",
       "brands": ["wat mobilite", "wat"],
       "unvanIncludes": ["WAT MOBİLİTE"]
+    },
+    {
+      "name": "Wattarya",
+      "brands": ["wattarya", "watt arya"],
+      "unvanIncludes": ["WATTARYA ENERJİ"]
+    },
+    {
+      "name": "Zeplin Enerji",
+      "brands": ["zeplin car rental", "zeplin enerji", "zeplin"],
+      "unvanIncludes": ["ZEPLİN TURİZM ARAÇ KİRALAMA"]
     },
     {
       "name": "Zes",

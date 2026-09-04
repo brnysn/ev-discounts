@@ -1,7 +1,34 @@
 [
   {
+    "name": "360 Enerji",
+    "logo": "/images/chargers/360-enerji.png",
+    "phone": "",
+    "website": "https://sarj.360enerji.com.tr/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "AC-1",
+            "price": 8.99
+          },
+          {
+            "kwh": "AC-2",
+            "price": 8.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 11.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "5 Şarj",
-    "logo": "/images/chargers/5-sarj.svg",
+    "logo": "/images/chargers/5-sarj.png",
     "phone": "",
     "website": "https://5sarj.com/tr/pricing",
     "prices": [
@@ -45,22 +72,76 @@
     ]
   },
   {
+    "name": "Acropol",
+    "logo": "/images/chargers/acropol.png",
+    "phone": "",
+    "website": "https://acropolsarj.com/#tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 11.21
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.88
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "ADZE Charge",
+    "logo": "/images/chargers/adze-charge.png",
+    "phone": "",
+    "website": "https://adzesarj.com/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.4
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.4
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Aksa Şarj",
-    "logo": "/images/chargers/aksa-sarj.svg",
+    "logo": "/images/chargers/aksa-sarj.png",
     "phone": "",
     "website": "https://www.aksasarj.com.tr/tr/ucretler",
     "prices": [
       {
         "ac": [
           {
-            "kwh": "",
+            "kwh": "Min",
             "price": 9.9
+          },
+          {
+            "kwh": "Maks",
+            "price": 10.9
           }
         ],
         "dc": [
           {
-            "kwh": "",
+            "kwh": "Min",
             "price": 11.99
+          },
+          {
+            "kwh": "Maks",
+            "price": 13.99
           }
         ]
       }
@@ -99,6 +180,52 @@
     ]
   },
   {
+    "name": "Arcona",
+    "logo": "/images/chargers/arcona.png",
+    "phone": "",
+    "website": "https://arconasarj.com/tarife-uyelik/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.95
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Asplus Şarj",
+    "logo": "/images/chargers/asplus-sarj.png",
+    "phone": "",
+    "website": "https://www.asplussarj.com/fiyatlar",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Astor",
     "logo": "/images/chargers/astor.png",
     "phone": "",
@@ -122,8 +249,31 @@
     "discounts": []
   },
   {
+    "name": "B-Force",
+    "logo": "/images/chargers/b-force.png",
+    "phone": "",
+    "website": "https://basergrup.com.tr/baser-bforce.html",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Beeful",
-    "logo": "/images/chargers/beeful.webp",
+    "logo": "/images/chargers/beeful.png",
     "phone": "08508110018",
     "website": "https://beefull.com/tarifeler/elektrikli-arac-tarifesi/",
     "prices": [
@@ -305,6 +455,175 @@
     "discounts": []
   },
   {
+    "name": "Carbonage",
+    "logo": "/images/chargers/carbonage.png",
+    "phone": "",
+    "website": "https://carbonage.net/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 15.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Çelikler Enerji",
+    "logo": "/images/chargers/celikler-enerji.png",
+    "phone": "",
+    "website": "https://www.celiklerenerji.com/ucretler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 10.6
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "CV Charging",
+    "logo": "/images/chargers/cv-charging.png",
+    "phone": "",
+    "website": "https://cv-charging.com/tr/arac-sarj-tarifeleri",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "D-Charge",
+    "logo": "/images/chargers/d-charge.png",
+    "phone": "",
+    "website": "https://dcharge.com.tr/tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 14.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Doğuş Dijital Enerji",
+    "logo": "/images/chargers/dogus-dijital-enerji.png",
+    "phone": "",
+    "website": "https://dogusdijitalenerji.com/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 11.19
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "E Power",
+    "logo": "/images/chargers/e-power.png",
+    "phone": "",
+    "website": "https://www.petrolofisi.com.tr/urun-ve-hizmetler/e-power",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 11.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "E4 Şarj",
+    "logo": "/images/chargers/e4-sarj.png",
+    "phone": "",
+    "website": "https://e4sarj.com.tr/#tarifeler-ve-ucretler-icerik",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "Min",
+            "price": 9.99
+          },
+          {
+            "kwh": "Maks",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "Min",
+            "price": 13.99
+          },
+          {
+            "kwh": "Maks",
+            "price": 15.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "ecobox",
     "logo": "/images/chargers/ecobox.png",
     "phone": "",
@@ -321,6 +640,52 @@
           {
             "kwh": "",
             "price": 11.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Efish",
+    "logo": "/images/chargers/efish.png",
+    "phone": "",
+    "website": "https://www.efish.com.tr/tr/fiyatlandirma/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 14.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "EKA Enerji",
+    "logo": "/images/chargers/eka-enerji.png",
+    "phone": "",
+    "website": "https://ekaenerjiteknoloji.com.tr/fiyat-ve-tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.7
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.8
           }
         ]
       }
@@ -380,7 +745,7 @@
   },
   {
     "name": "Epsis",
-    "logo": "/images/chargers/epsis.webp",
+    "logo": "/images/chargers/epsis.png",
     "phone": "",
     "website": "https://www.epsis.net/elektrikli-arac-sarj-tarifeleri/",
     "prices": [
@@ -438,6 +803,29 @@
     ]
   },
   {
+    "name": "ERC Charge",
+    "logo": "/images/chargers/erc-charge.png",
+    "phone": "",
+    "website": "https://sarj.ercsistem.com.tr/pricing",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 10.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "eŞarj",
     "logo": "/images/chargers/esarj.png",
     "phone": "",
@@ -462,7 +850,7 @@
   },
   {
     "name": "Estasyon",
-    "logo": "/images/chargers/estasyon.webp",
+    "logo": "/images/chargers/estasyon.png",
     "phone": "",
     "website": "https://www.estasyon.com.tr/sarj-istasyonu-fiyatlari",
     "prices": [
@@ -509,6 +897,98 @@
     ]
   },
   {
+    "name": "EVbee",
+    "logo": "/images/chargers/evbee.png",
+    "phone": "",
+    "website": "https://www.ev-bee.com/sabit-sarj-istasyonlari-fiyat-listesi",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.95
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 14.98
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "EVC Charge",
+    "logo": "/images/chargers/evc-charge.png",
+    "phone": "",
+    "website": "https://evccharge.com/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.79
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.79
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "FastGo",
+    "logo": "/images/chargers/fastgo.png",
+    "phone": "",
+    "website": "https://fast-go.com.tr/fiyatlandirma/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "FZY Enerji",
+    "logo": "/images/chargers/fzy-enerji.png",
+    "phone": "",
+    "website": "https://fzyenergy.com/fiyatlandirma.php",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.3
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "GelDol",
     "logo": "/images/chargers/geldol.png",
     "phone": "",
@@ -532,6 +1012,29 @@
     "discounts": []
   },
   {
+    "name": "Geta Charge",
+    "logo": "/images/chargers/geta-charge.png",
+    "phone": "",
+    "website": "https://getacharge.com.tr/fiyatlar/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Gio EV",
     "logo": "/images/chargers/gio-ev.png",
     "phone": "",
@@ -548,6 +1051,98 @@
           {
             "kwh": "",
             "price": 13.73
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Green Science",
+    "logo": "/images/chargers/green-science.png",
+    "phone": "",
+    "website": "https://www.zeyenerji.com.tr/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 11.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Incharge",
+    "logo": "/images/chargers/incharge.png",
+    "phone": "",
+    "website": "https://www.incharge.com.tr/tr/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Inter Energy",
+    "logo": "/images/chargers/inter-energy.png",
+    "phone": "",
+    "website": "https://www.interenergy.com.tr/sarj-ucretleri/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 6.1
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 7.7
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "İ-Şarj",
+    "logo": "/images/chargers/i-sarj.png",
+    "phone": "",
+    "website": "https://www.isarj.com/tarifeler/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.98
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.49
           }
         ]
       }
@@ -603,8 +1198,31 @@
     ]
   },
   {
+    "name": "KES Şarj",
+    "logo": "/images/chargers/kes-sarj.png",
+    "phone": "",
+    "website": "https://kessarj.com/fiyat-ve-tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 11.0
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.0
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Lumicle",
-    "logo": "/images/chargers/lumicle.svg",
+    "logo": "/images/chargers/lumicle.png",
     "phone": "",
     "website": "https://lumicle.com.tr/",
     "prices": [
@@ -626,10 +1244,133 @@
     "discounts": []
   },
   {
+    "name": "Magicline",
+    "logo": "/images/chargers/magicline.png",
+    "phone": "",
+    "website": "https://magiclinesarj.com/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.0
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.5
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Mehmetçik Enerji",
+    "logo": "/images/chargers/mehmetcik-enerji.png",
+    "phone": "",
+    "website": "https://mehmetcikenerjigrubu.com.tr/fiyattarifesi",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 10.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Miggo",
-    "logo": "/images/chargers/miggo.svg",
+    "logo": "/images/chargers/miggo.png",
     "phone": "",
     "website": "https://www.mig-go.com/#ucretlendirme",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.5
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Minus Energy",
+    "logo": "/images/chargers/minus-energy.png",
+    "phone": "",
+    "website": "https://minusenergy.net/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "AC-1",
+            "price": 9.2
+          },
+          {
+            "kwh": "AC-2",
+            "price": 8.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "DC-1",
+            "price": 12.5
+          },
+          {
+            "kwh": "DC-2",
+            "price": 9.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Mithra Pod",
+    "logo": "/images/chargers/mithra-pod.png",
+    "phone": "",
+    "website": "https://www.mithrapod.com/tarife-ve-fiyatlar/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 15.59
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Monokon EV",
+    "logo": "/images/chargers/monokon-ev.png",
+    "phone": "4449091",
+    "website": "https://www.monokonev.com/Price",
     "prices": [
       {
         "ac": [
@@ -678,6 +1419,75 @@
         "discount_rate": 23
       }
     ]
+  },
+  {
+    "name": "MyCharge",
+    "logo": "/images/chargers/mycharge.png",
+    "phone": "",
+    "website": "https://mycharge.com.tr/tarifeler/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.81
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.0
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Neva Şarj",
+    "logo": "/images/chargers/neva-sarj.png",
+    "phone": "",
+    "website": "https://www.nevasarj.com/sayfalar/istasyonlarimiz/arac-sarj-ac-dc-kwh-fiyat-tarifeleri.html",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Obişarj",
+    "logo": "/images/chargers/obisarj.png",
+    "phone": "",
+    "website": "https://obisarj.com/tarifeler/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 15.95
+          }
+        ]
+      }
+    ],
+    "discounts": []
   },
   {
     "name": "oncharge",
@@ -800,7 +1610,7 @@
   },
   {
     "name": "Otojet",
-    "logo": "/images/chargers/otojet.svg",
+    "logo": "/images/chargers/otojet.png",
     "phone": "4445496",
     "website": "https://www.oto-jet.com.tr/fiyatlarimiz.html",
     "prices": [
@@ -839,6 +1649,60 @@
         "text": "Bridgestone ve Lassa'dan 17\" jant ve üzeri 4 lastik alımına Otojet'te 2.500 TL'ye varan ŞarjPuan hediye. Doğrudan kWh indirimi değildir."
       }
     ]
+  },
+  {
+    "name": "Otopriz",
+    "logo": "/images/chargers/otopriz.png",
+    "phone": "",
+    "website": "https://otopriz.com.tr/uyelik-ve-tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Otowatt",
+    "logo": "/images/chargers/otowatt.png",
+    "phone": "",
+    "website": "https://www.otowatt.com.tr/tarifelerimiz",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "Min",
+            "price": 9.49
+          },
+          {
+            "kwh": "Maks",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "Min",
+            "price": 11.99
+          },
+          {
+            "kwh": "Maks",
+            "price": 13.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
   },
   {
     "name": "Ovolt",
@@ -896,8 +1760,150 @@
     ]
   },
   {
+    "name": "Pleco",
+    "logo": "/images/chargers/pleco.png",
+    "phone": "",
+    "website": "https://pleco.com.tr/tr/ucretler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 14.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Plug&Drive",
+    "logo": "/images/chargers/plug-drive.png",
+    "phone": "",
+    "website": "https://pgdenerji.com/fiyatlandirma",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Porty",
+    "logo": "/images/chargers/porty.png",
+    "phone": "",
+    "website": "https://porty.tech/tr/porty-nedir/elektrikli-arac-sarj-istasyonu",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.4
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "< 60",
+            "price": 8.75
+          },
+          {
+            "kwh": "60 >",
+            "price": 9.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Power Elektronik",
+    "logo": "/images/chargers/power-elektronik.png",
+    "phone": "08509660175",
+    "website": "https://powerelektronik.com.tr/arac-sarj-fiyat-tarifeleri",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 11.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 16.25
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Powerşarj",
+    "logo": "/images/chargers/powersarj.png",
+    "phone": "",
+    "website": "https://powersarj.com/fiyatlandirma/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 11.19
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Promaster Şarj",
+    "logo": "/images/chargers/promaster-sarj.png",
+    "phone": "",
+    "website": "https://promastersarj.com/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 11.5
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Rhg Enertürk",
-    "logo": "/images/chargers/rhg-enerturk.svg",
+    "logo": "/images/chargers/rhg-enerturk.png",
     "phone": "",
     "website": "https://www.enerturk.com/sarj/uyelik-tarifeler",
     "prices": [
@@ -936,6 +1942,133 @@
         "discount_rate": 30
       }
     ]
+  },
+  {
+    "name": "Rönesans ChargeR",
+    "logo": "/images/chargers/ronesans-charger.png",
+    "phone": "",
+    "website": "https://www.ronesanscharger.com/#tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 15.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "RS Şarj",
+    "logo": "/images/chargers/rs-sarj.png",
+    "phone": "",
+    "website": "https://rssarj.com.tr/uyelik/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 11.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 14.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Şarj Tak",
+    "logo": "/images/chargers/sarj-tak.png",
+    "phone": "",
+    "website": "https://sarjtak.com/tariff-schedule",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.99
+          }
+        ]
+      }
+    ],
+    "discounts": [
+      {
+        "name": "Kurban Bayramı 2025",
+        "starts_at": "2025-06-06 00:00:00",
+        "ends_at": "2025-06-09 23:59:00",
+        "text": "",
+        "discount_rate": 100
+      }
+    ]
+  },
+  {
+    "name": "Şarjon",
+    "logo": "/images/chargers/sarjon.png",
+    "phone": "",
+    "website": "https://sarjon.com.tr/fiyatlar/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "DC-1",
+            "price": 11.99
+          },
+          {
+            "kwh": "DC-2",
+            "price": 13.19
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "SepaşCharge",
+    "logo": "/images/chargers/sepascharge.png",
+    "phone": "",
+    "website": "https://www.sepascharge.com/sarj-ucretleri",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
   },
   {
     "name": "Sharz",
@@ -1052,10 +2185,68 @@
     ]
   },
   {
-    "name": "Şarj Tak",
-    "logo": "/images/chargers/sarj-tak.webp",
+    "name": "Sky World",
+    "logo": "/images/chargers/sky-world.png",
     "phone": "",
-    "website": "https://sarjtak.com/tariff-schedule",
+    "website": "https://skyworldotosarj.com/tarifeler/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.49
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 11.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Solarşarj",
+    "logo": "/images/chargers/solarsarj.png",
+    "phone": "",
+    "website": "https://solarsarj.org/fiyatlar/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "AC-1",
+            "price": 9.69
+          },
+          {
+            "kwh": "AC-2",
+            "price": 10.89
+          },
+          {
+            "kwh": "AC-3",
+            "price": 12.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "DC-1",
+            "price": 13.89
+          },
+          {
+            "kwh": "DC-2",
+            "price": 16.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Solinved",
+    "logo": "/images/chargers/solinved.png",
+    "phone": "",
+    "website": "https://solinvedcharge.com/price.html",
     "prices": [
       {
         "ac": [
@@ -1072,19 +2263,103 @@
         ]
       }
     ],
-    "discounts": [
+    "discounts": []
+  },
+  {
+    "name": "Toger",
+    "logo": "/images/chargers/toger.png",
+    "phone": "",
+    "website": "https://toger.co/pricing",
+    "prices": [
       {
-        "name": "Kurban Bayramı 2025",
-        "starts_at": "2025-06-06 00:00:00",
-        "ends_at": "2025-06-09 23:59:00",
-        "text": "",
-        "discount_rate": 100
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.39
+          }
+        ]
       }
-    ]
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Tora Şarj",
+    "logo": "/images/chargers/tora-sarj.png",
+    "phone": "",
+    "website": "https://torasarj.com/fiyatlar/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "TR Charge",
+    "logo": "/images/chargers/tr-charge.png",
+    "phone": "",
+    "website": "https://www.trcharge.com.tr/fiyatlandirma/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.5
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Tripy",
+    "logo": "/images/chargers/tripy.png",
+    "phone": "",
+    "website": "https://tripy.mobi/sarj-istasyonlari/fiyatlandirma/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.99
+          }
+        ]
+      }
+    ],
+    "discounts": []
   },
   {
     "name": "Trugo",
-    "logo": "/images/chargers/trugo.svg",
+    "logo": "/images/chargers/trugo.png",
     "phone": "",
     "website": "https://www.trugo.com.tr/price",
     "prices": [
@@ -1125,6 +2400,121 @@
         "discount_rate": 50
       }
     ]
+  },
+  {
+    "name": "Tunçmatik Charge",
+    "logo": "/images/chargers/tuncmatik-charge.png",
+    "phone": "",
+    "website": "https://tuncmatikcharge.com/fiyatlar/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.99
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 15.49
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "TÜVTURK",
+    "logo": "/images/chargers/tuvturk.png",
+    "phone": "",
+    "website": "https://www.tuvturk.com.tr/hizmetlerimiz/muayene-hizmetleri/elektrikli-sarj-uniteleri-tarife-fiyatlari",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.45
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 11.8
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "U-Şarj",
+    "logo": "/images/chargers/u-sarj.png",
+    "phone": "",
+    "website": "https://usarj.com.tr/fiyat-tarifesi",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Varr",
+    "logo": "/images/chargers/varr.png",
+    "phone": "",
+    "website": "https://varr.com.tr/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.9
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.9
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Vilampo",
+    "logo": "/images/chargers/vilampo.png",
+    "phone": "",
+    "website": "https://www.vilampo.com/tr/price",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 10.39
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.89
+          }
+        ]
+      }
+    ],
+    "discounts": []
   },
   {
     "name": "Voltgo",
@@ -1322,8 +2712,31 @@
     ]
   },
   {
+    "name": "Vzx Şarj",
+    "logo": "/images/chargers/vzx-sarj.png",
+    "phone": "",
+    "website": "https://www.vzx.com.tr/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.0
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 12.0
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Wat Mobilite",
-    "logo": "/images/chargers/wat-mobilite.svg",
+    "logo": "/images/chargers/wat-mobilite.png",
     "phone": "",
     "website": "https://www.watmobilite.com/cozumler/kamusal-alanlar#guncel-fiyat-ve-tarifeler",
     "prices": [
@@ -1406,8 +2819,54 @@
     ]
   },
   {
+    "name": "Wattarya",
+    "logo": "/images/chargers/wattarya.png",
+    "phone": "",
+    "website": "https://www.wattarya.com/tarifeler",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 9.95
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 13.45
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
+    "name": "Zeplin Enerji",
+    "logo": "/images/chargers/zeplin-enerji.png",
+    "phone": "",
+    "website": "https://www.zeplinenerji.com/",
+    "prices": [
+      {
+        "ac": [
+          {
+            "kwh": "",
+            "price": 8.5
+          }
+        ],
+        "dc": [
+          {
+            "kwh": "",
+            "price": 10.3
+          }
+        ]
+      }
+    ],
+    "discounts": []
+  },
+  {
     "name": "Zes",
-    "logo": "/images/chargers/zes.svg",
+    "logo": "/images/chargers/zes.png",
     "phone": "",
     "website": "https://zes.net/fiyatlar-tr",
     "prices": [

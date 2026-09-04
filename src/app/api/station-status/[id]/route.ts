@@ -38,7 +38,7 @@ export async function GET(request: Request) {
   const url = stationDetailUrl(sarjTrId, previousTurkeyMinuteStamp())
 
   try {
-    const { status, json } = await httpsGetJson(url, 8000)
+    const { status, json } = await httpsGetJson(url, 2_500)
     if (status !== 200) {
       const body = { error: "upstream", status }
       cache.set(cacheKey, { expires: Date.now() + ERROR_TTL_MS, body, status: 502 })

@@ -1,8 +1,97 @@
 [
   {
     "company": {
+      "name": "Akbank",
+      "logo": "/images/companies/akbank.png",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Voltla'da 500 TL'ye Varan %20 İndirim",
+      "description": "17 Ağustos-6 Eylül 2026 tarihleri arasında Axess, Free ve Wings kartlarınızla Voltla üzerinden yapacağınız elektrikli araç şarj ödemelerinde 500 TL'ye varan %20 indirim.",
+      "startDate": "2026-08-17",
+      "endDate": "2026-09-06",
+      "combinable": true,
+      "compatibleWith": [
+        "doğuş-dijital-enerji",
+        "obişarj",
+        "şarjon",
+        "tunçmatik-charge",
+        "voltgo",
+        "zeplin-enerji"
+      ],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 20
+      },
+      "conditions": [
+        "İlk harcamadan önce Juzdan'dan 'Hemen Katıl' tıklanmalı veya VOLTLA yazıp 4566'ya SMS gönderilmelidir.",
+        "Ödeme Voltla uygulaması üzerinden yapılmalıdır.",
+        "Kampanya müşteri bazındadır; en fazla 500 TL indirim kazanılabilir.",
+        "İndirim tutarı 2 iş günü içinde ekstreye yansıtılır.",
+        "Axess, Free, Wings bireysel ve ticari kartlar ile ek ve sanal kartlar dahildir.",
+        "Akbank Kart ve Bank'O Card Axess dahil değildir.",
+        "Voltla üzerinden Powerşarj, Zeplin Enerji, Tunçmatik, Şarjon, Voltgo, Solargize, Doğuş Dijital Enerji, D-Rect ve Obişarj istasyonlarında geçerlidir."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.wingscard.com.tr/kampanyalar/voltlada-20-indirim"
+      }
+    }
+  },
+  {
+    "company": {
+      "name": "Ziraat Katılım",
+      "logo": "/images/companies/ziraatkatilim.png",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Şarj İstasyonlarında 750 TL Bankkart Lira",
+      "description": "8 Ağustos-7 Eylül 2026 tarihleri arasında Ziraat Katılım bireysel Bankkart kredi kartınızla anlaşmalı şarj istasyonlarında tek seferde yapacağınız her ödemede %20, toplam 750 TL Bankkart Lira.",
+      "startDate": "2026-08-08",
+      "endDate": "2026-09-07",
+      "combinable": false,
+      "compatibleWith": [
+        "astor",
+        "beeful",
+        "e-power",
+        "en-yakıt",
+        "epsis",
+        "eşarj",
+        "k-şarj",
+        "miggo",
+        "neva-şarj",
+        "otojet",
+        "otopriz",
+        "rhg-enertürk",
+        "trugo",
+        "tunçmatik-charge",
+        "voltrun",
+        "wat-mobilite",
+        "zeplin-enerji"
+      ],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 20
+      },
+      "conditions": [
+        "Alışverişten önce Ziraat Katılım Mobil, İnternet Şube veya web sitesinden kampanyaya katılınmalıdır.",
+        "Yalnızca bireysel Bankkart kredi kartı ile yapılan işlemler geçerlidir.",
+        "Bankkart Liralar şartları sağlayan müşterilerin kartlarına anında yüklenir.",
+        "Bir müşteri en fazla 750 TL Bankkart Lira kazanabilir.",
+        "Ticari ve ücretsiz kartlar dahil değildir.",
+        "Karta para yükleme, ön provizyon, iade, iptal ve Bankkart Lira kullanımı dahil değildir.",
+        "Kampanya başka kampanyalarla birleştirilemez."
+      ],
+      "categories": ["EV Charging", "Bank Card"],
+      "links": {
+        "details": "https://www.ziraatkatilim.com.tr/kart-kampanyalari/elektrikli-arac-sarj-istasyonlarinda-750-tl-bankkart-lira-1"
+      }
+    }
+  },
+  {
+    "company": {
       "name": "VakıfBank",
-      "logo": "/images/companies/vakifbank.svg",
+      "logo": "/images/companies/vakifbank.png",
       "type": "bank"
     },
     "campaign": {
@@ -10,7 +99,7 @@
       "description": "1 Ağustos-10 Eylül 2026 tarihleri arasında VakıfBank bireysel kredi kartınızla En Yakıt istasyonlarında yapacağınız toplam 2.000 TL ve üzeri şarj harcamasına 600 TL ekstre indirimi hediye edilir.",
       "startDate": "2026-08-01",
       "endDate": "2026-09-10",
-      "combinable": true,
+      "combinable": false,
       "compatibleWith": ["en-yakıt"],
       "calculateCombinedPrice": {
         "type": "percentage",
@@ -20,9 +109,10 @@
         "Katılım, alışverişten önce VakıfBank Mobil > Cepte Kazan üzerinden 'Hemen Katıl' ile yapılmalıdır.",
         "Toplam 2.000 TL ve üzeri harcamaya 600 TL ekstre indirimi yüklenir.",
         "İndirim, harcama 2.000 TL'ye ulaşınca ertesi gün açık ve bireysel statülü karta yansıtılır.",
-        "Bireysel kredi kartları, Express Card, ek kart ve sanal kartlar dahildir.",
+        "Bireysel kredi kartları, ek kart ve sanal kartlar dahildir.",
         "Express Card sahipleri için katılım bedeli 9,99 TL'dir.",
-        "Ticari kartlar, Bankomat Kart, nakit çekim, yurt dışı, iade, iptal ve puan kullanımı dahil değildir."
+        "Ticari kartlar, Bankomat Kart, nakit çekim, yurt dışı, iade, iptal ve puan kullanımı dahil değildir.",
+        "Bu kampanya diğer kampanyalar ile birleştirilemez."
       ],
       "categories": ["EV Charging", "Bank Card"],
       "links": {
@@ -54,7 +144,7 @@
         "Aynı gün yalnızca 1 işlemden bonus kazanılır; kampanya süresince en fazla 750 TL bonus kazanılabilir.",
         "Garanti Bonus, Bonus Flexi, Bonus Genç, Money Bonus, Bonus Business, sanal ve ek kartlar dahildir.",
         "Altın Bonus ve Bonus Paracard dahil değildir.",
-        "Kullanılmayan bonuslar 24 Ekim 2026 tarihinde geri alınır."
+        "Kazanılan bonuslar 23 Eylül-23 Ekim 2026 arasında kullanılabilir; kullanılmayanlar 24 Ekim 2026'da geri alınır."
       ],
       "categories": ["EV Charging", "Bank Card", "Bonus"],
       "links": {
@@ -70,7 +160,7 @@
     },
     "campaign": {
       "title": "Ovolt'ta 350 TL ve Üzerine 75 TL Bonus",
-      "description": "Ovolt istasyonlarında Garanti Bonus kartlarıyla tek seferde 350 TL ve üzeri her şarj işlemine 75 TL Bonus, kampanya süresince toplam 750 TL Bonus.",
+      "description": "1-30 Eylül 2026 tarihleri arasında Ovolt istasyonlarında Garanti Bonus kartlarıyla tek seferde 350 TL ve üzeri her şarj işlemine 75 TL Bonus, kampanya süresince toplam 750 TL Bonus.",
       "startDate": "2026-09-01",
       "endDate": "2026-09-30",
       "combinable": true,
@@ -85,23 +175,24 @@
         "Aynı gün yalnızca 350 TL ve üzerindeki ilk harcamadan 75 TL Bonus kazanılır.",
         "Kampanya süresince bir müşteri en fazla 750 TL Bonus kazanabilir.",
         "Ovolt istasyonlarından ve Ovolt mobil uygulamasından yapılan dolumlar dahildir.",
-        "Altın Bonus dahil değildir."
+        "Garanti Bonus, Bonus Flexi, Bonus Genç, Money Bonus, Bonus Business, Paracard, sanal ve ek kartlar dahildir; Altın Bonus dahil değildir.",
+        "Kazanılan bonuslar 5 Ekim-5 Kasım 2026 arasında kullanılabilir."
       ],
       "categories": ["EV Charging", "Bank Card", "Bonus"],
       "links": {
-        "details": "https://www.bonus.com.tr/kampanyalar/ovolt-alisveris-bonus-kampanyasi"
+        "details": "https://www.bonus.com.tr/kampanyalar/ovolt-akaryakit-bonus-kampanya"
       }
     }
   },
   {
     "company": {
       "name": "Yapı Kredi",
-      "logo": "/images/companies/yapikredi.svg",
+      "logo": "/images/companies/yapikredi.png",
       "type": "bank"
     },
     "campaign": {
       "title": "Voltrun'da 300 TL'ye Varan Worldpuan",
-      "description": "Yapı Kredi bireysel kartlarınızla Voltrun'da 400 TL ve üzeri harcamaya 100 TL, kampanya süresince toplam 300 TL'ye varan Worldpuan kazanın.",
+      "description": "1-30 Eylül 2026 tarihleri arasında Yapı Kredi bireysel kartlarınızla Voltrun'da tek seferde 400 TL ve üzeri harcamaya 100 TL, toplamda 300 TL'ye varan Worldpuan kazanın.",
       "startDate": "2026-09-01",
       "endDate": "2026-09-30",
       "combinable": true,
@@ -112,11 +203,12 @@
       },
       "conditions": [
         "Katılım, ilk alışverişten önce World Mobil üzerinden yapılmalıdır.",
-        "İşlemlerin Yapı Kredi POS'undan geçmesi gerekir.",
-        "Tek seferde 400 TL ve üzeri harcamaya 100 TL Worldpuan yüklenir.",
+        "İşlemlerin Yapı Kredi POS'undan geçmesi gerekir; Voltrun mobil uygulaması işlemleri dahildir.",
+        "Aynı gün aynı üye iş yerinde tek seferde 400 TL ve üzeri harcamanın ilki dahildir.",
         "Kampanya süresince en fazla 300 TL Worldpuan kazanılabilir.",
         "Yapı Kredi bireysel kredi kartları ve bireysel TLcard dahildir.",
-        "VakıfBank, Albaraka, Anadolubank Worldcard ve ticari kartlar dahil değildir."
+        "VakıfBank, Albaraka, Anadolubank Worldcard, Business kartlar ve Eko kartlar dahil değildir.",
+        "Nakit çekim, iade ve puan kullanımı işlemleri dahil değildir."
       ],
       "categories": ["EV Charging", "Bank Card", "Worldpuan"],
       "links": {
@@ -127,7 +219,7 @@
   {
     "company": {
       "name": "Ziraat Bankası",
-      "logo": "/images/companies/ziraat.svg",
+      "logo": "/images/companies/ziraat.png",
       "type": "bank"
     },
     "campaign": {
@@ -138,16 +230,20 @@
       "combinable": false,
       "compatibleWith": [
         "astor",
-        "trugo",
+        "e-power",
+        "en-yakıt",
+        "epsis",
         "eşarj",
-        "voltrun",
-        "otojet",
-        "bladeco",
-        "rhg-enertürk",
-        "miggo",
-        "5-şarj",
         "k-şarj",
-        "wat-mobilite"
+        "miggo",
+        "otojet",
+        "otopriz",
+        "rhg-enertürk",
+        "trugo",
+        "tunçmatik-charge",
+        "voltrun",
+        "wat-mobilite",
+        "zeplin-enerji"
       ],
       "calculateCombinedPrice": {
         "type": "percentage",
@@ -159,7 +255,7 @@
         "Jest Liralar şartları sağlayan müşterilerin kartlarına anında yüklenir.",
         "Bir müşteri en fazla 750 TL Jest Lira kazanabilir.",
         "Bankkart Jest, Prestij ve Genç dahildir; Başak, Ticari, Business ve Jest Ücretsiz dahil değildir.",
-        "ZES, En Yakıt, Tesla, Beeful, Oncharge, Ecobox, Epsis ve Gio EV bu kampanyaya dahil değildir.",
+        "Kampanya yalnızca Bankkart anlaşmalı şarj istasyonlarında geçerlidir; ZES, Tesla, Beefull, Neva, Oncharge, Ecobox ve Gio EV listede yer almaz.",
         "Kampanya başka kampanyalarla birleştirilemez."
       ],
       "categories": ["EV Charging", "Bank Card"],
@@ -171,7 +267,7 @@
   {
     "company": {
       "name": "Halkbank Paraf",
-      "logo": "/images/companies/paraf.svg",
+      "logo": "/images/companies/paraf.png",
       "type": "bank"
     },
     "campaign": {
@@ -188,8 +284,10 @@
       "conditions": [
         "Harcama yapmadan önce Paraf Mobil veya Halkbank Mobil'den kampanyaya katılınmalıdır.",
         "Tek seferde 500 TL ve üzeri harcamaya 100 TL ParafPara verilir.",
+        "Aynı gün aynı iş yerinde yapılan 500 TL ve üzeri harcamalardan ilki dahildir.",
         "Kampanya süresince bir müşteri en fazla 400 TL ParafPara kazanabilir.",
-        "Yalnızca yurt içi elektrikli araç şarj istasyonu harcamalarında geçerlidir.",
+        "Paraf, Parafly, sanal kartlar ve ek kartlar dahildir.",
+        "Paraf Gençİz, Paraf Genç, banka kartları, ticari kartlar ve Halkcard'lar dahil değildir.",
         "ParafPara kullanılarak yapılan işlemler, iptal ve iade dahil değildir."
       ],
       "categories": ["EV Charging", "Bank Card", "ParafPara"],
@@ -201,7 +299,7 @@
   {
     "company": {
       "name": "Halkbank Paraf",
-      "logo": "/images/companies/paraf.svg",
+      "logo": "/images/companies/paraf.png",
       "type": "bank"
     },
     "campaign": {
@@ -231,7 +329,7 @@
   {
     "company": {
       "name": "ON",
-      "logo": "/images/companies/on.svg",
+      "logo": "/images/companies/on.png",
       "type": "bank"
     },
     "campaign": {
@@ -262,7 +360,7 @@
   {
     "company": {
       "name": "Kuveyt Türk",
-      "logo": "/images/companies/kuveytturk.svg",
+      "logo": "/images/companies/kuveytturk.png",
       "type": "bank"
     },
     "campaign": {

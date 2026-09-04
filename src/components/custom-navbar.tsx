@@ -7,7 +7,7 @@ import { AnimatedUiIcon } from "@/components/animated-ui-icon"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   NavigationMenu,
@@ -74,6 +74,11 @@ export function CustomNavbar({
 }: CustomNavbarProps) {
   const pathname = usePathname();
   const [currentSection, setCurrentSection] = useState<string | null>(null);
+  const [menuReady, setMenuReady] = useState(false);
+
+  useEffect(() => {
+    setMenuReady(true);
+  }, []);
   
   // Update current section based on prop or scroll position
   useEffect(() => {
@@ -256,41 +261,60 @@ export function CustomNavbar({
                 unoptimized
               />
             </Link>
-            <Sheet>
-              <SheetTrigger asChild className="mr-2">
-                <Button variant="outline" size="icon" className="al-icon-wrapper" aria-label="Menü">
+            {menuReady ? (
+              <Sheet>
+                <SheetTrigger
+                  className={buttonVariants({
+                    variant: "outline",
+                    size: "icon",
+                    className: "al-icon-wrapper mr-2",
+                  })}
+                  aria-label="Menü"
+                >
                   <AnimatedUiIcon icon={Menu} />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="flex flex-col overflow-hidden">
-                <SheetHeader>
-                  <SheetTitle>
-                    <Link href={logo.url} className="flex items-center gap-2">
-                      <Image 
-                        src={logo.src}
-                        alt={logo.alt}
-                        width={40}
-                        height={40}
-                        className="mr-1"
-                        priority
-                        unoptimized
-                      />
-                    </Link>
-                  </SheetTitle>
-                </SheetHeader>
-                <ScrollArea type="auto" className="min-h-0 flex-1">
-                <div className="my-6 flex flex-col gap-6 pr-2">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
-                    {menu.map((item) => renderMobileMenuItem(item, handleNavClick, isActive(item)))}
-                  </Accordion>
-                </div>
-                </ScrollArea>
-              </SheetContent>
-            </Sheet>
+                </SheetTrigger>
+                <SheetContent className="flex flex-col overflow-hidden">
+                  <SheetHeader>
+                    <SheetTitle>
+                      <Link href={logo.url} className="flex items-center gap-2">
+                        <Image 
+                          src={logo.src}
+                          alt={logo.alt}
+                          width={40}
+                          height={40}
+                          className="mr-1"
+                          priority
+                          unoptimized
+                        />
+                      </Link>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <ScrollArea type="auto" className="min-h-0 flex-1">
+                  <div className="my-6 flex flex-col gap-6 pr-2">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="flex w-full flex-col gap-4"
+                    >
+                      {menu.map((item) => renderMobileMenuItem(item, handleNavClick, isActive(item)))}
+                    </Accordion>
+                  </div>
+                  </ScrollArea>
+                </SheetContent>
+              </Sheet>
+            ) : (
+              <button
+                type="button"
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "icon",
+                  className: "al-icon-wrapper mr-2",
+                })}
+                aria-label="Menü"
+              >
+                <AnimatedUiIcon icon={Menu} />
+              </button>
+            )}
           </div>
         </div>
       </div>

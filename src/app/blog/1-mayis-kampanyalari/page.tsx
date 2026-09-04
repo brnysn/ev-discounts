@@ -102,7 +102,7 @@ export default function MayisKampanyalari() {
           <div className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/beeful.webp" 
+                src="/images/chargers/beeful.png" 
                 alt="Beeful Logo" 
                 width={32}
                 height={32}

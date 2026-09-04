@@ -28,6 +28,9 @@ type OccupancyGroup = {
 const BOLT_SVG =
   '<svg class="bolt" viewBox="0 0 10 16" width="9" height="14" aria-hidden="true"><path fill="#16a34a" d="M6.1 0 0 9.1h4.05L3.7 16 10 6.7H5.9z"/></svg>'
 
+const PLUG_SVG =
+  '<svg class="plug" viewBox="0 0 16 22" width="12" height="16" aria-hidden="true"><rect x="4.15" y="0" width="2.3" height="5.4" rx=".35"/><rect x="9.55" y="0" width="2.3" height="5.4" rx=".35"/><path d="M2.1 5.9h11.8v8.1L10.5 18.4v3.1H5.5v-3.1L2.1 14z"/></svg>'
+
 export function dcBoltStyle(kw: number): { bolts: number; plus: boolean } {
   if (kw >= 400) return { bolts: 3, plus: true }
   if (kw >= 150) return { bolts: 3, plus: false }
@@ -49,8 +52,8 @@ export function formatKw(kw: number): string {
 }
 
 export function formatAvailability(free: number | null, total: number): string {
-  if (total <= 0) return "–/–"
-  if (free == null) return `–/${total}`
+  if (total <= 0) return "–"
+  if (free == null) return String(total)
   return `${free}/${total}`
 }
 
@@ -86,16 +89,20 @@ export function socketRowsFromStation(
   )
 }
 
-export function speedRowsHtml(rows: SocketSpeedRow[]): string {
+export type SocketRowPrices = Partial<Record<"ac" | "dc", string>>
+
+export function speedRowsHtml(rows: SocketSpeedRow[], prices?: SocketRowPrices): string {
   return rows
     .map((row) => {
       const left =
         row.kind === "ac"
-          ? `<span class="speed-ac">AC</span>`
+          ? `<span class="speed-plug">${PLUG_SVG}</span>`
           : `<span class="speed-bolts">${BOLT_SVG.repeat(row.bolts)}${row.plus ? `<span class="bolt-plus">+</span>` : ""}</span>`
       const kw = formatKw(row.kw)
+      const price = prices?.[row.kind]
       return `<div class="speed-row">
         <div class="speed-left">${left}${kw ? `<span class="speed-kw">${kw}</span>` : ""}</div>
+        <div class="speed-price">${price ? `<strong>${price}</strong> <span class="price-unit">TL/kWh</span>` : ""}</div>
         <div class="speed-status"><span class="sig sig-${row.signal}"></span><span class="speed-avail">${formatAvailability(row.free, row.total)}</span></div>
       </div>`
     })

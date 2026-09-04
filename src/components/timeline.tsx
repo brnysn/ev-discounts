@@ -333,13 +333,11 @@ export function Timeline({ discounts }: TimelineProps) {
                               {/* Warning icon with popover - visible on all screens */}
                               <div className="block">
                                 <Popover>
-                                  <PopoverTrigger asChild>
-                                    <button 
-                                      className="p-1 hover:bg-gray-100 rounded-full"
-                                      onClick={(e) => e.stopPropagation()}
-                                    >
-                                      <TriangleAlert className="h-4 w-4 text-yellow-500" />
-                                    </button>
+                                  <PopoverTrigger
+                                    className="p-1 hover:bg-gray-100 rounded-full"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <TriangleAlert className="h-4 w-4 text-yellow-500" />
                                   </PopoverTrigger>
                                   <PopoverContent className="w-80 p-4">
                                     <p className="text-sm">{discount.text}</p>

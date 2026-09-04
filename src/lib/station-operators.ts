@@ -29,6 +29,20 @@ for (const entry of mapFile.companies) {
   }
 }
 
+const LETTER_PATTERN = /\p{L}/u
+
+// "ER ELEKTRONİK" must not match "POWER ELEKTRONİK": needles only count when they
+// start a word inside the unvan.
+function includesAtWordStart(haystack: string, needle: string): boolean {
+  let from = 0
+  for (;;) {
+    const index = haystack.indexOf(needle, from)
+    if (index === -1) return false
+    if (index === 0 || !LETTER_PATTERN.test(haystack[index - 1])) return true
+    from = index + 1
+  }
+}
+
 export function matchCompanyName(station: Pick<StationRecord, "brand" | "operator">): string | null {
   const brandKey = normalizeMatchKey(station.brand)
   if (brandKey && brandIndex.has(brandKey)) {
@@ -37,7 +51,7 @@ export function matchCompanyName(station: Pick<StationRecord, "brand" | "operato
 
   const operatorUpper = station.operator.toLocaleUpperCase("tr-TR")
   for (const { needle, company } of unvanNeedles) {
-    if (operatorUpper.includes(needle)) {
+    if (includesAtWordStart(operatorUpper, needle)) {
       return company
     }
   }

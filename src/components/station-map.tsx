@@ -8,8 +8,8 @@ import { haversineKm } from "@/lib/geo"
 import { sarjTrStationId, type StationStatusPayload } from "@/lib/station-status"
 import { socketRowsFromStation, speedRowsHtml } from "@/lib/station-sockets"
 import { stationPinDivIcon } from "@/lib/station-pin"
-import { cityCenterFocus } from "@/lib/city-centers"
-import { matchCities, matchStations, type GeocodeHit } from "@/lib/station-search"
+import { bindCachedLogos, logoSrc, startStationLogoPreload, useCachedLogoSrc } from "@/lib/logo-cache"
+import { matchPlaces, matchStations, type GeocodeHit, type PlaceHit } from "@/lib/station-search"
 import { SocketSpeedRows } from "@/components/socket-speed-rows"
 import type { Company } from "@/types"
 import type { StationCompanyOffer, StationRecord, StationSnapshot, StationSocketGroup } from "@/types/stations"
@@ -43,6 +43,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css"
 import "leaflet.markercluster/dist/MarkerCluster.Default.css"
 
 const companyList = companies as Company[]
+startStationLogoPreload()
 const RADIUS_KM_OPTIONS = [5, 10, 15, 25] as const
 const DEFAULT_RADIUS_KM = 10
 const DC_KW_STEP = 10
@@ -125,8 +126,8 @@ function popupBindOptions(): {
   const desktop = isDesktopMap()
   const bottomPad = desktop ? 96 : Math.round(sheetHeight()) + 16
   return {
-    maxWidth: 320,
-    minWidth: 248,
+    maxWidth: 372,
+    minWidth: 300,
     maxHeight: desktop ? 420 : Math.min(320, Math.max(200, visibleMapHeight() - 48)),
     autoPan: desktop,
     keepInView: false,
@@ -289,9 +290,12 @@ function escapeHtml(value: string): string {
     .replaceAll("'", "&#39;")
 }
 
-function priceLine(label: string, price?: StationCompanyOffer["dc"]): string {
-  if (!price) return ""
-  return `<div class="price-row"><span class="port">${escapeHtml(label)}</span><span class="price"><strong>${formatTl(price.original)} TL/kWh</strong></span></div>`
+function portPriceLabels(offer: StationCompanyOffer | null): Partial<Record<"ac" | "dc", string>> {
+  if (!offer) return {}
+  const labels: Partial<Record<"ac" | "dc", string>> = {}
+  if (offer.dc) labels.dc = formatTl(offer.dc.original)
+  if (offer.ac) labels.ac = formatTl(offer.ac.original)
+  return labels
 }
 
 function portPriceSummary(
@@ -308,8 +312,8 @@ function portPriceSummary(
 function bankPortPriceHtml(oldPrice: number, newPrice: number, label?: string): string {
   return `
     ${label ? `<div class="bank-port">${escapeHtml(label)}</div>` : ""}
-    <div class="bank-old">${formatTl(oldPrice)} TL/kWh</div>
-    <div class="bank-new">${formatTl(newPrice)} TL/kWh</div>`
+    <div class="bank-old">${formatTl(oldPrice)} <span class="price-unit">TL/kWh</span></div>
+    <div class="bank-new">${formatTl(newPrice)} <span class="price-unit">TL/kWh</span></div>`
 }
 
 type DisplayBankDeal = {
@@ -351,10 +355,6 @@ function displayBankDeals(
   return deals
 }
 
-function listPriceHtml(station: StationRecord, offer: StationCompanyOffer): string {
-  return `${station.dc > 0 ? priceLine("DC", offer.dc) : ""}${station.ac > 0 ? priceLine("AC", offer.ac) : ""}`
-}
-
 function networkCampaignHtml(station: StationRecord, offer: StationCompanyOffer): string {
   const campaignName = offer.dc?.campaignName || offer.ac?.campaignName
   if (!campaignName) return ""
@@ -365,10 +365,13 @@ function bankPricesHtml(prices: DisplayBankDeal["prices"]): string {
   return prices.map((price) => bankPortPriceHtml(price.oldPrice, price.newPrice, price.label)).join("")
 }
 
+function logoBoxHtml(src: string, className: string, alt: string): string {
+  const url = logoSrc(src)
+  return `<span class="${className}" role="img" aria-label="${escapeHtml(alt)}" data-logo-key="${escapeHtml(src)}" style="background-image:url('${escapeHtml(url)}')"></span>`
+}
+
 function bankLogoHtml(deal: DisplayBankDeal): string {
-  if (deal.logo) {
-    return `<img class="bank-logo" src="${escapeHtml(deal.logo)}" alt="${escapeHtml(deal.name)}" width="80" height="32">`
-  }
+  if (deal.logo) return logoBoxHtml(deal.logo, "bank-logo", deal.name)
   return `<span class="muted">${escapeHtml(deal.name)}</span>`
 }
 
@@ -378,17 +381,21 @@ function bankCampaignsHtml(station: StationRecord, offer: StationCompanyOffer): 
   let html = `<div class="bank-deal"><div class="bank-hook">Banka kampanyasıyla daha az ödeyin</div>`
   for (const deal of bankDeals) {
     html += `
-        <details class="bank-item">
-          <summary class="bank-row">
-            ${bankLogoHtml(deal)}
-            <div class="bank-prices">${bankPricesHtml(deal.prices)}</div>
-          </summary>
-          <div class="bank-body">
-            <div class="bank-title">${escapeHtml(deal.title)}</div>
-            ${deal.description ? `<p class="bank-desc">${escapeHtml(deal.description)}</p>` : ""}
-            ${deal.detailsUrl ? `<a class="bank-link" href="${escapeHtml(deal.detailsUrl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Kampanya detayı</a>` : ""}
-          </div>
-        </details>`
+        <div class="bank-card" style="display:block;box-sizing:border-box;margin:0;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;background:#f8fafc">
+          <details class="bank-item">
+            <summary class="bank-row">
+              <div class="bank-row-inner">
+                ${bankLogoHtml(deal)}
+                <div class="bank-prices">${bankPricesHtml(deal.prices)}</div>
+              </div>
+            </summary>
+            <div class="bank-body">
+              <div class="bank-title">${escapeHtml(deal.title)}</div>
+              ${deal.description ? `<p class="bank-desc">${escapeHtml(deal.description)}</p>` : ""}
+              ${deal.detailsUrl ? `<a class="bank-link" href="${escapeHtml(deal.detailsUrl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Kampanya detayı</a>` : ""}
+            </div>
+          </details>
+        </div>`
   }
   html += `</div>`
   return html
@@ -396,7 +403,7 @@ function bankCampaignsHtml(station: StationRecord, offer: StationCompanyOffer): 
 
 function brandBlockHtml(station: StationRecord, offer: StationCompanyOffer | null): string {
   if (offer?.logo) {
-    const logo = `<img class="brand-logo" src="${escapeHtml(offer.logo)}" alt="" width="32" height="32">`
+    const logo = `<img class="brand-logo" src="${escapeHtml(logoSrc(offer.logo))}" alt="${escapeHtml(offer.companyName)}" width="140" height="40" decoding="async" fetchpriority="high" data-logo-key="${escapeHtml(offer.logo)}">`
     return station.public ? logo : `${logo}<div class="muted">Özel</div>`
   }
   const brand = station.brand || offer?.companyName || ""
@@ -406,45 +413,82 @@ function brandBlockHtml(station: StationRecord, offer: StationCompanyOffer | nul
   return `<div class="muted">${escapeHtml(brand)}${station.public ? "" : " · Özel"}</div>`
 }
 
+function BankLogo({ src, name }: { src: string; name: string }) {
+  const url = useCachedLogoSrc(src)
+  return (
+    <span
+      className="bank-logo"
+      role="img"
+      aria-label={name}
+      data-logo-key={src}
+      style={{ backgroundImage: `url("${url}")` }}
+    />
+  )
+}
+
+function BrandLogo({ src, alt }: { src: string; alt: string }) {
+  const url = useCachedLogoSrc(src)
+  return (
+    <img
+      src={url}
+      alt={alt}
+      width={140}
+      height={40}
+      className="brand-logo"
+      decoding="async"
+      fetchPriority="high"
+      data-logo-key={src}
+    />
+  )
+}
+
 function BankCampaignDeals({ deals }: { deals: DisplayBankDeal[] }) {
   if (!deals.length) return null
   return (
     <div className="bank-deal">
       <div className="bank-hook">Banka kampanyasıyla daha az ödeyin</div>
       {deals.map((deal) => (
-        <details key={deal.title} className="bank-item">
-          <summary className="bank-row">
-            {deal.logo ? (
-              <Image src={deal.logo} alt={deal.name} width={80} height={32} className="bank-logo" unoptimized />
-            ) : (
-              <span className="muted">{deal.name}</span>
-            )}
-            <div className="bank-prices">
-              {deal.prices.map((price) => (
-                <Fragment key={`${deal.title}-${price.label ?? "price"}`}>
-                  {price.label ? <div className="bank-port">{price.label}</div> : null}
-                  <div className="bank-old">{formatTl(price.oldPrice)} TL/kWh</div>
-                  <div className="bank-new">{formatTl(price.newPrice)} TL/kWh</div>
-                </Fragment>
-              ))}
+        <div key={deal.title} className="bank-card" style={{ border: "1px solid #cbd5e1", borderRadius: 10, padding: "10px 12px", background: "#f8fafc" }}>
+          <details className="bank-item">
+            <summary className="bank-row">
+              <div className="bank-row-inner">
+                {deal.logo ? (
+                  <BankLogo src={deal.logo} name={deal.name} />
+                ) : (
+                  <span className="muted">{deal.name}</span>
+                )}
+                <div className="bank-prices">
+                {deal.prices.map((price) => (
+                  <Fragment key={`${deal.title}-${price.label ?? "price"}`}>
+                    {price.label ? <div className="bank-port">{price.label}</div> : null}
+                    <div className="bank-old">
+                      {formatTl(price.oldPrice)} <span className="price-unit">TL/kWh</span>
+                    </div>
+                    <div className="bank-new">
+                      {formatTl(price.newPrice)} <span className="price-unit">TL/kWh</span>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+              </div>
+            </summary>
+            <div className="bank-body">
+              <div className="bank-title">{deal.title}</div>
+              {deal.description ? <p className="bank-desc">{deal.description}</p> : null}
+              {deal.detailsUrl ? (
+                <a
+                  className="bank-link"
+                  href={deal.detailsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  Kampanya detayı
+                </a>
+              ) : null}
             </div>
-          </summary>
-          <div className="bank-body">
-            <div className="bank-title">{deal.title}</div>
-            {deal.description ? <p className="bank-desc">{deal.description}</p> : null}
-            {deal.detailsUrl ? (
-              <a
-                className="bank-link"
-                href={deal.detailsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Kampanya detayı
-              </a>
-            ) : null}
-          </div>
-        </details>
+          </details>
+        </div>
       ))}
     </div>
   )
@@ -454,7 +498,7 @@ function BrandMark({ station, offer }: { station: StationRecord; offer: StationC
   if (offer?.logo) {
     return (
       <>
-        <Image src={offer.logo} alt="" width={32} height={32} className="brand-logo" unoptimized />
+        <BrandLogo src={offer.logo} alt={offer.companyName} />
         {!station.public ? <div className="muted">Özel</div> : null}
       </>
     )
@@ -471,32 +515,13 @@ function BrandMark({ station, offer }: { station: StationRecord; offer: StationC
   )
 }
 
-function PriceRows({ station, offer }: { station: StationRecord; offer: StationCompanyOffer }) {
+function NetworkCampaignRows({ station, offer }: { station: StationRecord; offer: StationCompanyOffer }) {
   const campaignName = offer.dc?.campaignName || offer.ac?.campaignName
+  if (!campaignName) return null
   return (
     <>
-      {station.dc > 0 && offer.dc ? (
-        <div className="price-row">
-          <span className="port">DC</span>
-          <span className="price">
-            <strong>{formatTl(offer.dc.original)} TL/kWh</strong>
-          </span>
-        </div>
-      ) : null}
-      {station.ac > 0 && offer.ac ? (
-        <div className="price-row">
-          <span className="port">AC</span>
-          <span className="price">
-            <strong>{formatTl(offer.ac.original)} TL/kWh</strong>
-          </span>
-        </div>
-      ) : null}
-      {campaignName ? (
-        <>
-          <div className="deal">Ağ kampanyası: {campaignName}</div>
-          <div className="deal">{portPriceSummary(station, offer, (price) => price.networkPrice)} TL/kWh</div>
-        </>
-      ) : null}
+      <div className="deal">Ağ kampanyası: {campaignName}</div>
+      <div className="deal">{portPriceSummary(station, offer, (price) => price.networkPrice)} TL/kWh</div>
     </>
   )
 }
@@ -527,8 +552,8 @@ function StationDetailCard({
           <strong>{name}</strong>
         </button>
         <BrandMark station={station} offer={offer} />
-        <SocketSpeedRows station={station} occupancy={occupancy} />
-        {offer ? <PriceRows station={station} offer={offer} /> : null}
+        <SocketSpeedRows station={station} occupancy={occupancy} prices={portPriceLabels(offer)} />
+        {offer ? <NetworkCampaignRows station={station} offer={offer} /> : null}
         {distanceKm != null ? <div className="muted">{formatDistanceKm(distanceKm)}</div> : null}
         <button
           type="button"
@@ -555,15 +580,16 @@ const NAV_SVG =
 function popupHtml(station: StationRecord, offer: StationCompanyOffer | null): string {
   const maps = directionsUrl(station.lat, station.lng)
   const groupsAttr = station.groups?.length ? escapeHtml(JSON.stringify(station.groups)) : ""
+  const prices = portPriceLabels(offer)
 
   return `
     <div class="station-popup">
       <strong>${escapeHtml(station.name || station.brand)}</strong>
       ${brandBlockHtml(station, offer)}
-      <div class="speed-list" data-status-id="${escapeHtml(station.id)}" data-lat="${station.lat}" data-lng="${station.lng}" data-ac="${station.ac}" data-dc="${station.dc}" data-max-kw="${station.maxKw}" data-groups="${groupsAttr}">
-        ${speedRowsHtml(socketRowsFromStation(station))}
+      <div class="speed-list" data-status-id="${escapeHtml(station.id)}" data-lat="${station.lat}" data-lng="${station.lng}" data-ac="${station.ac}" data-dc="${station.dc}" data-max-kw="${station.maxKw}" data-groups="${groupsAttr}" data-ac-price="${escapeHtml(prices.ac ?? "")}" data-dc-price="${escapeHtml(prices.dc ?? "")}">
+        ${speedRowsHtml(socketRowsFromStation(station), prices)}
       </div>
-      ${offer ? `${listPriceHtml(station, offer)}${networkCampaignHtml(station, offer)}` : ""}
+      ${offer ? networkCampaignHtml(station, offer) : ""}
       <div class="muted distance-line" hidden data-lat="${station.lat}" data-lng="${station.lng}"></div>
       <button type="button" class="popup-btn al-icon-wrapper" onclick="window.open('${maps}','_blank','noopener,noreferrer')">${NAV_SVG} Yol tarifi al</button>
       ${offer ? bankCampaignsHtml(station, offer) : ""}
@@ -571,22 +597,50 @@ function popupHtml(station: StationRecord, offer: StationCompanyOffer | null): s
   `
 }
 
+const OCCUPANCY_FETCH_MS = 2500
+
+type OccupancyFetchOptions = {
+  signal?: AbortSignal
+  priority?: "high" | "low" | "auto"
+}
+
 async function fetchStationStatus(
   stationId: string,
   lat: number,
-  lng: number
+  lng: number,
+  options?: OccupancyFetchOptions
 ): Promise<{ data: StationStatusPayload | null; hardFail: boolean }> {
+  // Occupancy is disabled: Şarj@TR hangs (~12s / 502) and starves logo requests on HTTP/1.1.
+  void stationId
+  void lat
+  void lng
+  void options
+  return { data: null, hardFail: false }
+  /*
   const numericId = sarjTrStationId(stationId) ?? "0"
+  const controller = new AbortController()
+  const timeout = window.setTimeout(() => controller.abort(), OCCUPANCY_FETCH_MS)
+  const onAbort = () => controller.abort()
+  options?.signal?.addEventListener("abort", onAbort, { once: true })
+  if (options?.signal?.aborted) controller.abort()
   try {
     const response = await fetch(
-      `/api/station-status/${encodeURIComponent(numericId)}?lat=${lat}&lng=${lng}`
+      `/api/station-status/${encodeURIComponent(numericId)}?lat=${lat}&lng=${lng}`,
+      {
+        signal: controller.signal,
+        priority: options?.priority ?? "low",
+      } as RequestInit
     )
     if (response.status === 404) return { data: null, hardFail: false }
     if (!response.ok) return { data: null, hardFail: true }
     return { data: (await response.json()) as StationStatusPayload, hardFail: false }
   } catch {
     return { data: null, hardFail: true }
+  } finally {
+    window.clearTimeout(timeout)
+    options?.signal?.removeEventListener("abort", onAbort)
   }
+  */
 }
 
 export function StationMap() {
@@ -609,6 +663,10 @@ export function StationMap() {
   const markerByIdRef = useRef<Map<string, Marker>>(new Map())
   const occupancyCacheRef = useRef(new Map<string, StationStatusPayload | null>())
   const occupancyInflightRef = useRef(new Set<string>())
+  const occupancyPausedRef = useRef(false)
+  const drainAbortRef = useRef<AbortController | null>(null)
+  const occupancyCollectRef = useRef<() => void>(() => {})
+  const sheetOpenRef = useRef(false)
   const leafletRef = useRef<typeof import("leaflet") | null>(null)
   const snapshotRef = useRef<StationSnapshot | null>(null)
   const bestIdRef = useRef<string | undefined>(undefined)
@@ -762,9 +820,9 @@ export function StationMap() {
     return matchStations(snapshot.stations, localQuery)
   }, [snapshot, localQuery])
 
-  const searchCities = useMemo(() => {
+  const searchPlaces = useMemo(() => {
     if (!snapshot || !localQuery) return []
-    return matchCities(snapshot.stations, localQuery)
+    return matchPlaces(snapshot.stations, localQuery)
   }, [snapshot, localQuery])
 
   useEffect(() => {
@@ -793,12 +851,12 @@ export function StationMap() {
   }, [debouncedQuery])
 
   const searchPlaceHits = useMemo(() => {
-    const citiesLower = new Set(searchCities.map((city) => city.toLocaleLowerCase("tr-TR")))
-    return geocodeHits.filter((hit) => !citiesLower.has(hit.title.toLocaleLowerCase("tr-TR")))
-  }, [geocodeHits, searchCities])
+    const localTitles = new Set(searchPlaces.map((place) => place.title.toLocaleLowerCase("tr-TR")))
+    return geocodeHits.filter((hit) => !localTitles.has(hit.title.toLocaleLowerCase("tr-TR")))
+  }, [geocodeHits, searchPlaces])
 
   const hasSearchQuery = Boolean(searchText.trim())
-  const hasSearchResults = searchStations.length > 0 || searchCities.length > 0 || searchPlaceHits.length > 0
+  const hasSearchResults = searchStations.length > 0 || searchPlaces.length > 0 || searchPlaceHits.length > 0
 
   useEffect(() => {
     let cancelled = false
@@ -875,6 +933,7 @@ export function StationMap() {
         if (scrolled) scrolled.scrollTop = 0
         fillPopupDistance(popupRoot, originRef.current)
         if (popupRoot) refreshPopupLayout(event.popup)
+        bindCachedLogos(popupRoot)
         if (popupRoot && popupRoot.dataset.bankToggle !== "1") {
           popupRoot.dataset.bankToggle = "1"
           popupRoot.addEventListener(
@@ -895,6 +954,8 @@ export function StationMap() {
             true
           )
         }
+        // Occupancy disabled — Şarj@TR hangs and blocks logo fetches.
+        /*
         const slot = event.popup.getElement()?.querySelector("[data-status-id]") as HTMLElement | null
         if (!slot || slot.dataset.loaded === "1") return
         const stationId = slot.dataset.statusId
@@ -921,7 +982,11 @@ export function StationMap() {
                 groups,
               },
               data
-            )
+            ),
+            {
+              ac: slot.dataset.acPrice || undefined,
+              dc: slot.dataset.dcPrice || undefined,
+            }
           )
           const popup = event.popup as import("leaflet").Popup & {
             _updateLayout?: () => void
@@ -932,6 +997,7 @@ export function StationMap() {
           if (content) content.style.height = ""
           refreshPopupLayout(popup)
         })
+        */
       })
 
       mapRef.current = map
@@ -1007,7 +1073,7 @@ export function StationMap() {
         })
         const stationId = station.id
         marker.on("click", () => selectStationRef.current(stationId))
-        marker.bindPopup(popupHtml(station, offer), popupBindOptions())
+        marker.bindPopup(() => popupHtml(station, offer), popupBindOptions())
         markerByIdRef.current.set(station.id, marker)
         layers.push(marker)
       }
@@ -1241,12 +1307,15 @@ export function StationMap() {
     } else {
       setBestOccupancy(null)
     }
+    // Occupancy disabled — Şarj@TR hangs and blocks logo fetches.
+    /*
     void fetchStationStatus(bestStation.station.id, bestStation.station.lat, bestStation.station.lng).then(({ data }) => {
       if (cancelled) return
       occupancyCacheRef.current.set(bestStation.station.id, data)
       refreshMarkerIconRef.current(bestStation.station.id)
       setBestOccupancy(data)
     })
+    */
     return () => {
       cancelled = true
     }
@@ -1296,9 +1365,15 @@ export function StationMap() {
         ids.push(id)
         if (ids.length >= 24) break
       }
+      occupancyCollectRef.current = collect
+      // Occupancy drain disabled — Şarj@TR hangs and blocks logo fetches.
+      /*
       if (ids.length) void drain(ids)
+      */
     }
 
+    // Occupancy drain disabled — Şarj@TR hangs and blocks logo fetches.
+    /*
     map.on("moveend", collect)
     map.on("zoomend", collect)
     const timeout = window.setTimeout(collect, 400)
@@ -1307,6 +1382,11 @@ export function StationMap() {
       map.off("moveend", collect)
       map.off("zoomend", collect)
       window.clearTimeout(timeout)
+    }
+    */
+    return () => {
+      cancelled = true
+      occupancyCollectRef.current = () => {}
     }
   }, [mapReady, filtered])
 
@@ -1377,21 +1457,8 @@ export function StationMap() {
     [clearPlaceMarker, clearSearchQuery, focusStationMarker, setSearchOrigin]
   )
 
-  const focusCity = useCallback((city: string) => {
-    const map = mapRef.current
-    const stations = snapshotRef.current?.stations.filter((station) => station.city === city) ?? []
-    if (!map || !stations.length) return
-    clearPlaceMarker()
-    selectedIdRef.current = null
-    setSelectedId(null)
-    const view = cityCenterFocus(city, stations)
-    setSearchOrigin(view.lat, view.lng)
-    clearSearchQuery()
-    centerLatLngInView(map, view.lat, view.lng, view.zoom, "visible-center")
-  }, [clearPlaceMarker, clearSearchQuery, setSearchOrigin])
-
   const focusPlace = useCallback(
-    (lat: number, lng: number) => {
+    (lat: number, lng: number, zoom = 14) => {
       const map = mapRef.current
       if (!map) return
       selectedIdRef.current = null
@@ -1399,9 +1466,16 @@ export function StationMap() {
       clearPlaceMarker()
       setSearchOrigin(lat, lng)
       clearSearchQuery()
-      centerLatLngInView(map, lat, lng, 14, "visible-center")
+      centerLatLngInView(map, lat, lng, zoom, "visible-center")
     },
     [clearPlaceMarker, clearSearchQuery, setSearchOrigin]
+  )
+
+  const focusSearchPlace = useCallback(
+    (place: PlaceHit) => {
+      focusPlace(place.lat, place.lng, place.zoom)
+    },
+    [focusPlace]
   )
 
   selectStationRef.current = selectStation
@@ -1747,19 +1821,19 @@ export function StationMap() {
 
           {hasSearchQuery ? (
             <div className="overflow-hidden rounded-lg border bg-background shadow-lg">
-              {searchCities.map((city) => (
+              {searchPlaces.map((place) => (
                 <button
-                  key={`city-${city}`}
+                  key={place.key}
                   type="button"
                   className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
-                  onClick={() => focusCity(city)}
+                  onClick={() => focusSearchPlace(place)}
                 >
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700">
                     <AnimatedUiIcon icon={MapPin} />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium text-sky-700">{city}</span>
-                    <span className="block text-xs text-muted-foreground">İl</span>
+                    <span className="block truncate text-sm font-medium text-sky-700">{place.title}</span>
+                    <span className="block truncate text-xs text-muted-foreground">{place.subtitle}</span>
                   </span>
                   <AnimatedUiIcon icon={ChevronRight} className="shrink-0 text-muted-foreground" />
                 </button>
@@ -1774,20 +1848,9 @@ export function StationMap() {
                     className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                     onClick={() => selectStation(station.id, true)}
                   >
-                    {offer?.logo ? (
-                      <Image
-                        src={offer.logo}
-                        alt=""
-                        width={32}
-                        height={32}
-                        className="size-8 shrink-0 object-contain"
-                        unoptimized
-                      />
-                    ) : (
-                      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
-                        <AnimatedUiIcon icon={Zap} />
-                      </span>
-                    )}
+                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
+                      <AnimatedUiIcon icon={Zap} />
+                    </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm">
                         <span className="font-medium text-sky-700">{station.brand || offer?.companyName || "İstasyon"}</span>

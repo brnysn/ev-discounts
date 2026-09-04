@@ -327,7 +327,7 @@ img[loading="lazy"] {
 
 .station-map .leaflet-popup-content {
   margin: 12px 14px 14px;
-  min-width: 248px;
+  min-width: 300px;
 }
 
 .station-map .leaflet-popup-scrolled {
@@ -341,7 +341,8 @@ img[loading="lazy"] {
   color: #0f172a;
 }
 
-.station-popup strong {
+.station-popup > strong,
+.station-popup > button strong {
   display: block;
 }
 
@@ -350,12 +351,15 @@ img[loading="lazy"] {
   margin: 4px 0;
 }
 
-.station-popup .brand-logo {
+.station-popup img.brand-logo {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 140px !important;
+  height: 40px !important;
+  max-width: 140px !important;
+  max-height: 40px !important;
+  margin: 6px 0 8px;
   object-fit: contain;
-  margin: 4px 0;
+  object-position: left center;
 }
 
 .station-popup .popup-btn {
@@ -417,8 +421,28 @@ img[loading="lazy"] {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 0;
+  flex: 0 0 auto;
+  min-width: 6.75rem;
+}
+
+.speed-price {
   flex: 1;
+  min-width: 0;
+  text-align: right;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.speed-price strong {
+  display: inline;
+  font-weight: 700;
+}
+
+.station-popup .speed-price strong {
+  display: inline;
 }
 
 .speed-bolts {
@@ -443,10 +467,16 @@ img[loading="lazy"] {
   margin-top: -1px;
 }
 
-.speed-ac {
+.speed-plug {
+  display: inline-flex;
+  align-items: center;
   min-width: 42px;
-  font-weight: 700;
-  color: #0f172a;
+  line-height: 1;
+}
+
+.speed-plug .plug {
+  display: block;
+  fill: #0f172a;
 }
 
 .speed-kw {
@@ -458,7 +488,8 @@ img[loading="lazy"] {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-left: auto;
+  flex: 0 0 auto;
+  margin-left: 0;
 }
 
 .speed-avail {
@@ -525,6 +556,9 @@ img[loading="lazy"] {
 }
 
 .station-popup .bank-deal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 8px;
 }
 
@@ -545,12 +579,15 @@ img[loading="lazy"] {
 }
 
 .station-popup .bank-row {
+  cursor: pointer;
+  list-style: none;
+}
+
+.station-popup .bank-row-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  cursor: pointer;
-  list-style: none;
 }
 
 .station-popup .bank-row::-webkit-details-marker,
@@ -563,9 +600,10 @@ img[loading="lazy"] {
   display: block;
   width: 80px;
   height: 32px;
-  object-fit: contain;
-  object-position: left center;
   flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
 }
 
 .station-popup .bank-prices {
@@ -595,8 +633,19 @@ img[loading="lazy"] {
   margin-top: 8px;
 }
 
+.station-popup .bank-card {
+  display: block;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cbd5e1;
+  border-radius: 10px;
+  background-color: #f8fafc;
+}
+
 .station-popup .bank-item {
-  margin-top: 8px;
+  margin: 0;
 }
 
 .station-popup .bank-desc {
@@ -631,6 +680,12 @@ img[loading="lazy"] {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.3;
+}
+
+.price-unit {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.72;
 }
 
 .station-popup s {

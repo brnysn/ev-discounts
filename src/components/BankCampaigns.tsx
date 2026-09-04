@@ -155,15 +155,13 @@ export function BankCampaigns() {
                         company && (
                           <TooltipProvider key={idx}>
                             <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div className="relative h-8 w-full bg-gray-50 rounded-md p-1">
-                                  <Image
-                                    src={company.logo}
-                                    alt={company.name}
-                                    fill
-                                    className="object-contain p-1"
-                                  />
-                                </div>
+                              <TooltipTrigger className="relative block h-8 w-full bg-gray-50 rounded-md p-1">
+                                <Image
+                                  src={company.logo}
+                                  alt={company.name}
+                                  fill
+                                  className="object-contain p-1"
+                                />
                               </TooltipTrigger>
                               <TooltipContent>
                                 <p>{company.name}</p>

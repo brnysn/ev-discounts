@@ -15,7 +15,8 @@ type IndexCache = {
 const LIST_URL = "https://sarjtr.epdk.gov.tr/sarjet/api/stations"
 const LIST_TTL_MS = 10 * 60 * 1000
 const MATCH_KM = 0.05
-const FETCH_TIMEOUT_MS = 12_000
+const LIST_FETCH_TIMEOUT_MS = 8_000
+const FETCH_TIMEOUT_MS = 2_500
 
 let indexCache: IndexCache | null = null
 let indexInflight: Promise<Map<string, SarjTrListStation[]>> | null = null
@@ -75,7 +76,7 @@ async function loadIndex(): Promise<Map<string, SarjTrListStation[]>> {
   if (indexInflight) return indexInflight
 
   indexInflight = (async () => {
-    const { status, json } = await httpsGetJson(LIST_URL)
+    const { status, json } = await httpsGetJson(LIST_URL, LIST_FETCH_TIMEOUT_MS)
     if (status !== 200 || !Array.isArray(json)) {
       throw new Error(`Şarj@TR list HTTP ${status}`)
     }

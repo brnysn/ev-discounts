@@ -26,14 +26,16 @@ export async function GET(request: Request) {
   const url = new URL("https://nominatim.openstreetmap.org/search")
   url.searchParams.set("q", q)
   url.searchParams.set("format", "jsonv2")
-  url.searchParams.set("limit", "5")
-  url.searchParams.set("accept-language", "tr,en")
+  url.searchParams.set("limit", "6")
+  url.searchParams.set("countrycodes", "tr")
+  url.searchParams.set("addressdetails", "1")
+  url.searchParams.set("accept-language", "tr")
 
   try {
     const response = await fetch(url, {
       headers: {
         Accept: "application/json",
-        "Accept-Language": "tr,en",
+        "Accept-Language": "tr",
         "User-Agent": "sarjkampanya.com/1.0 (https://sarjkampanya.com)",
       },
       signal: AbortSignal.timeout(8000),

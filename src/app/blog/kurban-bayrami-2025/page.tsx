@@ -124,7 +124,7 @@ export default function KurbanBayrami2025() {
           <div id="discount-şarj-tak" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/sarj-tak.webp" 
+                src="/images/chargers/sarj-tak.png" 
                 alt="Şarj Tak Logo"
                 width={500}
                 height={140}
@@ -194,7 +194,7 @@ export default function KurbanBayrami2025() {
           <div id="discount-beeful" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/beeful.webp" 
+                src="/images/chargers/beeful.png" 
                 alt="Beeful Logo"
                 width={500}
                 height={140}
@@ -286,7 +286,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -420,7 +420,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -453,7 +453,7 @@ export default function KurbanBayrami2025() {
           <div id="discount-trugo" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/trugo.svg" 
+                src="/images/chargers/trugo.png" 
                 alt="Trugo Logo"
                 width={500}
                 height={140}
@@ -524,7 +524,7 @@ export default function KurbanBayrami2025() {
           <div id="discount-estasyon" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/estasyon.webp" 
+                src="/images/chargers/estasyon.png" 
                 alt="Estasyon Logo"
                 width={500}
                 height={140}
@@ -623,7 +623,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -778,7 +778,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -940,7 +940,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -1159,7 +1159,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -1206,7 +1206,7 @@ export default function KurbanBayrami2025() {
           <div id="discount-rhg-enertürk" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/rhg-enerturk.svg" 
+                src="/images/chargers/rhg-enerturk.png" 
                 alt="RHG Enertürk Logo"
                 width={500}
                 height={140}
@@ -1339,7 +1339,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -1471,7 +1471,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -1617,7 +1617,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -1657,7 +1657,7 @@ export default function KurbanBayrami2025() {
           <div id="discount-wat-mobilite" className="bg-white dark:bg-gray-800 p-5 rounded-lg border border-gray-200 dark:border-gray-700 my-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Image 
-                src="/images/chargers/wat-mobilite.svg" 
+                src="/images/chargers/wat-mobilite.png" 
                 alt="Wat Mobilite Logo"
                 width={500}
                 height={140}
@@ -1735,7 +1735,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -1883,7 +1883,7 @@ export default function KurbanBayrami2025() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
                   <div className="h-12 relative mb-2">
                     <Image 
-                      src="/images/companies/paraf.jpg"
+                      src="/images/companies/paraf.png"
                       alt="Paraf Logo"
                       fill
                       className="object-contain"
@@ -2060,7 +2060,7 @@ export default function KurbanBayrami2025() {
             <div className="flex items-center gap-3 mb-3">
               <div className="relative w-[500px] h-[140px]">
                 <Image 
-                  src="/images/companies/paraf.jpg"
+                  src="/images/companies/paraf.png"
                   alt="Paraf Logo"
                   fill
                   className="object-contain"

@@ -146,3 +146,10 @@ export function cityCenterFocus(city: string, stations: StationRecord[]): { lat:
 
   return { lat: center.lat, lng: center.lng, zoom: zoomForLocalCount(local.length) }
 }
+
+export function areaFocus(stations: StationRecord[], zoom: number): { lat: number; lng: number; zoom: number } {
+  const valid = stations.filter((station) => Number.isFinite(station.lat) && Number.isFinite(station.lng))
+  if (!valid.length) return { lat: 39.2, lng: 35.2, zoom }
+  const center = densestCenter(valid)
+  return { lat: center.lat, lng: center.lng, zoom }
+}
