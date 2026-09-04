@@ -46,6 +46,11 @@
       "unvanIncludes": ["ASTOR ENERJİ", "ASTOR ŞARJ"]
     },
     {
+      "name": "Autovolt",
+      "brands": ["autovolt", "auto volt"],
+      "unvanIncludes": ["AUTOVOLT ENERJİ"]
+    },
+    {
       "name": "B-Force",
       "brands": ["b-force", "bforce", "b force"],
       "unvanIncludes": ["BAŞER OTOMOTİV"]
@@ -54,6 +59,11 @@
       "name": "Beeful",
       "brands": ["beefull", "beeful"],
       "unvanIncludes": ["BEEFULL"]
+    },
+    {
+      "name": "Biogreen",
+      "brands": ["biogreen", "bio green"],
+      "unvanIncludes": ["ENAY ENERJİ GIDA"]
     },
     {
       "name": "Bladeco",
@@ -69,6 +79,16 @@
       "name": "Çelikler Enerji",
       "brands": ["çelikler enerji", "celikler enerji", "çelikler", "celiklerenerji"],
       "unvanIncludes": ["ÇELİKLER GLOBAL ENERJİ ŞARJ"]
+    },
+    {
+      "name": "CheckPoint",
+      "brands": ["checkpoint", "check point", "checkpointsarj"],
+      "unvanIncludes": ["CHECKPOİNT ŞARJ", "CHECKPOINT ŞARJ"]
+    },
+    {
+      "name": "CTG Elektrik",
+      "brands": ["ctg elektrik", "ctg elektrik anonim şirketi", "ctg"],
+      "unvanIncludes": ["CTG ELEKTRİK"]
     },
     {
       "name": "CV Charging",
@@ -101,6 +121,11 @@
       "unvanIncludes": ["ATAY GÜÇ VE ENERJİ"]
     },
     {
+      "name": "ECON",
+      "brands": ["econ", "energy charging operator network econ", "energy charging operator network"],
+      "unvanIncludes": ["GLOBAL İNOVATİF ENERJİ"]
+    },
+    {
       "name": "Efish",
       "brands": ["efish", "e fish", "efish şarj"],
       "unvanIncludes": ["ARTAŞ ENERJİ"]
@@ -109,6 +134,16 @@
       "name": "EKA Enerji",
       "brands": ["eka enerji", "ekaenerji", "eka"],
       "unvanIncludes": ["EKA ENERJİ VE TEKNOLOJİ"]
+    },
+    {
+      "name": "Elaris",
+      "brands": ["elaris", "elaris elektrikli araç şarj hizmetleri"],
+      "unvanIncludes": ["ELARİS ENERJİ"]
+    },
+    {
+      "name": "Electrise",
+      "brands": ["electrise"],
+      "unvanIncludes": ["CHARGE TEKNOLOJİ SANAYİ VE TİCARET"]
     },
     {
       "name": "En Yakıt",
@@ -146,9 +181,19 @@
       "unvanIncludes": ["EVCİL YATIRIM MÜHENDİSLİK"]
     },
     {
+      "name": "Evroad",
+      "brands": ["evroad", "şarjzone"],
+      "unvanIncludes": ["ŞARJZONE ENERJİ"]
+    },
+    {
       "name": "FastGo",
       "brands": ["fast-go", "fastgo", "fast go"],
       "unvanIncludes": ["YENİ MODEL YAPAY ZEKA VE ROBOTİK"]
+    },
+    {
+      "name": "Fixcharge",
+      "brands": ["fixcharge", "fix charge"],
+      "unvanIncludes": ["BEYTTÜRK ENERJİ"]
     },
     {
       "name": "FZY Enerji",
@@ -174,6 +219,16 @@
       "name": "Green Science",
       "brands": ["green science", "greenscience"],
       "unvanIncludes": ["ZEY ENERJİ"]
+    },
+    {
+      "name": "Hizzlan",
+      "brands": ["hizzlan", "hizzlan charge n'drive", "hizzlan charge ndrive", "charge n'drive"],
+      "unvanIncludes": ["JETCO ELEKTRİK"]
+    },
+    {
+      "name": "Incharge",
+      "brands": ["incharge", "incharge electric vehicle charging systems"],
+      "unvanIncludes": ["İNCHARGE ELEKTRİKLİ"]
     },
     {
       "name": "Inter Energy",
@@ -226,14 +281,14 @@
       "unvanIncludes": ["MİTHRA POD"]
     },
     {
-      "name": "Multiforce",
-      "brands": ["multiforce", "multi force"],
-      "unvanIncludes": []
-    },
-    {
       "name": "Monokon EV",
       "brands": ["monokon elektrik", "monokon", "monokonev", "monokon ev"],
       "unvanIncludes": ["MONOKON ELEKTRİK"]
+    },
+    {
+      "name": "Multiforce",
+      "brands": ["multiforce", "multi force"],
+      "unvanIncludes": []
     },
     {
       "name": "MyCharge",
@@ -254,11 +309,6 @@
       "name": "oncharge",
       "brands": ["oncharge"],
       "unvanIncludes": []
-    },
-    {
-      "name": "Incharge",
-      "brands": ["incharge", "incharge electric vehicle charging systems"],
-      "unvanIncludes": ["İNCHARGE ELEKTRİKLİ"]
     },
     {
       "name": "Öniz Şarj",
@@ -289,6 +339,11 @@
       "name": "Ovolt",
       "brands": ["ovolt"],
       "unvanIncludes": ["OVOLT ŞARJ"]
+    },
+    {
+      "name": "Pirim Şarj",
+      "brands": ["pirim şarj", "pirimsarj", "pirim gıda ve meşrubat san. ve tic. ltd. şti.", "pirim gıda ve meşrubat"],
+      "unvanIncludes": ["PİRİM GIDA VE MEŞRUBAT"]
     },
     {
       "name": "Pleco",
@@ -336,14 +391,29 @@
       "unvanIncludes": ["2M ELEKTRİKLİ ARAÇ ŞARJ AĞI"]
     },
     {
+      "name": "RST Charge Point",
+      "brands": ["rst chargepoint", "rst charge point", "rstsarj", "rst şarj"],
+      "unvanIncludes": ["RST TEKNOLOJİ HİZMETLERİ VE ENERJİ"]
+    },
+    {
       "name": "Şarj Tak",
       "brands": ["şarj tak", "sarj tak"],
       "unvanIncludes": ["ŞARJ TAK"]
     },
     {
+      "name": "Şarjmatik",
+      "brands": ["şarjmatik", "sarjmatik", "şarj matik"],
+      "unvanIncludes": ["ŞARJMATİK ENERJİ"]
+    },
+    {
       "name": "Şarjon",
       "brands": ["şarjon", "sarjon", "şarj on"],
       "unvanIncludes": ["ŞARJON YENİLENEBİLİR ENERJİ"]
+    },
+    {
+      "name": "Şarjstop",
+      "brands": ["şarjstop", "sarjstop", "şarj stop", "şs şarjstop güvenli şarj noktası", "şarjstop güvenli şarj noktası"],
+      "unvanIncludes": ["KARAKUŞLAR HALI"]
     },
     {
       "name": "SepaşCharge",
@@ -406,6 +476,11 @@
       "unvanIncludes": ["TUNÇMATİK ŞARJ TEKNOLOJİLERİ"]
     },
     {
+      "name": "Turuncu Şarj",
+      "brands": ["turuncu şarj", "turuncusarj", "turuncu mühendislik"],
+      "unvanIncludes": ["TURUNCU MÜHENDİSLİK"]
+    },
+    {
       "name": "TÜVTURK",
       "brands": ["tüvturk", "tuvturk"],
       "unvanIncludes": ["TÜVTURK KUZEY TAŞIT MUAYENE"]
@@ -431,9 +506,19 @@
       "unvanIncludes": ["VOLTGO ŞARJ"]
     },
     {
+      "name": "Volti",
+      "brands": ["volti", "voltinet", "volti net"],
+      "unvanIncludes": ["VOLNET ENERJİ"]
+    },
+    {
       "name": "Voltrun",
       "brands": ["voltrun"],
       "unvanIncludes": ["VOLTRUN ENERJİ"]
+    },
+    {
+      "name": "VoltUp",
+      "brands": ["voltup", "volt up"],
+      "unvanIncludes": ["ANTTECH BİLİŞİM"]
     },
     {
       "name": "Vzx Şarj",
