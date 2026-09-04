@@ -11,6 +11,11 @@
       "unvanIncludes": ["FULL ELEKTRİKLİ ARAÇLAR ŞARJ"]
     },
     {
+      "name": "Acrobat",
+      "brands": ["acrobat"],
+      "unvanIncludes": ["KARKIN ENERJİ"]
+    },
+    {
       "name": "Acropol",
       "brands": ["acropol", "acropol şarj", "acropolsarj"],
       "unvanIncludes": ["GREENLEAF YENİLENEBİLİR ENERJİ"]
@@ -34,6 +39,11 @@
       "name": "Arcona",
       "brands": ["aarcona", "arcona"],
       "unvanIncludes": ["ARCONA TEKNOLOJİ"]
+    },
+    {
+      "name": "ARSİMA",
+      "brands": ["arsima", "arsima enerji"],
+      "unvanIncludes": ["ARSİMA YENİLENEBİLİR"]
     },
     {
       "name": "Asplus Şarj",
@@ -261,6 +271,11 @@
       "unvanIncludes": ["PROŞARJ ARAÇ ŞARJ SİSTEMLERİ"]
     },
     {
+      "name": "GezCar",
+      "brands": ["gezcar"],
+      "unvanIncludes": ["GEZCAR TURİZM"]
+    },
+    {
       "name": "Gio EV",
       "brands": ["gioev", "gio ev"],
       "unvanIncludes": ["GİOEV"]
@@ -461,6 +476,16 @@
       "unvanIncludes": ["META MOBİLİTE ENERJİ"]
     },
     {
+      "name": "QC Quikşarj",
+      "brands": ["qc quikşarj", "quikşarj", "qc quiksarj"],
+      "unvanIncludes": ["CHARGE MAHAL ENERJİ"]
+    },
+    {
+      "name": "Qopuz Energy",
+      "brands": ["qopuz energy proton neutron", "qopuz energy", "qopuz"],
+      "unvanIncludes": ["SENA GÜNEŞ PANEL"]
+    },
+    {
       "name": "Rhg Enertürk",
       "brands": ["enertürk rhg enerji", "rhg enertürk", "enerturk", "enertürk"],
       "unvanIncludes": ["RHG ENERTÜRK"]
@@ -489,6 +514,11 @@
       "name": "Şarj Tak",
       "brands": ["şarj tak", "sarj tak"],
       "unvanIncludes": ["ŞARJ TAK"]
+    },
+    {
+      "name": "Şarjlan",
+      "brands": ["şarjlan", "sarjlan"],
+      "unvanIncludes": ["ŞARJLAN TEKNOLOJİ"]
     },
     {
       "name": "Şarjmatik",
@@ -539,6 +569,11 @@
       "name": "Solinved",
       "brands": ["solinved", "solinved charge"],
       "unvanIncludes": ["SOLİNVED GÜNEŞ VE BATARYA"]
+    },
+    {
+      "name": "SWAPP",
+      "brands": ["swapp"],
+      "unvanIncludes": ["DUMANOĞLU ENERJİ"]
     },
     {
       "name": "Tamşarj",
@@ -606,9 +641,19 @@
       "unvanIncludes": ["TCDD TEKNİK MÜHENDİSLİK"]
     },
     {
+      "name": "Vale",
+      "brands": ["vale", "vale şarj", "valesarj"],
+      "unvanIncludes": ["ULTRAMETRİK ENERJİ"]
+    },
+    {
       "name": "Varr",
       "brands": ["varr tm", "varr", "varr şarj"],
       "unvanIncludes": ["DESA ENERJİ ELEKTRİK ÜRETİM"]
+    },
+    {
+      "name": "Verdepunto",
+      "brands": ["ar armaksis ar verdepunto", "verdepunto", "armaksis"],
+      "unvanIncludes": ["VERDEPUNTO ENERJİ"]
     },
     {
       "name": "Vilampo",
