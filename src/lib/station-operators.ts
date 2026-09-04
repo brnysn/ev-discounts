@@ -16,11 +16,17 @@ export function normalizeMatchKey(value: string): string {
 const brandIndex = new Map<string, string>()
 const unvanNeedles: { needle: string; company: string }[] = []
 
+const companySearchBlobs = new Map<string, string>()
+
 for (const entry of mapFile.companies) {
   for (const brand of entry.brands) {
     brandIndex.set(normalizeMatchKey(brand), entry.name)
   }
   brandIndex.set(normalizeMatchKey(entry.name), entry.name)
+  companySearchBlobs.set(
+    entry.name,
+    [entry.name, ...entry.brands].join(" ").toLocaleLowerCase("tr-TR")
+  )
   for (const needle of entry.unvanIncludes) {
     unvanNeedles.push({
       needle: needle.toLocaleUpperCase("tr-TR"),
@@ -61,4 +67,8 @@ export function matchCompanyName(station: Pick<StationRecord, "brand" | "operato
 
 export function companySlug(name: string): string {
   return name.toLowerCase().replace(/\s+/g, "-")
+}
+
+export function companySearchBlob(companyName: string): string {
+  return companySearchBlobs.get(companyName) ?? companyName.toLocaleLowerCase("tr-TR")
 }

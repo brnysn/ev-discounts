@@ -1,4 +1,5 @@
 import { areaFocus, cityCenterFocus } from "@/lib/city-centers"
+import { companySearchBlob, matchCompanyName } from "@/lib/station-operators"
 import type { StationRecord } from "@/types/stations"
 
 export const SEARCH_STATION_LIMIT = 20
@@ -38,10 +39,22 @@ export function normalizeSearch(value: string): string {
   return value.trim().toLocaleLowerCase("tr-TR")
 }
 
+const catalogCache = new WeakMap<StationRecord, { name: string; blob: string }>()
+
+function catalogMatch(station: StationRecord): { name: string; blob: string } {
+  const cached = catalogCache.get(station)
+  if (cached) return cached
+  const name = matchCompanyName(station) ?? ""
+  const value = { name, blob: name ? companySearchBlob(name) : "" }
+  catalogCache.set(station, value)
+  return value
+}
+
 export function stationMatchesQuery(station: StationRecord, needle: string): boolean {
   if (!needle) return false
+  const { blob } = catalogMatch(station)
   const haystack =
-    `${station.name} ${station.brand} ${station.operator} ${station.address} ${station.city} ${station.district ?? ""}`.toLocaleLowerCase(
+    `${station.name} ${station.brand} ${station.operator} ${station.address} ${station.city} ${station.district ?? ""} ${blob}`.toLocaleLowerCase(
       "tr-TR"
     )
   return haystack.includes(needle)
@@ -64,9 +77,10 @@ function stationScore(station: StationRecord, needle: string): number {
   const name = (station.name || "").toLocaleLowerCase("tr-TR")
   const city = (station.city || "").toLocaleLowerCase("tr-TR")
   const district = (station.district || "").toLocaleLowerCase("tr-TR")
-  if (brand === needle) return 0
-  if (brand.startsWith(needle)) return 1
-  if (brand.includes(needle)) return 2
+  const company = catalogMatch(station).name.toLocaleLowerCase("tr-TR")
+  if (brand === needle || company === needle) return 0
+  if (brand.startsWith(needle) || company.startsWith(needle)) return 1
+  if (brand.includes(needle) || company.includes(needle)) return 2
   if (name.startsWith(needle)) return 3
   if (name.includes(needle)) return 4
   if (city === needle || city.startsWith(needle) || district === needle || district.startsWith(needle)) return 5

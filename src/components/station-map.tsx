@@ -442,6 +442,31 @@ function BrandLogo({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+function SearchBrandIcon({ offer }: { offer: StationCompanyOffer | null }) {
+  const src = offer?.logo ?? ""
+  const url = useCachedLogoSrc(src)
+  if (src) {
+    return (
+      <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-0.5 ring-1 ring-black/10">
+        <img
+          src={url}
+          alt=""
+          width={32}
+          height={32}
+          className="max-h-7 max-w-7 object-contain"
+          decoding="async"
+          data-logo-key={src}
+        />
+      </span>
+    )
+  }
+  return (
+    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
+      <AnimatedUiIcon icon={Zap} />
+    </span>
+  )
+}
+
 function BankCampaignDeals({ deals }: { deals: DisplayBankDeal[] }) {
   if (!deals.length) return null
   return (
@@ -1848,9 +1873,7 @@ export function StationMap() {
                     className="al-icon-wrapper flex w-full items-center gap-3 border-b px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                     onClick={() => selectStation(station.id, true)}
                   >
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
-                      <AnimatedUiIcon icon={Zap} />
-                    </span>
+                    <SearchBrandIcon offer={offer ?? null} />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm">
                         <span className="font-medium text-sky-700">{station.brand || offer?.companyName || "İstasyon"}</span>
