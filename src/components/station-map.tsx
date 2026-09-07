@@ -700,6 +700,7 @@ export function StationMap() {
   const focusStationMarkerRef = useRef<(marker: Marker) => void>(() => {})
   const selectStationRef = useRef<(id: string) => void>(() => {})
   const selectedIdRef = useRef<string | null>(null)
+  const pendingGpsSelectRef = useRef(false)
   const [mapReady, setMapReady] = useState(false)
   const [snapshot, setSnapshot] = useState<StationSnapshot | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -1296,7 +1297,9 @@ export function StationMap() {
         const locateKey = `${origin.lat.toFixed(5)},${origin.lng.toFixed(5)}`
         if (lastLocateKeyRef.current !== locateKey) {
           lastLocateKeyRef.current = locateKey
-          centerLatLngInView(map, origin.lat, origin.lng, 16, "visible-center")
+          if (!pendingGpsSelectRef.current) {
+            centerLatLngInView(map, origin.lat, origin.lng, 16, "visible-center")
+          }
         }
       }
     }
@@ -1505,6 +1508,48 @@ export function StationMap() {
 
   selectStationRef.current = selectStation
 
+  useEffect(() => {
+    if (!pendingGpsSelectRef.current || !mapReady || !origin) return
+
+    if (!bestStation) {
+      if (!snapshot) return
+      pendingGpsSelectRef.current = false
+      const map = mapRef.current
+      if (map && origin.source === "gps") {
+        centerLatLngInView(map, origin.lat, origin.lng, 16, "visible-center")
+      }
+      return
+    }
+
+    const id = bestStation.station.id
+    const trySelect = () => {
+      if (!pendingGpsSelectRef.current) return true
+      if (selectedIdRef.current && selectedIdRef.current !== id) {
+        pendingGpsSelectRef.current = false
+        return true
+      }
+      if (!markerByIdRef.current.get(id)) return false
+      pendingGpsSelectRef.current = false
+      selectStationRef.current(id)
+      return true
+    }
+
+    if (trySelect()) return
+
+    const timers = [50, 200, 600].map((ms) =>
+      window.setTimeout(() => {
+        if (trySelect()) return
+        if (ms === 600 && pendingGpsSelectRef.current) {
+          pendingGpsSelectRef.current = false
+          selectStationRef.current(id)
+        }
+      }, ms)
+    )
+    return () => {
+      for (const timer of timers) window.clearTimeout(timer)
+    }
+  }, [bestStation, mapReady, origin, snapshot])
+
   const openStationPopup = useCallback(
     (id: string) => {
       selectStation(id)
@@ -1518,6 +1563,7 @@ export function StationMap() {
     setUserLocation({ lat, lng })
     setOrigin((current) => {
       if (!forceOrigin && current?.source === "search") return current
+      pendingGpsSelectRef.current = true
       return { lat, lng, source: "gps" }
     })
     setLocationPromptOpen(false)
