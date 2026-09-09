@@ -104,14 +104,43 @@ function rememberLocationPrompt(choice: "dismissed" | "requested") {
   }
 }
 
-function sheetHeight(): number {
-  return document.querySelector("[data-station-sheet]")?.getBoundingClientRect().height ?? 0
+function mapVisibleBox(map?: LeafletMap | null) {
+  const desktop = isDesktopMap()
+  const container = map?.getContainer() ?? document.querySelector(".station-map")
+  const mapRect = container?.getBoundingClientRect()
+  const mapH = mapRect?.height ?? window.innerHeight
+  const mapW = mapRect?.width ?? window.innerWidth
+  const vv = typeof window !== "undefined" ? window.visualViewport : null
+  const viewTop = vv ? vv.offsetTop : 0
+  const viewBottom = vv ? vv.offsetTop + vv.height : window.innerHeight
+  const insetTop = mapRect ? Math.max(0, viewTop - mapRect.top) : 0
+  const insetBottomRaw = mapRect ? Math.min(mapH, viewBottom - mapRect.top) : mapH
+  const sheet = document.querySelector("[data-station-sheet]")
+  let sheetOverlap = desktop ? 0 : 64
+  if (!desktop && sheet && mapRect) {
+    const sr = sheet.getBoundingClientRect()
+    sheetOverlap = Math.max(0, Math.min(mapRect.bottom, sr.bottom) - Math.max(mapRect.top, sr.top))
+  }
+  const top = insetTop + (desktop ? 10 : 8)
+  const bottom = Math.max(top + 150, insetBottomRaw - (desktop ? 16 : sheetOverlap + 8))
+  return {
+    desktop,
+    leftPad: desktop ? 372 : 10,
+    top,
+    bottom,
+    width: mapW,
+    contentMaxH: Math.max(120, Math.round(bottom - top - 46)),
+  }
 }
 
-function visibleMapHeight(): number {
-  const map = document.querySelector(".station-map")
-  const mapH = map?.getBoundingClientRect().height ?? window.innerHeight
-  return Math.max(180, mapH - sheetHeight())
+function popupViewport(map?: LeafletMap | null) {
+  const box = mapVisibleBox(map)
+  return {
+    leftPad: box.leftPad,
+    topPad: box.top,
+    bottomPad: (map?.getSize().y ?? box.bottom + 16) - box.bottom,
+    contentMaxH: box.contentMaxH,
+  }
 }
 
 function popupBindOptions(): {
@@ -123,16 +152,15 @@ function popupBindOptions(): {
   autoPanPaddingTopLeft: [number, number]
   autoPanPaddingBottomRight: [number, number]
 } {
-  const desktop = isDesktopMap()
-  const bottomPad = desktop ? 96 : Math.round(sheetHeight()) + 16
+  const vp = popupViewport()
   return {
     maxWidth: 372,
-    minWidth: 300,
-    maxHeight: desktop ? 420 : Math.min(320, Math.max(200, visibleMapHeight() - 48)),
-    autoPan: desktop,
+    minWidth: 260,
+    maxHeight: vp.contentMaxH,
+    autoPan: false,
     keepInView: false,
-    autoPanPaddingTopLeft: desktop ? [392, 16] : [16, 12],
-    autoPanPaddingBottomRight: [16, bottomPad],
+    autoPanPaddingTopLeft: [vp.leftPad, vp.topPad],
+    autoPanPaddingBottomRight: [16, Math.max(16, vp.bottomPad)],
   }
 }
 
@@ -143,28 +171,75 @@ function centerLatLngInView(
   zoom: number,
   place: "popup-anchor" | "visible-center" = "popup-anchor"
 ) {
-  if (isDesktopMap()) {
-    map.setView([lat, lng], zoom, { animate: false })
-    return
-  }
+  const box = mapVisibleBox(map)
   const size = map.getSize()
-  const sheet = sheetHeight()
-  const visibleH = Math.max(120, size.y - sheet)
-  const desiredY = place === "visible-center" ? visibleH / 2 : Math.max(80, visibleH - 28)
   const target = map.project([lat, lng], zoom)
+  const desiredX = box.leftPad + Math.max(120, size.x - box.leftPad) / 2
+  const desiredY = place === "visible-center" ? (box.top + box.bottom) / 2 : box.bottom - 10
+  target.x += size.x / 2 - desiredX
   target.y += size.y / 2 - desiredY
   map.setView(map.unproject(target, zoom), zoom, { animate: false })
 }
 
-function refreshPopupLayout(popup: import("leaflet").Popup) {
+function constrainPopupHeight(popup: import("leaflet").Popup, map?: LeafletMap | null) {
+  const box = mapVisibleBox(map ?? mapRefFromPopup(popup))
+  popup.options.maxHeight = box.contentMaxH
+  const root = popup.getElement()
+  const content = root?.querySelector(".leaflet-popup-content") as HTMLElement | null
+  const wrapper = root?.querySelector(".leaflet-popup-content-wrapper") as HTMLElement | null
+  if (root) root.style.maxHeight = `${Math.max(160, box.bottom - box.top)}px`
+  if (wrapper) {
+    wrapper.style.overflow = "hidden"
+    wrapper.style.maxHeight = `${box.contentMaxH + 24}px`
+  }
+  if (content) {
+    content.style.height = ""
+    content.style.maxHeight = `${box.contentMaxH}px`
+  }
   const layout = popup as import("leaflet").Popup & {
     _updateLayout?: () => void
     _updatePosition?: () => void
-    _adjustPan?: () => void
   }
   layout._updateLayout?.()
+  if (content) {
+    content.style.maxHeight = `${box.contentMaxH}px`
+    if (content.scrollHeight > box.contentMaxH + 1) {
+      content.style.height = `${box.contentMaxH}px`
+      content.classList.add("leaflet-popup-scrolled")
+    }
+    content.style.overflowY = "auto"
+  }
   layout._updatePosition?.()
-  if (isDesktopMap()) layout._adjustPan?.()
+  return box
+}
+
+function fitStationPopup(map: LeafletMap, popup: import("leaflet").Popup) {
+  const box = constrainPopupHeight(popup, map)
+  const latlng = popup.getLatLng()
+  if (!latlng) return
+  const size = map.getSize()
+  const desiredY = box.bottom - 8
+  const desiredX = box.leftPad + Math.max(120, size.x - box.leftPad) / 2
+  const zoom = map.getZoom()
+  const target = map.project(latlng, zoom)
+  target.x += size.x / 2 - desiredX
+  target.y += size.y / 2 - desiredY
+  map.setView(map.unproject(target, zoom), zoom, { animate: false })
+  ;(popup as import("leaflet").Popup & { _updatePosition?: () => void })._updatePosition?.()
+}
+
+function refreshPopupLayout(popup: import("leaflet").Popup) {
+  const map = mapRefFromPopup(popup)
+  if (map) {
+    fitStationPopup(map, popup)
+    return
+  }
+  constrainPopupHeight(popup)
+}
+
+function mapRefFromPopup(popup: import("leaflet").Popup): LeafletMap | null {
+  const raw = popup as import("leaflet").Popup & { _map?: LeafletMap }
+  return raw._map ?? null
 }
 
 type Filters = {
@@ -701,6 +776,7 @@ export function StationMap() {
   const selectStationRef = useRef<(id: string) => void>(() => {})
   const selectedIdRef = useRef<string | null>(null)
   const pendingGpsSelectRef = useRef(false)
+  const tryPendingGpsSelectRef = useRef(() => {})
   const [mapReady, setMapReady] = useState(false)
   const [snapshot, setSnapshot] = useState<StationSnapshot | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -938,16 +1014,6 @@ export function StationMap() {
       map.addLayer(cluster)
 
       map.on("popupopen", (event) => {
-        const latlng = event.popup.getLatLng()
-        if (latlng && !isDesktopMap()) {
-          centerLatLngInView(
-            event.target as LeafletMap,
-            latlng.lat,
-            latlng.lng,
-            (event.target as LeafletMap).getZoom(),
-            "popup-anchor"
-          )
-        }
         const popupRoot = event.popup.getElement()
         const closeBtn = popupRoot?.querySelector(".leaflet-popup-close-button")
         if (closeBtn instanceof HTMLElement && closeBtn.dataset.animated !== "1") {
@@ -958,24 +1024,21 @@ export function StationMap() {
         const scrolled = popupRoot?.querySelector(".leaflet-popup-content") as HTMLElement | null
         if (scrolled) scrolled.scrollTop = 0
         fillPopupDistance(popupRoot, originRef.current)
-        if (popupRoot) refreshPopupLayout(event.popup)
         bindCachedLogos(popupRoot)
+        fitStationPopup(event.target as LeafletMap, event.popup)
+        window.requestAnimationFrame(() => {
+          fitStationPopup(event.target as LeafletMap, event.popup)
+        })
+        window.setTimeout(() => {
+          fitStationPopup(event.target as LeafletMap, event.popup)
+        }, 80)
         if (popupRoot && popupRoot.dataset.bankToggle !== "1") {
           popupRoot.dataset.bankToggle = "1"
           popupRoot.addEventListener(
             "toggle",
             (toggleEvent) => {
               if (!(toggleEvent.target instanceof HTMLDetailsElement)) return
-              const popup = event.popup as import("leaflet").Popup & {
-                _updateLayout?: () => void
-                _updatePosition?: () => void
-                _adjustPan?: () => void
-              }
-              const content = popup.getElement()?.querySelector(".leaflet-popup-content") as HTMLElement | null
-              if (content) {
-                content.style.height = ""
-              }
-              refreshPopupLayout(popup)
+              fitStationPopup(event.target as LeafletMap, event.popup)
             },
             true
           )
@@ -1105,18 +1168,19 @@ export function StationMap() {
       }
       group.addLayers(layers)
       const mapInstance = mapRef.current
-      if (mapInstance && layers.length && !didFitRef.current && !origin) {
+      if (mapInstance && layers.length && !didFitRef.current && !originRef.current) {
         didFitRef.current = true
         mapInstance.fitBounds(group.getBounds(), { padding: [48, 72], maxZoom: 11 })
         mapInstance.invalidateSize()
       }
+      tryPendingGpsSelectRef.current()
     }
 
     void redraw()
     return () => {
       cancelled = true
     }
-  }, [filtered, offers, mapReady, origin])
+  }, [filtered, offers, mapReady])
 
   useEffect(() => {
     const next = bestStation?.station.id
@@ -1139,6 +1203,10 @@ export function StationMap() {
     el.dataset.originDrag = "1"
     L.DomEvent.disableClickPropagation(el)
     L.DomEvent.disableScrollPropagation(el)
+
+    let dragMoved = false
+    let startX = 0
+    let startY = 0
 
     const moveToClient = (clientX: number, clientY: number) => {
       const latlng = map.mouseEventToLatLng({ clientX, clientY } as MouseEvent)
@@ -1165,12 +1233,18 @@ export function StationMap() {
           /* ignore */
         }
       }
+      if (!dragMoved) return
       const { lat, lng } = marker.getLatLng()
       commitOriginDragRef.current(lat, lng)
     }
 
     const onPointerMove = (event: PointerEvent) => {
       if (!originDragRef.current) return
+      if (!dragMoved) {
+        if (Math.hypot(event.clientX - startX, event.clientY - startY) < 8) return
+        dragMoved = true
+        el.classList.add("is-dragging")
+      }
       event.preventDefault()
       moveToClient(event.clientX, event.clientY)
     }
@@ -1181,6 +1255,11 @@ export function StationMap() {
 
     const onMouseMove = (event: MouseEvent) => {
       if (!originDragRef.current) return
+      if (!dragMoved) {
+        if (Math.hypot(event.clientX - startX, event.clientY - startY) < 8) return
+        dragMoved = true
+        el.classList.add("is-dragging")
+      }
       event.preventDefault()
       moveToClient(event.clientX, event.clientY)
     }
@@ -1193,11 +1272,12 @@ export function StationMap() {
       event.preventDefault()
       event.stopPropagation()
       originDragRef.current = true
+      dragMoved = false
+      startX = clientX
+      startY = clientY
       map.dragging.disable()
       map.touchZoom?.disable()
       map.doubleClickZoom?.disable()
-      el.classList.add("is-dragging")
-      moveToClient(clientX, clientY)
     }
 
     const onPointerDown = (event: PointerEvent) => {
@@ -1291,16 +1371,6 @@ export function StationMap() {
         marker.addTo(map)
         bindOriginHandleDrag(L, map, marker)
         userMarkerRef.current = marker
-      }
-
-      if (origin.source === "gps") {
-        const locateKey = `${origin.lat.toFixed(5)},${origin.lng.toFixed(5)}`
-        if (lastLocateKeyRef.current !== locateKey) {
-          lastLocateKeyRef.current = locateKey
-          if (!pendingGpsSelectRef.current) {
-            centerLatLngInView(map, origin.lat, origin.lng, 16, "visible-center")
-          }
-        }
       }
     }
 
@@ -1508,47 +1578,27 @@ export function StationMap() {
 
   selectStationRef.current = selectStation
 
-  useEffect(() => {
-    if (!pendingGpsSelectRef.current || !mapReady || !origin) return
+  tryPendingGpsSelectRef.current = () => {
+    if (!pendingGpsSelectRef.current || !mapReady) return
+    if (!snapshotRef.current || !originRef.current) return
 
-    if (!bestStation) {
-      if (!snapshot) return
+    const id = bestIdRef.current
+    if (!id) {
       pendingGpsSelectRef.current = false
       const map = mapRef.current
-      if (map && origin.source === "gps") {
-        centerLatLngInView(map, origin.lat, origin.lng, 16, "visible-center")
-      }
+      const current = originRef.current
+      if (map && current) centerLatLngInView(map, current.lat, current.lng, 16, "visible-center")
       return
     }
 
-    const id = bestStation.station.id
-    const trySelect = () => {
-      if (!pendingGpsSelectRef.current) return true
-      if (selectedIdRef.current && selectedIdRef.current !== id) {
-        pendingGpsSelectRef.current = false
-        return true
-      }
-      if (!markerByIdRef.current.get(id)) return false
-      pendingGpsSelectRef.current = false
-      selectStationRef.current(id)
-      return true
-    }
+    if (!markerByIdRef.current.get(id)) return
+    pendingGpsSelectRef.current = false
+    selectStationRef.current(id)
+  }
 
-    if (trySelect()) return
-
-    const timers = [50, 200, 600].map((ms) =>
-      window.setTimeout(() => {
-        if (trySelect()) return
-        if (ms === 600 && pendingGpsSelectRef.current) {
-          pendingGpsSelectRef.current = false
-          selectStationRef.current(id)
-        }
-      }, ms)
-    )
-    return () => {
-      for (const timer of timers) window.clearTimeout(timer)
-    }
-  }, [bestStation, mapReady, origin, snapshot])
+  useEffect(() => {
+    tryPendingGpsSelectRef.current()
+  }, [bestStation?.station.id, mapReady, origin, snapshot, filtered])
 
   const openStationPopup = useCallback(
     (id: string) => {
