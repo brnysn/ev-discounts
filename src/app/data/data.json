@@ -1241,7 +1241,15 @@
         ]
       }
     ],
-    "discounts": []
+    "discounts": [
+      {
+        "name": "İnfo Yatırım Hesap Açılışına 600 TL eŞarj Bakiyesi",
+        "starts_at": "2026-08-07 00:00:00",
+        "ends_at": "2026-09-30 23:59:00",
+        "url": "https://onlinehesapac.infoyatirim.com/esarj",
+        "text": "İnfo Yatırım'da yatırım hesabı açan ilk 500 kişiye 600 TL eŞarj bakiyesi hediye. Kupon kodu hesap açılışından 1 iş günü sonra SMS ile iletilir ve eŞarj mobil uygulamasından kullanılır. Kişi başı 1 kez geçerlidir."
+      }
+    ]
   },
   {
     "name": "Estasyon",
