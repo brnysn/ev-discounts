@@ -1,72 +1,38 @@
 [
   {
     "company": {
-      "name": "Akbank",
-      "logo": "/images/companies/akbank.png",
-      "type": "bank"
-    },
-    "campaign": {
-      "title": "Voltla'da 500 TL'ye Varan %20 İndirim",
-      "description": "17 Ağustos-6 Eylül 2026 tarihleri arasında Axess, Free ve Wings kartlarınızla Voltla üzerinden yapacağınız elektrikli araç şarj ödemelerinde 500 TL'ye varan %20 indirim.",
-      "startDate": "2026-08-17",
-      "endDate": "2026-09-06",
-      "combinable": true,
-      "compatibleWith": [
-        "doğuş-dijital-enerji",
-        "obişarj",
-        "şarjon",
-        "tunçmatik-charge",
-        "voltgo",
-        "zeplin-enerji"
-      ],
-      "calculateCombinedPrice": {
-        "type": "percentage",
-        "value": 20
-      },
-      "conditions": [
-        "İlk harcamadan önce Juzdan'dan 'Hemen Katıl' tıklanmalı veya VOLTLA yazıp 4566'ya SMS gönderilmelidir.",
-        "Ödeme Voltla uygulaması üzerinden yapılmalıdır.",
-        "Kampanya müşteri bazındadır; en fazla 500 TL indirim kazanılabilir.",
-        "İndirim tutarı 2 iş günü içinde ekstreye yansıtılır.",
-        "Axess, Free, Wings bireysel ve ticari kartlar ile ek ve sanal kartlar dahildir.",
-        "Akbank Kart ve Bank'O Card Axess dahil değildir.",
-        "Voltla üzerinden Powerşarj, Zeplin Enerji, Tunçmatik, Şarjon, Voltgo, Solargize, Doğuş Dijital Enerji, D-Rect ve Obişarj istasyonlarında geçerlidir."
-      ],
-      "categories": ["EV Charging", "Bank Card"],
-      "links": {
-        "details": "https://www.wingscard.com.tr/kampanyalar/voltlada-20-indirim"
-      }
-    }
-  },
-  {
-    "company": {
       "name": "Ziraat Katılım",
       "logo": "/images/companies/ziraatkatilim.png",
       "type": "bank"
     },
     "campaign": {
       "title": "Şarj İstasyonlarında 750 TL Bankkart Lira",
-      "description": "8 Ağustos-7 Eylül 2026 tarihleri arasında Ziraat Katılım bireysel Bankkart kredi kartınızla anlaşmalı şarj istasyonlarında tek seferde yapacağınız her ödemede %20, toplam 750 TL Bankkart Lira.",
-      "startDate": "2026-08-08",
-      "endDate": "2026-09-07",
+      "description": "8 Eylül-7 Ekim 2026 tarihleri arasında Ziraat Katılım bireysel Bankkart kredi kartınızla anlaşmalı şarj istasyonlarında tek seferde yapacağınız her ödemede %20, toplam 750 TL Bankkart Lira.",
+      "startDate": "2026-09-08",
+      "endDate": "2026-10-07",
       "combinable": false,
       "compatibleWith": [
         "astor",
         "beeful",
+        "checkpoint",
         "e-power",
+        "efish",
         "en-yakıt",
         "epsis",
         "eşarj",
         "k-şarj",
+        "mercury-şarj",
         "miggo",
         "neva-şarj",
         "otojet",
         "otopriz",
+        "porty",
         "rhg-enertürk",
         "trugo",
         "tunçmatik-charge",
         "voltrun",
         "wat-mobilite",
+        "wattarya",
         "zeplin-enerji"
       ],
       "calculateCombinedPrice": {
@@ -84,7 +50,7 @@
       ],
       "categories": ["EV Charging", "Bank Card"],
       "links": {
-        "details": "https://www.ziraatkatilim.com.tr/kart-kampanyalari/elektrikli-arac-sarj-istasyonlarinda-750-tl-bankkart-lira-1"
+        "details": "https://www.ziraatkatilim.com.tr/kart-kampanyalari/elektrikli-arac-sarj-istasyonlarinda-750-tl-bankkart-lira-2"
       }
     }
   },
@@ -186,6 +152,39 @@
   },
   {
     "company": {
+      "name": "Garanti BBVA Bonus",
+      "logo": "/images/companies/bonus.png",
+      "type": "bank"
+    },
+    "campaign": {
+      "title": "Varr'da 400 TL'ye Varan Bonus",
+      "description": "1-30 Eylül 2026 tarihleri arasında Varr istasyonlarında Garanti Bonus bireysel kartlarıyla tek seferde 400 TL ve üzeri her ödemeye 100 TL bonus, en fazla 4 kez olmak üzere toplam 400 TL bonus.",
+      "startDate": "2026-09-01",
+      "endDate": "2026-09-30",
+      "combinable": true,
+      "compatibleWith": ["varr"],
+      "calculateCombinedPrice": {
+        "type": "percentage",
+        "value": 25
+      },
+      "conditions": [
+        "İlk harcamadan önce BonusFlaş'tan 'Hemen Katıl' tıklanmalıdır.",
+        "İşlemler Garanti BBVA POS'undan geçmelidir; peşin ve taksitli işlemler dahildir.",
+        "Tek seferde 400 TL ve üzeri ödemeye 100 TL bonus verilir.",
+        "Bir müşteri en fazla 4 kez yararlanarak toplam 400 TL bonus kazanabilir.",
+        "Aynı gün aynı iş yerinden yapılan harcamaların yalnızca ilki dahildir.",
+        "Bonus, Bonus Flexi, Flexi, Bonus Genç, Money Bonus, Bonus American Express, Troy logolu bireysel kartlar, sanal ve ek kartlar dahildir.",
+        "Paracard, Altın Bonus ve ticari kartlar dahil değildir.",
+        "Kazanılan bonuslar 3 Ekim-3 Kasım 2026 arasında kullanılabilir."
+      ],
+      "categories": ["EV Charging", "Bank Card", "Bonus"],
+      "links": {
+        "details": "https://www.bonus.com.tr/kampanyalar/varr-sarj-istasyonlari-kampanya"
+      }
+    }
+  },
+  {
+    "company": {
       "name": "Yapı Kredi",
       "logo": "/images/companies/yapikredi.png",
       "type": "bank"
@@ -231,18 +230,22 @@
       "compatibleWith": [
         "astor",
         "e-power",
+        "efish",
         "en-yakıt",
         "epsis",
         "eşarj",
         "k-şarj",
+        "mercury-şarj",
         "miggo",
         "otojet",
         "otopriz",
+        "porty",
         "rhg-enertürk",
         "trugo",
         "tunçmatik-charge",
         "voltrun",
         "wat-mobilite",
+        "wattarya",
         "zeplin-enerji"
       ],
       "calculateCombinedPrice": {
@@ -255,7 +258,7 @@
         "Jest Liralar şartları sağlayan müşterilerin kartlarına anında yüklenir.",
         "Bir müşteri en fazla 750 TL Jest Lira kazanabilir.",
         "Bankkart Jest, Prestij ve Genç dahildir; Başak, Ticari, Business ve Jest Ücretsiz dahil değildir.",
-        "Kampanya yalnızca Bankkart anlaşmalı şarj istasyonlarında geçerlidir; ZES, Tesla, Beefull, Neva, Oncharge, Ecobox ve Gio EV listede yer almaz.",
+        "Kampanya yalnızca Bankkart anlaşmalı şarj istasyonlarında geçerlidir; ZES, Tesla, Beeful, Neva Şarj, CheckPoint, Oncharge, Ecobox ve Gio EV listede yer almaz.",
         "Kampanya başka kampanyalarla birleştirilemez."
       ],
       "categories": ["EV Charging", "Bank Card"],

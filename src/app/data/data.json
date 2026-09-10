@@ -2374,7 +2374,36 @@
         ]
       }
     ],
-    "discounts": []
+    "discounts": [
+      {
+        "name": "Seçili İstasyonlarda %30 İndirim",
+        "starts_at": "2026-09-01 00:00:00",
+        "ends_at": "2026-09-30 23:59:00",
+        "url": "https://otopriz.com.tr/kampanyalar/indirimli-istasyonlar/kampanya-detaylari",
+        "text": "Eylül ayı boyunca 29 ilde belirlenen seçili Otopriz istasyonlarında %30 indirim. İndirim yalnızca kampanya listesindeki istasyonlarda geçerlidir; diğer istasyonlarda liste fiyatı uygulanır."
+      },
+      {
+        "name": "Ayın Otopriz Günü: %30 İndirim",
+        "starts_at": "2026-01-01 00:00:00",
+        "ends_at": "2026-12-31 23:59:00",
+        "url": "https://otopriz.com.tr/kampanyalar/otopriz-gunu-kampanyasi/kampanya-detaylari",
+        "text": "Her ayın son günü 00:00-23:59 arasında DC (hızlı şarj) cihazlarında %30 indirim. AC işlemler kapsam dışıdır; katılım gerekmez, indirim otomatik uygulanır."
+      },
+      {
+        "name": "Favori İstasyonlarda %10 İndirim",
+        "starts_at": "2026-01-01 00:00:00",
+        "ends_at": "2027-12-31 23:59:00",
+        "url": "https://otopriz.com.tr/kampanyalar/favori-istasyon-kampanyasi/kampanya-detaylari",
+        "text": "Otopriz uygulamasında Profil > Kampanyalar bölümünden seçtiğiniz 2 favori istasyonda yapılan tüm şarj işlemlerinde otomatik %10 indirim. Haritadaki kalp ikonu ile ekleme kampanya için geçerli değildir."
+      },
+      {
+        "name": "Doğum Gününde %20 İndirim",
+        "starts_at": "2026-01-01 00:00:00",
+        "ends_at": "2027-12-31 23:59:00",
+        "url": "https://otopriz.com.tr/kampanyalar/dogum-gunu-kampanyasi/kampanya-detay",
+        "text": "Doğum gününüzün bulunduğu ay içinde bir şarj işleminde %20 indirim. Ayda yalnızca 1 kez kullanılabilir ve doğum tarihinin Otopriz sisteminde kayıtlı olması gerekir."
+      }
+    ]
   },
   {
     "name": "Otowatt",
