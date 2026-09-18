@@ -2167,7 +2167,15 @@
         ]
       }
     ],
-    "discounts": []
+    "discounts": [
+      {
+        "name": "19 Eylül Gaziler Günü 2026",
+        "starts_at": "2026-09-19 00:00:00",
+        "ends_at": "2026-09-19 23:59:00",
+        "text": "19 Eylül Gaziler Günü'nde tüm Neva Şarj istasyonlarında şarj işlemleri ücretsizdir. Kampanya gaziler ve şehit yakınları için duyurulmuştur.",
+        "discount_rate": 100
+      }
+    ]
   },
   {
     "name": "Obişarj",

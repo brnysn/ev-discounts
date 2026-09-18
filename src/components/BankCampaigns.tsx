@@ -1,10 +1,13 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Alert } from "@/components/ui/alert"
 import Image from "next/image"
-import { Calendar, TriangleAlert } from "lucide-react"
+import { Calendar, ChevronDown, ChevronUp, TriangleAlert } from "lucide-react"
 import { format } from "date-fns"
 import { tr } from "date-fns/locale"
 import campaigns from "@/app/data/campaigns.json"
@@ -16,6 +19,89 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+
+type ChargerCompany = (typeof data)[number]
+
+const STATION_ROW_HEIGHT = 32
+const STATION_ROW_GAP = 8
+const STATION_VISIBLE_ROWS = 3
+const STATION_COLLAPSED_HEIGHT =
+  STATION_VISIBLE_ROWS * STATION_ROW_HEIGHT + (STATION_VISIBLE_ROWS - 1) * STATION_ROW_GAP
+
+function CompatibleStations({ companies }: { companies: ChargerCompany[] }) {
+  const [expanded, setExpanded] = useState(false)
+  const [hasOverflow, setHasOverflow] = useState(false)
+  const gridRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = gridRef.current
+    if (!el) return
+
+    const update = () => {
+      setHasOverflow(el.scrollHeight > STATION_COLLAPSED_HEIGHT + 1)
+    }
+
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [companies.length])
+
+  if (companies.length === 0) return null
+
+  return (
+    <div className="space-y-2">
+      <h4 className="text-sm font-medium">Geçerli Şarj İstasyonları</h4>
+      <div
+        ref={gridRef}
+        className={cn(
+          "grid grid-cols-4 sm:grid-cols-5 gap-2 overflow-hidden",
+          !expanded && "max-h-[112px]"
+        )}
+      >
+        {companies.map((company) => (
+          <TooltipProvider key={company.name}>
+            <Tooltip>
+              <TooltipTrigger className="relative block h-8 w-full bg-gray-50 rounded-md p-1">
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  fill
+                  className="object-contain p-1"
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{company.name}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ))}
+      </div>
+      {hasOverflow && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="w-full text-xs text-muted-foreground"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((open) => !open)}
+        >
+          {expanded ? (
+            <>
+              Daha az göster
+              <ChevronUp className="size-3.5" />
+            </>
+          ) : (
+            <>
+              Tümünü göster
+              <ChevronDown className="size-3.5" />
+            </>
+          )}
+        </Button>
+      )}
+    </div>
+  )
+}
 
 function campaignDetailsHref(url: string | undefined) {
   const value = url?.trim() ?? ""
@@ -44,7 +130,7 @@ export function BankCampaigns() {
     }
     return compatibleWith
       .map(id => getCompanyById(id))
-      .filter(company => company !== undefined);
+      .filter((company): company is ChargerCompany => company !== undefined);
   };
 
   // Function to determine campaign status
@@ -147,31 +233,7 @@ export function BankCampaigns() {
                     </ScrollArea>
                   </Alert>
                   
-                  {/* Compatible EV Charger Companies */}
-                  <div className="space-y-2">
-                    <h4 className="text-sm font-medium">Geçerli Şarj İstasyonları</h4>
-                    <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                      {getCompatibleCompanies(item.campaign.compatibleWith).map((company, idx) => (
-                        company && (
-                          <TooltipProvider key={idx}>
-                            <Tooltip>
-                              <TooltipTrigger className="relative block h-8 w-full bg-gray-50 rounded-md p-1">
-                                <Image
-                                  src={company.logo}
-                                  alt={company.name}
-                                  fill
-                                  className="object-contain p-1"
-                                />
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>{company.name}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        )
-                      ))}
-                    </div>
-                  </div>
+                  <CompatibleStations companies={getCompatibleCompanies(item.campaign.compatibleWith)} />
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center">
