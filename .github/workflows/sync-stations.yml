@@ -2,8 +2,8 @@ name: Sync EPDK stations
 
 on:
   schedule:
-    # Daily 02:20 UTC (05:20 TR). Skip write if the list did not change.
-    - cron: "20 2 * * *"
+    # Weekly, Monday 02:20 UTC (05:20 TR). Skip write if the list did not change.
+    - cron: "20 2 * * 1"
   workflow_dispatch:
 
 concurrency:
